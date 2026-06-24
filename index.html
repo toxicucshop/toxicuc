@@ -5,69 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toxic Shop</title>
     <style>
+        /* Öňki dizaýnyňyzyň özü! */
         :root { --primary: #00ff66; --accent: #ff0055; --dark-bg: #060913; --text: #ffffff; }
         body { background-color: var(--dark-bg); color: var(--text); padding: 15px; font-family: sans-serif; }
         .container { max-width: 800px; margin: 0 auto; }
-        .nav-tabs { display: flex; gap: 10px; margin: 20px 0; }
-        .nav-btn { flex: 1; padding: 15px; background: #111827; border: 1px solid #333; color: white; border-radius: 10px; cursor: pointer; }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
+        .nav-btn { flex: 1; padding: 15px; background: rgba(255,255,255,0.05); border: none; color: white; border-radius: 12px; cursor: pointer; }
         .nav-btn.active { background: var(--primary); color: #000; font-weight: bold; }
         .section-panel { display: none; }
         .section-panel.active { display: block; }
-        .uc-grid, .acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { background: #111827; padding: 20px; border-radius: 15px; border: 2px solid transparent; cursor: pointer; }
+        .card { background: #111827; border: 2px solid #1f2937; padding: 20px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; }
         .card.selected { border-color: var(--primary); }
-        .admin-panel { background: #161e2e; padding: 20px; border-radius: 15px; margin-top: 20px; display: none; border: 1px dashed var(--primary); }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; }
-        .btn-order { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .btn-order { width: 100%; padding: 16px; background: var(--primary); border: none; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 20px; }
+        input { width: 100%; padding: 14px; margin-bottom: 15px; background: #000; border: 1px solid #333; border-radius: 10px; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="text-align:center; color: var(--primary);">TOXIC SHOP</h1>
-    
+    <header style="text-align:center; padding: 30px 0;"><h1>TOXIC SHOP</h1></header>
+
     <div class="nav-tabs">
         <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC AL</button>
         <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 AKKAUNTLAR</button>
     </div>
 
-    <input type="text" id="pubgid" placeholder="PUBG ID ýa-da Nomer">
-    <input type="text" id="tguser" placeholder="Seniň Nomeriň / Telegramyň">
+    <input type="number" id="pubgid" placeholder="PUBG ID-ňiz">
+    <input type="text" id="tguser" placeholder="Nomeriňiz / @username">
 
     <div id="uc-tab" class="section-panel active">
-        <div class="uc-grid" id="uc-container"></div>
+        <div id="uc-container"></div>
     </div>
 
     <div id="acc-tab" class="section-panel">
-        <div class="acc-grid" id="acc-container"></div>
+        <div id="acc-container"></div>
     </div>
 
     <button class="btn-order" onclick="sendOrder()">SARGYT ET</button>
-
-    <div class="admin-panel" id="adminPanel">
-        <h3>🛠️ ADMIN PANEL</h3>
-        <select id="admType"><option value="UC">UC Paket</option><option value="ACC">Akkaunt</option></select>
-        <input type="text" id="admName" placeholder="Ady">
-        <input type="text" id="admPrice" placeholder="Bahasy">
-        <button class="btn-order" onclick="addItem()">Goş</button>
-    </div>
-
-    <p style="text-align:center; margin-top:20px; cursor:pointer;" onclick="openAdmin()">Gizlin Giriş ⚙️</p>
 </div>
 
 <script>
-    let selectedItemName = "", selectedPrice = "";
-    
-    // Ilkinji maglumatlar
-    const defaultUC = [{name: '60 UC', price: '23 TMT'}, {name: '325 UC', price: '105 TMT'}, {name: '660 UC', price: '210 TMT'}];
-    const defaultACC = [{name: 'AKK #01', price: '450 TMT'}, {name: 'AKK #02', price: '900 TMT'}];
+    // --- BU ÝERI ÜÝTGETSEŇ BOLÝAR ---
+    const ucData = [
+        { name: '60 UC', price: '23 TMT' },
+        { name: '325 UC', price: '105 TMT' },
+        { name: '660 UC', price: '210 TMT' },
+        { name: '1800 UC', price: '500 TMT' }
+    ];
 
-    let ucList = JSON.parse(localStorage.getItem('toxic_uc')) || defaultUC;
-    let accList = JSON.parse(localStorage.getItem('toxic_acc')) || defaultACC;
+    const accData = [
+        { name: 'AKK #01 (Lednik)', price: '450 TMT' },
+        { name: 'AKK #02 (Faraon)', price: '900 TMT' }
+    ];
+    // --------------------------------
+
+    let selName = "", selPrice = "";
 
     function render() {
-        document.getElementById('uc-container').innerHTML = ucList.map((i, idx) => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
-        document.getElementById('acc-container').innerHTML = accList.map((i, idx) => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
+        document.getElementById('uc-container').innerHTML = ucData.map(i => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
+        document.getElementById('acc-container').innerHTML = accData.map(i => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
     }
 
     function switchTab(id, btn) {
@@ -80,25 +76,12 @@
     function select(el, name, price) {
         document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
-        selectedItemName = name; selectedPrice = price;
-    }
-
-    function openAdmin() {
-        let p = prompt("Parol:");
-        if(p === "toxic2026") document.getElementById('adminPanel').style.display = "block";
-    }
-
-    function addItem() {
-        let type = document.getElementById('admType').value;
-        let obj = {name: document.getElementById('admName').value, price: document.getElementById('admPrice').value};
-        if(type === 'UC') { ucList.push(obj); localStorage.setItem('toxic_uc', JSON.stringify(ucList)); }
-        else { accList.push(obj); localStorage.setItem('toxic_acc', JSON.stringify(accList)); }
-        render();
+        selName = name; selPrice = price;
     }
 
     function sendOrder() {
-        let msg = `Sargyt: ${selectedItemName} | Baha: ${selectedPrice} | ID: ${document.getElementById('pubgid').value} | Tel: ${document.getElementById('tguser').value}`;
-        window.location.href = `https://wa.me/9936xxxxxxx?text=${encodeURIComponent(msg)}`;
+        let text = `Sargyt: ${selName} | Baha: ${selPrice} | ID: ${document.getElementById('pubgid').value} | Tel: ${document.getElementById('tguser').value}`;
+        window.location.href = `https://wa.me/9936xxxxxxx?text=${encodeURIComponent(text)}`;
     }
 
     render();
