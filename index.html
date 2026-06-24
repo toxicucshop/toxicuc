@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toxic UC Shop - Munuň Ýaly Arzan Ýok!</title>
+    <style>
+        :root {
+            --primary: #00ff66;
+            --dark-bg: #0b0f19;
+            --card-bg: #151d30;
+            --text: #ffffff;
+            --text-gray: #8a99ad;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .user-info-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 102, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+        }
+
+        .uc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .uc-card {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .uc-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 102, 0.3);
+        }
+
+        .uc-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+        }
+
+        .uc-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .uc-amount span {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-left: 4px;
+        }
+
+        .uc-price {
+            font-size: 1.2rem;
+            color: #ffcc00;
+            font-weight: 600;
+        }
+
+        .btn-order {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 255, 102, 0.3);
+        }
+
+        .btn-order:hover {
+            background: #00cc52;
+            box-shadow: 0 6px 20px rgba(0, 255, 102, 0.5);
+        }
+
+        .btn-order:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Toxic UC Shop</h1>
+        <p>Gapyda durma, UC-ňi iň arzan bahadan al!</p>
+    </header>
+
+    <div class="user-info-section">
+        <div class="input-group">
+            <label for="pubgid">PUBG Mobile ID-ňiz *</label>
+            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789" required>
+        </div>
+        <div class="input-group">
+            <label for="tguser">Telegram Nikňiz (Username) *</label>
+            <input type="text" id="tguser" placeholder="Mysal üçin: @toxic_admin" required>
+        </div>
+    </div>
+
+    <div class="uc-grid">
+        <div class="uc-card" onclick="selectPacket(this, '60 UC', '23 TMT')">
+            <div class="uc-amount">60<span>UC</span></div>
+            <div class="uc-price">23 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectPacket(this, '325 UC', '105 TMT')">
+            <div class="uc-amount">325<span>UC</span></div>
+            <div class="uc-price">105 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectPacket(this, '660 UC', '210 TMT')">
+            <div class="uc-amount">660<span>UC</span></div>
+            <div class="uc-price">210 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectPacket(this, '1800 UC', '500 TMT')">
+            <div class="uc-amount">1800<span>UC</span></div>
+            <div class="uc-price">500 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectPacket(this, '3850 UC', '100 TMT')">
+            <div class="uc-amount">3850<span>UC</span></div>
+            <div class="uc-price">100 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectPacket(this, '8100 UC', '2000 TMT')">
+            <div class="uc-amount">8100<span>UC</span></div>
+            <div class="uc-price">2000 TMT</div>
+        </div>
+    </div>
+
+    <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
+
+    <footer>
+        <p>&copy; 2026 Toxic UC Shop. Ähli hukuklar goralan.</p>
+    </footer>
+</div>
+
+<script>
+    let selectedUC = "";
+    let selectedPrice = "";
+
+    function selectPacket(element, uc, price) {
+        document.querySelectorAll('.uc-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedUC = uc;
+        selectedPrice = price;
+    }
+
+    function sendOrder() {
+        const pubgId = document.getElementById('pubgid').value.trim();
+        const tgUser = document.getElementById('tguser').value.trim();
+
+        if (!pubgId || !tgUser) {
+            alert("Hahow! Ilki bilen PUBG ID-ňizi we Telegram adyňyzy ýazyň.");
+            return;
+        }
+
+        if (!selectedUC) {
+            alert("Haýsy paketi aljak? Bir UC paketini saýlaň!");
+            return;
+        }
+
+        const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
+        const CHAT_ID = "7819113909"; 
+
+        const message = `🔥 *TÄZE UC SARGYT* 🔥\n\n` +
+                        `👤 *Müşderi:* ${tgUser}\n` +
+                        `🆔 *PUBG ID:* \`${pubgId}\`\n` +
+                        `📦 *Paket:* ${selectedUC}\n` +
+                        `💰 *Baha:* ${selectedPrice}\n\n` +
+                        `⚡ _Tölegi barlap, UC-ni basyň!_`;
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').innerText = "Ugradylýar...";
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                alert("Sargydyňyz alyndy! Telegram botaňyzy barlap görüň.");
+                document.getElementById('pubgid').value = "";
+                document.getElementById('tguser').value = "";
+                document.querySelectorAll('.uc-card').forEach(card => card.classList.remove('selected'));
+                selectedUC = "";
+            } else {
+                alert("Ýalňyşlyk ýüze çykdy.");
+            }
+        })
+        .catch(error => {
+            alert("Näsazlyk ýüze çykdy, täzeden synanyşyň.");
+        })
+        .finally(() => {
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').innerText = "Sargyt Et";
+        });
+    }
+</script>
+
+</body>
+</html>
