@@ -1,263 +1,64 @@
 <!DOCTYPE html>
-<html lang="tk">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxic UC & Account Shop</title>
+    <title>Toxic Shop</title>
     <style>
-        :root {
-            --primary: #00ff66;
-            --accent: #ff0055;
-            --dark-bg: #060913;
-            --card-bg: #111827;
-            --text: #ffffff;
-            --text-gray: #9ca3af;
+        body { margin: 0; background: #060913; color: white; font-family: sans-serif; }
+        #login-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #060913; z-index: 9999; display: flex; 
+            align-items: center; justify-content: center;
+        }
+        .login-box { background: #111827; padding: 30px; border-radius: 15px; text-align: center; width: 80%; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+        button { width: 100%; padding: 10px; background: #00ff66; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        #main-site { display: none; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- GIRIŞ PENJIRESİ -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>Toxic Shop</h2>
+            <input type="text" id="user-name" placeholder="Adyňyz">
+            <input type="text" id="user-phone" value="+993">
+            <button onclick="saveUser()">Giriş et</button>
+        </div>
+    </div>
+
+    <!-- ESASY SAHYPA -->
+    <div id="main-site">
+        <h1>Hoş geldiňiz!</h1>
+        <p id="user-display"></p>
+        <button onclick="logout()">Çykyş</button>
+    </div>
+
+    <script>
+        // Sahypa açylanda barlanýar
+        window.onload = function() {
+            if(localStorage.getItem('user_name')) {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('main-site').style.display = 'block';
+                document.getElementById('user-display').innerText = "Salam, " + localStorage.getItem('user_name');
+            }
+        };
+
+        function saveUser() {
+            let name = document.getElementById('user-name').value;
+            if(name.length > 2) {
+                localStorage.setItem('user_name', name);
+                location.reload(); // Sahypany täzeleýär
+            } else {
+                alert("Adyňyzy ýazyň!");
+            }
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+        function logout() {
+            localStorage.clear();
+            location.reload();
         }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text);
-            padding: 10px;
-            background-image: radial-gradient(circle at top right, rgba(0, 255, 102, 0.05), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(255, 0, 85, 0.05), transparent 40%);
-            overflow-x: hidden;
-        }
-
-        /* --- GIRIŞ SAHYPASY --- */
-        #login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-box {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 102, 0.2);
-            padding: 30px 20px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0, 255, 102, 0.1);
-        }
-
-        .login-box h2 {
-            font-size: 2rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
-        }
-
-        .login-box p {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-        }
-
-        .login-box .btn-login {
-            width: 100%;
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 14px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 5px 15px rgba(0, 255, 102, 0.2);
-            text-transform: uppercase;
-        }
-
-        /* --- PROFIL PANEL --- */
-        .profile-bar {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .profile-info span {
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .btn-logout {
-            background: transparent;
-            border: 1px solid rgba(255, 0, 85, 0.4);
-            color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            display: none; 
-        }
-
-        /* --- PRO HEADER --- */
-        header {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 150px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            background: linear-gradient(180deg, rgba(17, 24, 39, 0.5) 0%, transparent 100%);
-            border-radius: 20px;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .header-text {
-            text-align: center;
-            z-index: 5;
-            padding: 0 10px;
-        }
-
-        header h1 {
-            font-size: 2.3rem;
-            font-weight: 900;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(0, 255, 102, 0.6);
-            margin-bottom: 3px;
-        }
-
-        header p {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .header-char {
-            position: absolute;
-            bottom: -10px;
-            width: 110px;
-            height: auto;
-            max-height: 160px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.7));
-            z-index: 2;
-        }
-
-        .char-left { left: -5px; }
-        .char-right { right: -5px; }
-
-        @media (min-width: 480px) {
-            header h1 { font-size: 2.8rem; }
-            header p { font-size: 1rem; }
-            .header-char { width: 140px; max-height: 190px; }
-            .char-left { left: 10px; }
-            .char-right { right: 10px; }
-        }
-
-        /* Nav-tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 5px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-btn {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: none;
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .nav-btn.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
-        }
-
-        .section-panel { display: none; }
-        .section-panel.active { display: block; }
-
-        /* Müşderi Maglumaty */
-        .user-info-section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .input-group { margin-bottom: 15px; }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-        }
-
-        /* UC Grid */
-        .uc-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin
-            
+    </script>
+</body>
+</html>
