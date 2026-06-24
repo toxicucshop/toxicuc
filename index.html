@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* --- GIRIŞ SAHYPASY (LOGIN POPUP) --- */
+        /* --- GIRIŞ SAHYPASY (DÜZEDILDI: BAŞLANGYÇTA GÖRÜNÝÄR) --- */
         #login-overlay {
             position: fixed;
             top: 0;
@@ -39,7 +39,7 @@
             height: 100%;
             background-color: var(--dark-bg);
             z-index: 9999;
-            display: none; /* JavaScript arkaly dolandyrylýar */
+            display: flex; /* Gara ekranyň öňüni almak üçin göni açyk durýar */
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -85,7 +85,7 @@
             text-transform: uppercase;
         }
 
-        /* --- PROFIL PANEL (ÝOKARDA PROFILE GÖRÜNMEÝDÄNÇÄSI) --- */
+        /* --- PROFIL PANEL --- */
         .profile-bar {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -119,12 +119,11 @@
             background: var(--accent);
             color: #fff;
         }
-        /* ------------------------------------- */
 
         .container {
             max-width: 600px;
             margin: 0 auto;
-            display: none; /* Giriş barlanylýança gizlin durýar */
+            display: none; 
         }
 
         /* --- PRO HEADER --- */
@@ -359,7 +358,7 @@
 </head>
 <body>
 
-<!-- GIRIŞ MEÝDANÇASY (OVERLAY) -->
+<!-- GIRIŞ MEÝDANÇASY -->
 <div id="login-overlay">
     <div class="login-box">
         <h2>Toxic Shop</h2>
@@ -379,10 +378,9 @@
     </div>
 </div>
 
-<!-- ESASY SAÝT (GIRIŞ EDILENSOŇ GÖRÜNJEK) -->
+<!-- ESASY SAÝT -->
 <div class="container" id="main-site">
     
-    <!-- ÝOKARDA PROFIL BAR (PROFÝLÝ GÖRKEZÝÄR) -->
     <div class="profile-bar">
         <div class="profile-info" id="profile-text">
             Profil: <span>Ýüklenýär...</span>
@@ -488,16 +486,20 @@
 
     // SAHYPA ÝÜKLENENDE GIRIŞ BARLAGY
     window.onload = function() {
-        const localName = localStorage.getItem('toxic_user_name');
-        const localPhone = localStorage.getItem('toxic_user_phone');
+        try {
+            const localName = localStorage.getItem('toxic_user_name');
+            const localPhone = localStorage.getItem('toxic_user_phone');
 
-        if (localName && localPhone) {
-            // Eger öň giriş eden bolsa, maglumatlary ýada salýarys
-            userSavedName = localName;
-            userSavedPhone = localPhone;
-            showMainSite();
-        } else {
-            // Öň giriş etmedik bolsa, giriş gutusyny görkezýäris
+            if (localName && localPhone) {
+                userSavedName = localName;
+                userSavedPhone = localPhone;
+                showMainSite();
+            } else {
+                document.getElementById('login-overlay').style.display = 'flex';
+                document.getElementById('main-site').style.display = 'none';
+            }
+        } catch (e) {
+            // LocalStorage petiklenen bolsa hem saýt işlesin
             document.getElementById('login-overlay').style.display = 'flex';
             document.getElementById('main-site').style.display = 'none';
         }
@@ -508,13 +510,14 @@
         const phone = document.getElementById('login-phone').value.trim();
 
         if(!name || !phone) {
-            alert("Dowam etmek Muscle üçin ähli meýdançalary dolduryň!");
+            alert("Dowam etmek üçin ähli meýdançalary dolduryň!");
             return;
         }
 
-        // Brauzeriň ýadyna hemişelik ýazylyp goýulýar
-        localStorage.setItem('toxic_user_name', name);
-        localStorage.setItem('toxic_user_phone', phone);
+        try {
+            localStorage.setItem('toxic_user_name', name);
+            localStorage.setItem('toxic_user_phone', phone);
+        } catch (e) {}
 
         userSavedName = name;
         userSavedPhone = phone;
@@ -523,22 +526,19 @@
     }
 
     function showMainSite() {
-        // Profil bar tekstini täzeleýäris
         document.getElementById('profile-text').innerHTML = `Ulanyjy: <span>${userSavedName}</span> (${userSavedPhone})`;
-        
-        // Input gutusyny awtomatiki doldurýarys
         document.getElementById('tguser').value = userSavedName;
-
-        // Ekrany açýarys
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('main-site').style.display = 'block';
     }
 
     function handleLogout() {
         if(confirm("Profilden çykmak isleýärsiňizmi?")) {
-            localStorage.removeItem('toxic_user_name');
-            localStorage.removeItem('toxic_user_phone');
-            location.reload(); // Sahypany täzeläp, täzeden giriş ekranyna ugradýar
+            try {
+                localStorage.removeItem('toxic_user_name');
+                localStorage.removeItem('toxic_user_phone');
+            } catch (e) {}
+            location.reload();
         }
     }
 
@@ -592,4 +592,10 @@
         const contactInfo = document.getElementById('pubgid').value.trim();
         const tgUser = document.getElementById('tguser').value.trim();
 
-        if (!contactInf
+        if (!contactInfo || !tgUser) {
+            alert("Sargyt üçin zerur meýdançalary dolduryň!");
+            return;
+        }
+
+        if (!selectedItemName) {
+            alert
