@@ -30,12 +30,69 @@
             overflow-x: hidden;
         }
 
+        /* --- GIRIŞ SAHYPASY (LOGIN POPUP) --- */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            padding: 30px 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.1);
+        }
+
+        .login-box h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+
+        .login-box p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .login-box .btn-login {
+            width: 100%;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 102, 0.2);
+            text-transform: uppercase;
+        }
+        /* ------------------------------------- */
+
         .container {
             max-width: 600px;
             margin: 0 auto;
+            display: none; /* Ulanyjy giriş edýänçä gizlin durýar */
         }
 
-        /* --- PROFESSIONAL HEADER DIZAÝNY --- */
+        /* --- PRO HEADER --- */
         header {
             position: relative;
             display: flex;
@@ -72,7 +129,6 @@
             font-weight: 500;
         }
 
-        /* Gapdal professional suratlar */
         .header-char {
             position: absolute;
             bottom: -10px;
@@ -94,7 +150,6 @@
             filter: drop-shadow(0 0 12px rgba(0, 255, 102, 0.3));
         }
 
-        /* Uly ekranda dizaýny has hem giňeltmek üçin */
         @media (min-width: 480px) {
             header h1 { font-size: 2.8rem; }
             header p { font-size: 1rem; }
@@ -102,9 +157,8 @@
             .char-left { left: 10px; }
             .char-right { right: 10px; }
         }
-        /* ------------------------------------ */
 
-        /* Navigasiýa (Menýu) */
+        /* Nav-tabs */
         .nav-tabs {
             display: flex;
             gap: 10px;
@@ -199,10 +253,7 @@
             transition: 0.2s ease-in-out;
         }
 
-        .uc-card:hover {
-            border-color: rgba(0, 255, 102, 0.2);
-        }
-
+        .uc-card:hover { border-color: rgba(0, 255, 102, 0.2); }
         .uc-card.selected {
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
@@ -259,30 +310,12 @@
             font-size: 2.5rem;
         }
 
-        .acc-details {
-            padding: 15px;
-        }
+        .acc-details { padding: 15px; }
+        .acc-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .acc-info-line { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 4px; }
+        .acc-price { font-size: 1.3rem; color: #ffcc00; font-weight: 700; margin-top: 8px; }
 
-        .acc-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .acc-info-line {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            margin-bottom: 4px;
-        }
-
-        .acc-price {
-            font-size: 1.3rem;
-            color: #ffcc00;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        /* Düwme */
+        /* Sargyt Düwmesi */
         .btn-order {
             display: block;
             width: 100%;
@@ -305,10 +338,6 @@
             box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
         }
 
-        .btn-order:hover {
-            filter: brightness(1.2);
-        }
-
         footer {
             text-align: center;
             padding: 30px 0;
@@ -319,9 +348,29 @@
 </head>
 <body>
 
-<div class="container">
+<!-- GIRIŞ MEÝDANÇASY (OVERLAY) -->
+<div id="login-overlay">
+    <div class="login-box">
+        <h2>Toxic Shop</h2>
+        <p>Saýta girmek üçin maglumatlaryňyzy ýazyň</p>
+        
+        <div class="input-group" style="text-align: left;">
+            <label>Adyňyz ýa-da Telegram Nikňiz *</label>
+            <input type="text" id="login-name" placeholder="Mysal üçin: @toxic_admin" required>
+        </div>
+        
+        <div class="input-group" style="text-align: left; margin-top: 15px;">
+            <label>Telefon Belgiňiz *</label>
+            <input type="text" id="login-phone" placeholder="Mysal üçin: +9936xxxxxxx" required>
+        </div>
+        
+        <button class="btn-login" onclick="handleLogin()">Giriş et</button>
+    </div>
+</div>
+
+<!-- ESASY SAÝT (GIRIŞ EDILENSOŇ GÖRÜNJEK) -->
+<div class="container" id="main-site">
     
-    <!-- TÄZE PRO HEADER -->
     <header>
         <img src="4274-removebg-preview.png" alt="" class="header-char char-left">
         <div class="header-text">
@@ -336,13 +385,14 @@
         <button class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
     </div>
 
+    <!-- BU ÝERDÄKI MAGLUMATLAR GIRIŞDEN AWATOMATIK DOLDURYLAR -->
     <div class="user-info-section">
         <div class="input-group">
             <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
             <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789" required>
         </div>
         <div class="input-group">
-            <label for="tguser">Telegram Nikňiz (Username) *</label>
+            <label id="contact-label" for="tguser">Telegram Nikňiz (Username) *</label>
             <input type="text" id="tguser" placeholder="Mysal üçin: @toxic_admin" required>
         </div>
     </div>
@@ -414,6 +464,30 @@
     let currentMode = "UC"; 
     let selectedItemName = "";
     let selectedPrice = "";
+    
+    // Giriş meýdançasyndaky global üýtgeýjiler
+    let userSavedName = "";
+    let userSavedPhone = "";
+
+    function handleLogin() {
+        const name = document.getElementById('login-name').value.trim();
+        const phone = document.getElementById('login-phone').value.trim();
+
+        if(!name || !phone) {
+            alert("Dowam etmek üçin ähli meýdançalary dolduryň!");
+            return;
+        }
+
+        userSavedName = name;
+        userSavedPhone = phone;
+
+        // Maglumatlary awtomatiki aşaky gutulara goýýarys
+        document.getElementById('tguser').value = userSavedName;
+
+        // Giriş ekranyny gizläp, esasy saýty açýarys
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('main-site').style.display = 'block';
+    }
 
     function switchTab(tabId, btn) {
         document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
@@ -428,19 +502,31 @@
 
         const submitBtn = document.getElementById('submitBtn');
         const idLabel = document.getElementById('id-label');
+        const contactLabel = document.getElementById('contact-label');
 
         if(tabId === 'acc-tab') {
             currentMode = "ACC";
             submitBtn.classList.add('acc-mode');
-            idLabel.innerText = "Siz bilen habarlaşmak üçin Telefon belgiňiz *";
-            document.getElementById('pubgid').placeholder = "Mysal üçin: +9936xxxxxxx";
+            
+            // Akkaunt rejiminde: ID ýerine Login-de ýazan Telefon belgisi awtomatiki geçýär
+            idLabel.innerText = "Telefon belgiňiz *";
             document.getElementById('pubgid').type = "text";
+            document.getElementById('pubgid').value = userSavedPhone; 
+            
+            contactLabel.innerText = "Telegram Nikňiz *";
+            document.getElementById('tguser').value = userSavedName;
         } else {
             currentMode = "UC";
             submitBtn.classList.remove('acc-mode');
+            
+            // UC rejiminde: Müşderi diňe PUBG ID-sini ýazmaly bolýar, Nik eýýäm taýýar
             idLabel.innerText = "PUBG Mobile ID-ňiz *";
-            document.getElementById('pubgid').placeholder = "Mysal üçin: 5123456789";
             document.getElementById('pubgid').type = "number";
+            document.getElementById('pubgid').value = ""; 
+            document.getElementById('pubgid').placeholder = "Mysal üçin: 5123456789";
+            
+            contactLabel.innerText = "Telegram Nikňiz (Username) *";
+            document.getElementById('tguser').value = userSavedName;
         }
     }
 
@@ -456,7 +542,7 @@
         const tgUser = document.getElementById('tguser').value.trim();
 
         if (!contactInfo || !tgUser) {
-            alert("Sargyt üçin meýdançalary dolduryň!");
+            alert("Sargyt üçin zerur meýdançalary dolduryň!");
             return;
         }
 
@@ -472,6 +558,7 @@
         if(currentMode === "UC") {
             message = `⚡ *TÄZE UC SARGYT* ⚡\n\n` +
                       `👤 *Müşderi:* ${tgUser}\n` +
+                      `📞 *Giriş Tel:* ${userSavedPhone}\n` +
                       `🆔 *PUBG ID:* \`${contactInfo}\`\n` +
                       `📦 *Paket:* ${selectedItemName}\n` +
                       `💰 *Baha:* ${selectedPrice}`;
@@ -495,8 +582,9 @@
         .then(data => {
             if (data.ok) {
                 alert("Sargyt bota ugradyldy! Tiz wagtdan habarlaşarys.");
-                document.getElementById('pubgid').value = "";
-                document.getElementById('tguser').value = "";
+                if(currentMode === "UC") {
+                    document.getElementById('pubgid').value = "";
+                }
                 document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
                 selectedItemName = "";
             }
@@ -507,4 +595,5 @@
     }
 </script>
 </body>
-</html>
+        </html>
+        
