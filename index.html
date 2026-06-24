@@ -2,89 +2,588 @@
 <html lang="tk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxic Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Toxic UC & Account Shop</title>
     <style>
-        body { background: #060913; color: white; font-family: sans-serif; margin: 0; }
-        
-        /* GIRIŞ BÖLEGI */
-        #login-part { padding: 50px 20px; text-align: center; }
-        input { width: 90%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; font-size: 16px; background: #111827; color: white; }
-        button { width: 90%; padding: 15px; background: #00ff66; border: none; border-radius: 10px; font-weight: bold; font-size: 18px; cursor: pointer; color: black; }
-        
-        /* DÜKAN BÖLEGI */
-        #shop-part { display: none; padding: 20px; }
-        .profile-bar { background: #111827; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .uc-card { background: #111827; padding: 20px; border-radius: 15px; text-align: center; border: 2px solid #222; }
-        .uc-price { color: #ffcc00; font-weight: bold; margin-top: 10px; }
+        :root {
+            --primary: #00ff66;
+            --accent: #ff0055;
+            --dark-bg: #060913;
+            --card-bg: #111827;
+            --text: #ffffff;
+            --text-gray: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            padding: 10px;
+            background-image: radial-gradient(circle at top right, rgba(0, 255, 102, 0.05), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(255, 0, 85, 0.05), transparent 40%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* === GIRIŞ BÖLEGI (HIÇ WAGTÝALŇYŞMAÝAN MEÝDANÇA) === */
+        #login-part {
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 25px;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.15);
+        }
+
+        #login-part h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+
+        #login-part p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .login-input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .login-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .login-input-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .login-input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-login-submit {
+            width: 100%;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0, 255, 102, 0.2);
+            text-transform: uppercase;
+        }
+
+        /* === DÜKAN BÖLEGI (ESASY SAÝT) === */
+        #shop-part {
+            display: none; 
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Profil Paneli */
+        .profile-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .profile-info span {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid rgba(255, 0, 85, 0.4);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.5) 0%, transparent 100%);
+            border-radius: 20px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .header-text {
+            text-align: center;
+            z-index: 5;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 255, 102, 0.6);
+            margin-bottom: 3px;
+        }
+
+        header p {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+
+        .header-char {
+            position: absolute;
+            bottom: -5px;
+            width: 100px;
+            height: auto;
+            max-height: 150px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.7));
+            z-index: 2;
+        }
+
+        .char-left { left: -5px; }
+        .char-right { right: -5px; }
+
+        @media (min-width: 480px) {
+            header h1 { font-size: 2.8rem; }
+            header p { font-size: 1rem; }
+            .header-char { width: 130px; max-height: 180px; }
+        }
+
+        /* Navigasiýa Düwmeleri */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 5px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+        }
+
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+
+        /* Sargyt Form Meýdançalary */
+        .user-info-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+
+        /* UC Grid */
+        .uc-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .uc-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .uc-card:hover { border-color: rgba(0, 255, 102, 0.2); }
+        .uc-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        }
+
+        .uc-amount {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .uc-amount span { color: var(--primary); font-size: 1rem; margin-left: 3px; }
+        .uc-price { font-size: 1.2rem; color: #ffcc00; font-weight: 700; }
+
+        /* Akkauntlar Grid */
+        .acc-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .acc-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .acc-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+        }
+
+        .acc-img-placeholder {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .acc-details { padding: 15px; }
+        .acc-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .acc-info-line { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 4px; }
+        .acc-price { font-size: 1.3rem; color: #ffcc00; font-weight: 700; margin-top: 8px; }
+
+        /* Sargyt Düwmesi */
+        .btn-order {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 5px 20px rgba(0, 255, 102, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-order.acc-mode {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
-    <!-- GIRIŞ BÖLEGI -->
-    <div id="login-part">
-        <h1>Toxic Shop</h1>
-        <input type="text" id="username" placeholder="Adyňyz...">
-        <input type="text" id="userphone" value="+993">
-        <br>
-        <button onclick="girisEt()">Giriş et</button>
+<!-- GIRIŞ PANELI -->
+<div id="login-part">
+    <h1>Toxic Shop</h1>
+    <p>Dowam etmek üçin maglumatlaryňyzy ýazyň</p>
+    
+    <div class="login-input-group">
+        <label>Adyňyz ýa-da Telegram Nikňiz *</label>
+        <input type="text" id="login-username" placeholder="Mysal üçin: Batyr">
+    </div>
+    
+    <div class="login-input-group">
+        <label>Telefon Belgiňiz *</label>
+        <input type="text" id="login-userphone" value="+993">
+    </div>
+    
+    <button class="btn-login-submit" onclick="handleLoginAction()">Giriş et</button>
+</div>
+
+<!-- DÜKAN PANELİ (ESASY SAÝT) -->
+<div id="shop-part">
+    
+    <!-- Profil Paneli -->
+    <div class="profile-bar">
+        <div>
+            Ulanyjy: <span id="display-name">...</span> (<span id="display-phone">...</span>)
+        </div>
+        <button class="btn-logout" onclick="handleLogoutAction()">Çykyş et</button>
+    </div>
+    
+    <!-- Banner/Header -->
+    <header>
+        <img src="4274-removebg-preview.png" alt="" class="header-char char-left">
+        <div class="header-text">
+            <h1>Toxic Shop</h1>
+            <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
+        </div>
+        <img src="4278-removebg-preview (2).png" alt="" class="header-char char-right">
+    </header>
+
+    <!-- Kategoriýa Saýlama -->
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
+        <button class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
     </div>
 
-    <!-- DÜKAN BÖLEGI -->
-    <div id="shop-part">
-        <div class="profile-bar">
-            <div>
-                <b id="profil-adi"></b><br>
-                <small id="profil-nomery"></small>
-            </div>
-            <button onclick="cykysEt()" style="width: auto; background: #ff4444; color: white; padding: 5px 10px; font-size: 12px;">Çykyş</button>
+    <!-- Müşderi ID we Aragatnaşyk meýdançasy -->
+    <div class="user-info-section">
+        <div class="login-input-group">
+            <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
+            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789">
         </div>
+        <div class="login-input-group">
+            <label id="contact-label" for="tguser">Telegram Nikňiz (Username) *</label>
+            <input type="text" id="tguser" placeholder="Mysal üçin: @toxic_admin">
+        </div>
+    </div>
 
-        <h1>UC Paketleri</h1>
+    <!-- UC SATYŞ BÖLEGI -->
+    <div id="uc-tab" class="section-panel active">
         <div class="uc-grid">
-            <div class="uc-card">
-                <div>60 UC</div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
+                <div class="uc-amount">60<span>UC</span></div>
                 <div class="uc-price">23 TMT</div>
             </div>
-            <div class="uc-card">
-                <div>325 UC</div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '325 UC', '105 TMT')">
+                <div class="uc-amount">325<span>UC</span></div>
                 <div class="uc-price">105 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '660 UC', '210 TMT')">
+                <div class="uc-amount">660<span>UC</span></div>
+                <div class="uc-price">210 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '1800 UC', '500 TMT')">
+                <div class="uc-amount">1800<span>UC</span></div>
+                <div class="uc-price">500 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '3850 UC', '1000 TMT')">
+                <div class="uc-amount">3850<span>UC</span></div>
+                <div class="uc-price">1000 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '8100 UC', '2000 TMT')">
+                <div class="uc-amount">8100<span>UC</span></div>
+                <div class="uc-price">2000 TMT</div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Sahypa açylanda barlamak
-        if (localStorage.getItem("isLoggedIn")) {
-            document.getElementById('login-part').style.display = 'none';
-            document.getElementById('shop-part').style.display = 'block';
-            
-            // Profili görkezmek
-            document.getElementById('profil-adi').innerText = localStorage.getItem("userName");
-            document.getElementById('profil-nomery').innerText = localStorage.getItem("userPhone");
-        }
+    <!-- AKKAUNT SATYŞ BÖLEGI -->
+    <div id="acc-tab" class="section-panel">
+        <div class="acc-grid">
+            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
+                <div class="acc-img-placeholder">🎮</div>
+                <div class="acc-details">
+                    <div class="acc-title">PUBG Akk #01</div>
+                    <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
+                    <div class="acc-info-line">👕 Setler: 25+ sany</div>
+                    <div class="acc-info-line">📊 Dereje: 65 lvl</div>
+                    <div class="acc-price">450 TMT</div>
+                </div>
+            </div>
+            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
+                <div class="acc-img-placeholder">👑</div>
+                <div class="acc-details">
+                    <div class="acc-title">PUBG Akk #02</div>
+                    <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
+                    <div class="acc-info-line">🔫 Ýaraglar: 8 sany ugradylýan</div>
+                    <div class="acc-info-line">📊 Dereje: 72 lvl</div>
+                    <div class="acc-price">900 TMT</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Giriş funksiýasy
-        function girisEt() {
-            var name = document.getElementById('username').value;
-            var phone = document.getElementById('userphone').value;
-            
-            if (name.length > 0 && phone.startsWith("+993")) {
-                localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("userName", name);
-                localStorage.setItem("userPhone", phone);
-                location.reload(); // Täzele
-            } else {
-                alert("Maglumatlary dogry ýazyň (+993 bilen başlamaly)!");
-            }
-        }
+    <!-- SARGYT DÜWMESI -->
+    <button class="btn-order" id="submitBtn" onclick="sendOrderToServer()">Sargyt Et</button>
 
-        // Çykyş funksiýasy
-        function cykysEt() {
+    <footer>
+        <p>&copy; 2026 Toxic Shop. Söwdaňyz bereketli bolsun!</p>
+    </footer>
+</div>
+
+<script>
+    let currentMode = "UC"; 
+    let selectedItemName = "";
+    let selectedPrice = "";
+    let userSavedName = "";
+    let userSavedPhone = "";
+
+    // Sahypa ýüklenende barlag
+    if (localStorage.getItem("toxic_logged_in")) {
+        userSavedName = localStorage.getItem("toxic_username");
+        userSavedPhone = localStorage.getItem("toxic_userphone");
+        
+        document.getElementById('login-part').style.display = 'none';
+        document.getElementById('shop-part').style.display = 'block';
+        
+        document.getElementById('display-name').innerText = userSavedName;
+        document.getElementById('display-phone').innerText = userSavedPhone;
+        document.getElementById('tguser').value = userSavedName;
+    } else {
+        document.getElementById('login-part').style.display = 'block';
+        document.getElementById('shop-part').style.display = 'none';
+    }
+
+    // Giriş etmek funksiýasy
+    function handleLoginAction() {
+        let name = document.getElementById('login-username').value.trim();
+        let phone = document.getElementById('login-userphone').value.trim();
+
+        if (name.length > 0 && phone.startsWith("+993") && phone.length >= 12) {
+            localStorage.setItem("toxic_logged_in", "true");
+            localStorage.setItem("toxic_username", name);
+            localStorage.setItem("toxic_userphone", phone);
+            location.reload(); 
+        } else {
+            alert("Maglumatlary dogry ýazyň! Telefon belgiňiz +993 bilen başlamaly we doly bolmaly.");
+        }
+    }
+
+    // Çykyş etmek funksiýasy
+    function handleLogoutAction() {
+        if (confirm("Profilden çykmak isleýärsiňizmi?")) {
             localStorage.clear();
             location.reload();
         }
-    </script>
-</body>
-</html>
+    }
+
+    // Tablary çalşyrmak (UC / Accounts)
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+
+        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
+        selectedItemName = "";
+        selectedPrice = "";
+
+        const submitBtn = document.getElementById('submitBtn');
+        const idLabel = document.getElementById('id-label');
+        const contactLabel = document.getElementById('contact-label');
+
+        if (tabId === 'acc-tab') {
+            currentMode = "ACC";
+            submitBtn.classList.add('acc-mode');
+            idLabel.innerText = "Telefon belgiňiz *";
+            document.getElementById('pubgid').type = "text";
+            document.getElementById('pubgid').value = userSavedPhone; 
+            contactLabel.innerText = "Telegram Nikňiz *";
+            document.getElementById('tguser').value = userSavedName;
+        } else {
+            currentMode = "UC";
+            submitBtn.classList.remove('acc-mode');
+            idLabel.innerText = "PUBG Mobile ID-ňiz *";
+            document.getElementById('pubgid').type = "number";
+            document.getElementById('pubgid').value = ""; 
+            document.getElementById('pubgid').placeholder = "Mysal üçin: 5123456789";
+            contactLabel.innerText = "Telegram Nikňiz (Username) *";
+            document.getElementById('tguser').value = userSavedName;
+        }
+    }
+
+    // Paket saýlamak
+    function selectItem(element, mode, name, price) {
+        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedItemName = name;
+        selectedPrice = price;
+    }
+
+    // Telegram Bota sargyt ugratmak
+    function sendOrderToServer() {
+        const contactInfo = document.getElementById('pubgid').value.trim();
+        const tgUser = document.getElementById('tguser').value.trim();
+
+        if (!contactInfo || !tgUser) {
+            alert("Sargyt meýdançalaryny dolduryň!");
+            return;
+        }
+        if (!selectedItemName) {
+            alert(currentMode === "UC" ? "Bir UC paketi saýlaň!" : "Satyn aljak akkauntyňyzy saýlaň!");
+            return;
+        }
+
+        const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
+        const CHAT_ID = "7819113909"; 
+
+        let message = "";
+        if (currentMode === "UC") {
+            message = "⚡ TÄZE UC SARGYT ⚡\n\n" +
+                      "👤 Müşderi: " + tgUser + "\n" +
+                      "📞 Giriş Tel: " + userSavedPhone + "\n" +
+                      "🆔 PUBG ID: " + contactInfo + "\n" +
+                      "📦 Paket: " + selectedItemName + "\n" +
+                      "💰 Baha: " + selectedPrice;
+        } else {
+            message = "🔥 AKKAUNT SATYN ALMAK HAÝYŞY 🔥\n\n" +
+                      "👤 Müşderi: " + tgUser + "\n" +
+                      "📞 Tel/Aragatnaşyk: " + contactInfo + "\n" +
+                      "🎮 Saýlanan Akk: " + selectedItemName + "\n" +
+                      "💰 Baha: " + selectedPrice;
+        }
+
+        const url = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage";
+        document
