@@ -1,90 +1,486 @@
-<!DOCTYPE html>
-<html lang="tk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxic Shop</title>
-    <style>
-        /* Öňki dizaýnyňyzyň özü! */
-        :root { --primary: #00ff66; --accent: #ff0055; --dark-bg: #060913; --text: #ffffff; }
-        body { background-color: var(--dark-bg); color: var(--text); padding: 15px; font-family: sans-serif; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; }
-        .nav-btn { flex: 1; padding: 15px; background: rgba(255,255,255,0.05); border: none; color: white; border-radius: 12px; cursor: pointer; }
-        .nav-btn.active { background: var(--primary); color: #000; font-weight: bold; }
-        .section-panel { display: none; }
-        .section-panel.active { display: block; }
-        .card { background: #111827; border: 2px solid #1f2937; padding: 20px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; }
-        .card.selected { border-color: var(--primary); }
-        .btn-order { width: 100%; padding: 16px; background: var(--primary); border: none; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 20px; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; background: #000; border: 1px solid #333; border-radius: 10px; color: white; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header style="text-align:center; padding: 30px 0;"><h1>TOXIC SHOP</h1></header>
-
-    <div class="nav-tabs">
-        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC AL</button>
-        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 AKKAUNTLAR</button>
-    </div>
-
-    <input type="number" id="pubgid" placeholder="PUBG ID-ňiz">
-    <input type="text" id="tguser" placeholder="Nomeriňiz / @username">
-
-    <div id="uc-tab" class="section-panel active">
-        <div id="uc-container"></div>
-    </div>
-
-    <div id="acc-tab" class="section-panel">
-        <div id="acc-container"></div>
-    </div>
-
-    <button class="btn-order" onclick="sendOrder()">SARGYT ET</button>
-</div>
-
-<script>
-    // --- BU ÝERI ÜÝTGETSEŇ BOLÝAR ---
-    const ucData = [
-        { name: '60 UC', price: '23 TMT' },
-        { name: '325 UC', price: '105 TMT' },
-        { name: '660 UC', price: '210 TMT' },
-        { name: '1800 UC', price: '500 TMT' }
-    ];
-
-    const accData = [
-        { name: 'AKK #01 (Lednik)', price: '450 TMT' },
-        { name: 'AKK #02 (Faraon)', price: '900 TMT' }
-    ];
-    // --------------------------------
-
-    let selName = "", selPrice = "";
-
-    function render() {
-        document.getElementById('uc-container').innerHTML = ucData.map(i => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
-        document.getElementById('acc-container').innerHTML = accData.map(i => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
-    }
-
-    function switchTab(id, btn) {
-        document.querySelectorAll('.section-panel').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    function select(el, name, price) {
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selName = name; selPrice = price;
-    }
-
-    function sendOrder() {
-        let text = `Sargyt: ${selName} | Baha: ${selPrice} | ID: ${document.getElementById('pubgid').value} | Tel: ${document.getElementById('tguser').value}`;
-        window.location.href = `https://wa.me/9936xxxxxxx?text=${encodeURIComponent(text)}`;
-    }
-
-    render();
-</script>
-</body>
-</html>
+‎<!DOCTYPE html>
+‎<html lang="tk">
+‎<head>
+‎    <meta charset="UTF-8">
+‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎    <title>Toxic Shop</title>
+‎    <style>
+‎        :root {
+‎            --primary: #00ff66;
+‎            --accent: #ff0055;
+‎            --dark-bg: #060913;
+‎            --card-bg: #111827;
+‎            --text: #ffffff;
+‎            --text-gray: #9ca3af;
+‎        }
+‎
+‎        * {
+‎            margin: 0;
+‎            padding: 0;
+‎            box-sizing: border-box;
+‎            font-family: 'Segoe UI', system-ui, sans-serif;
+‎        }
+‎
+‎        body {
+‎            background-color: var(--dark-bg);
+‎            color: var(--text);
+‎            padding: 15px;
+‎            background-image: linear-gradient(to bottom, rgba(6, 9, 19, 0.85), rgba(6, 9, 19, 0.95)), url('4282.png');
+‎            background-attachment: fixed;
+‎            background-position: center;
+‎            background-size: cover;
+‎            background-repeat: no-repeat;
+‎        }
+‎
+‎        .container {
+‎            max-width: 800px;
+‎            margin: 0 auto;
+‎        }
+‎
+‎        header {
+‎            text-align: center;
+‎            padding: 35px 0;
+‎            background: rgba(17, 24, 39, 0.6);
+‎            border-radius: 16px;
+‎            margin-bottom: 25px;
+‎            border: 1px solid rgba(255, 255, 255, 0.05);
+‎            backdrop-filter: blur(8px);
+‎        }
+‎
+‎        header h1 {
+‎            font-size: 2.8rem;
+‎            font-weight: 900;
+‎            color: var(--primary);
+‎            text-transform: uppercase;
+‎            letter-spacing: 3px;
+‎            text-shadow: 0 0 20px rgba(0, 255, 102, 0.5);
+‎            margin-bottom: 5px;
+‎        }
+‎
+‎        header p {
+‎            color: var(--text-gray);
+‎            font-size: 1rem;
+‎        }
+‎
+‎        .nav-tabs {
+‎            display: flex;
+‎            gap: 10px;
+‎            margin-bottom: 25px;
+‎            background: rgba(255, 255, 255, 0.03);
+‎            padding: 6px;
+‎            border-radius: 12px;
+‎            border: 1px solid rgba(255, 255, 255, 0.05);
+‎        }
+‎
+‎        .nav-btn {
+‎            flex: 1;
+‎            padding: 12px;
+‎            background: transparent;
+‎            border: none;
+‎            color: var(--text-gray);
+‎            font-size: 1rem;
+‎            font-weight: bold;
+‎            cursor: pointer;
+‎            border-radius: 8px;
+‎            transition: 0.3s;
+‎        }
+‎
+‎        .nav-btn.active {
+‎            background: var(--primary);
+‎            color: #000;
+‎            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+‎        }
+‎
+‎        .section-panel {
+‎            display: none;
+‎        }
+‎
+‎        .section-panel.active {
+‎            display: block;
+‎        }
+‎
+‎        .user-info-section {
+‎            background: rgba(17, 24, 39, 0.8);
+‎            padding: 20px;
+‎            border-radius: 16px;
+‎            border: 1px solid rgba(255, 255, 255, 0.05);
+‎            margin-bottom: 25px;
+‎            backdrop-filter: blur(10px);
+‎            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+‎        }
+‎
+‎        .input-group {
+‎            margin-bottom: 15px;
+‎        }
+‎
+‎        .input-group label {
+‎            display: block;
+‎            margin-bottom: 8px;
+‎            color: var(--text-gray);
+‎            font-size: 0.9rem;
+‎            font-weight: 600;
+‎        }
+‎
+‎        .input-group input {
+‎            width: 100%;
+‎            padding: 14px;
+‎            background: rgba(0, 0, 0, 0.5);
+‎            border: 1px solid rgba(255, 255, 255, 0.1);
+‎            border-radius: 10px;
+‎            color: white;
+‎            font-size: 1rem;
+‎            outline: none;
+‎            transition: 0.3s;
+‎        }
+‎
+‎        .input-group input:focus {
+‎            border-color: var(--primary);
+‎            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+‎        }
+‎
+‎        .uc-grid {
+‎            display: grid;
+‎            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+‎            gap: 15px;
+‎            margin-bottom: 25px;
+‎        }
+‎
+‎        .uc-card {
+‎            background: rgba(17, 24, 39, 0.85);
+‎            border: 2px solid rgba(255, 255, 255, 0.03);
+‎            border-radius: 16px;
+‎            padding: 25px 20px;
+‎            text-align: center;
+‎            cursor: pointer;
+‎            backdrop-filter: blur(5px);
+‎            transition: 0.2s ease-in-out;
+‎        }
+‎
+‎        .uc-card:hover {
+‎            transform: translateY(-4px);
+‎            border-color: rgba(0, 255, 102, 0.3);
+‎        }
+‎
+‎        .uc-card.selected {
+‎            border-color: var(--primary);
+‎            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+‎        }
+‎
+‎        .uc-amount {
+‎            font-size: 2rem;
+‎            font-weight: 800;
+‎            color: #fff;
+‎            margin-bottom: 5px;
+‎        }
+‎
+‎        .uc-amount span {
+‎            color: var(--primary);
+‎            font-size: 1.1rem;
+‎            margin-left: 4px;
+‎        }
+‎
+‎        .uc-price {
+‎            font-size: 1.3rem;
+‎            color: #ffcc00;
+‎            font-weight: 700;
+‎        }
+‎
+‎        .acc-grid {
+‎            display: grid;
+‎            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+‎            gap: 20px;
+‎            margin-bottom: 25px;
+‎        }
+‎
+‎        .acc-card {
+‎            background: rgba(17, 24, 39, 0.9);
+‎            border: 2px solid rgba(255, 255, 255, 0.03);
+‎            border-radius: 16px;
+‎            overflow: hidden;
+‎            transition: 0.3s;
+‎            cursor: pointer;
+‎            backdrop-filter: blur(5px);
+‎        }
+‎
+‎        .acc-card:hover {
+‎            transform: translateY(-4px);
+‎            border-color: rgba(255, 0, 85, 0.4);
+‎        }
+‎
+‎        .acc-card.selected {
+‎            border-color: var(--accent);
+‎            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+‎        }
+‎
+‎        .acc-img-container {
+‎            width: 100%;
+‎            height: 200px;
+‎            overflow: hidden;
+‎            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+‎            background: #000;
+‎        }
+‎
+‎        .acc-img-container img {
+‎            width: 100%;
+‎            height: 100%;
+‎            object-fit: cover;
+‎            object-position: top;
+‎            transition: 0.5s;
+‎        }
+‎
+‎        .acc-card:hover .acc-img-container img {
+‎            transform: scale(1.05);
+‎        }
+‎
+‎        .acc-details {
+‎            padding: 15px;
+‎        }
+‎
+‎        .acc-title {
+‎            font-size: 1.2rem;
+‎            font-weight: bold;
+‎            margin-bottom: 8px;
+‎            color: #fff;
+‎        }
+‎
+‎        .acc-info-line {
+‎            font-size: 0.9rem;
+‎            color: var(--text-gray);
+‎            margin-bottom: 5px;
+‎        }
+‎
+‎        .acc-price {
+‎            font-size: 1.4rem;
+‎            color: #ffcc00;
+‎            font-weight: 700;
+‎            margin-top: 10px;
+‎        }
+‎
+‎        .btn-order {
+‎            display: block;
+‎            width: 100%;
+‎            background: var(--primary);
+‎            color: #000;
+‎            border: none;
+‎            padding: 16px;
+‎            font-size: 1.2rem;
+‎            font-weight: 800;
+‎            border-radius: 12px;
+‎            cursor: pointer;
+‎            text-transform: uppercase;
+‎            transition: 0.3s;
+‎            box-shadow: 0 5px 20px rgba(0, 255, 102, 0.3);
+‎        }
+‎
+‎        .btn-order.acc-mode {
+‎            background: var(--accent);
+‎            color: #fff;
+‎            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
+‎        }
+‎
+‎        footer {
+‎            text-align: center;
+‎            padding: 40px 0;
+‎            color: var(--text-gray);
+‎            font-size: 0.85rem;
+‎        }
+‎    </style>
+‎</head>
+‎<body>
+‎
+‎<div class="container">
+‎
+‎    <header>
+‎        <h1>Toxic Shop</h1>
+‎        <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
+‎    </header>
+‎
+‎    <div class="nav-tabs">
+‎        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
+‎        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
+‎    </div>
+‎
+‎    <div class="user-info-section">
+‎        <div class="input-group">
+‎            <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
+‎            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789" required>
+‎        </div>
+‎        <div class="input-group">
+‎            <label for="tguser">Habarlaşmak üçin (Nomer/Imo/Telegram) *</label>
+‎            <input type="text" id="tguser" placeholder="Mysal üçin: +99361234567 ýa-da @username" required>
+‎        </div>
+‎    </div>
+‎
+‎    <div id="uc-tab" class="section-panel active">
+‎        <div class="uc-grid">
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
+‎                <div class="uc-amount">60<span>UC</span></div>
+‎                <div class="uc-price">23 TMT</div>
+‎            </div>
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '325 UC', '105 TMT')">
+‎                <div class="uc-amount">325<span>UC</span></div>
+‎                <div class="uc-price">105 TMT</div>
+‎            </div>
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '660 UC', '210 TMT')">
+‎                <div class="uc-amount">660<span>UC</span></div>
+‎                <div class="uc-price">210 TMT</div>
+‎            </div>
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '1800 UC', '500 TMT')">
+‎                <div class="uc-amount">1800<span>UC</span></div>
+‎                <div class="uc-price">500 TMT</div>
+‎            </div>
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '3850 UC', '1000 TMT')">
+‎                <div class="uc-amount">3850<span>UC</span></div>
+‎                <div class="uc-price">1000 TMT</div>
+‎            </div>
+‎            <div class="uc-card" onclick="selectItem(this, 'UC', '8100 UC', '2000 TMT')">
+‎                <div class="uc-amount">8100<span>UC</span></div>
+‎                <div class="uc-price">2000 TMT</div>
+‎            </div>
+‎        </div>
+‎    </div>
+‎
+‎    <div id="acc-tab" class="section-panel">
+‎        <div class="acc-grid">
+‎            
+‎            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
+‎                <div class="acc-img-container">
+‎                    <img src="4283.png" alt="PUBG Account 1">
+‎                </div>
+‎                <div class="acc-details">
+‎                    <div class="acc-title">PUBG Akk #01</div>
+‎                    <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
+‎                    <div class="acc-info-line">👕 Setler: 25+ sany</div>
+‎                    <div class="acc-info-line">📊 Dereje: 65 lvl</div>
+‎                    <div class="acc-price">450 TMT</div>
+‎                </div>
+‎            </div>
+‎
+‎            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
+‎                <div class="acc-img-container">
+‎                    <img src="4283.png" alt="PUBG Account 2">
+‎                </div>
+‎                <div class="acc-details">
+‎                    <div class="acc-title">PUBG Akk #02</div>
+‎                    <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
+‎                    <div class="acc-info-line">🔫 Ýaraglar: 8 sany ugradylýan</div>
+‎                    <div class="acc-info-line">📊 Dereje: 72 lvl</div>
+‎                    <div class="acc-price">900 TMT</div>
+‎                </div>
+‎            </div>
+‎
+‎        </div>
+‎    </div>
+‎
+‎    <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
+‎
+‎    <footer>
+‎        <p>&copy; 2026 Toxic Shop. Söwdaňyz bereketli bolsun!</p>
+‎    </footer>
+‎</div>
+‎
+‎<script>
+‎    let currentMode = "UC"; 
+‎    let selectedItemName = "";
+‎    let selectedPrice = "";
+‎
+‎    const MY_WHATSAPP_NUMBER = "9936xxxxxxx"; 
+‎
+‎    function switchTab(tabId, btn) {
+‎        document.getElementById('uc-tab').classList.remove('active');
+‎        document.getElementById('acc-tab').classList.remove('active');
+‎        document.getElementById('uc-btn').classList.remove('active');
+‎        document.getElementById('acc-btn').classList.remove('active');
+‎        
+‎        document.getElementById(tabId).classList.add('active');
+‎        btn.classList.add('active');
+‎
+‎        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
+‎        selectedItemName = "";
+‎        selectedPrice = "";
+‎
+‎        const submitBtn = document.getElementById('submitBtn');
+‎        const idLabel = document.getElementById('id-label');
+‎
+‎        if(tabId === 'acc-tab') {
+‎            currentMode = "ACC";
+‎            submitBtn.classList.add('acc-mode');
+‎            idLabel.innerText = "Siz bilen habarlaşmak üçin Telefon belgiňiz *";
+‎            document.getElementById('pubgid').placeholder = "Mysal üçin: +9936xxxxxxx";
+‎            document.getElementById('pubgid').type = "text";
+‎        } else {
+‎            currentMode = "UC";
+‎            submitBtn.classList.remove('acc-mode');
+‎            idLabel.innerText = "PUBG Mobile ID-ňiz *";
+‎            document.getElementById('pubgid').placeholder = "Mysal üçin: 5123456789";
+‎            document.getElementById('pubgid').type = "number";
+‎        }
+‎    }
+‎
+‎    function selectItem(element, mode, name, price) {
+‎        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
+‎        element.classList.add('selected');
+‎        selectedItemName = name;
+‎        selectedPrice = price;
+‎    }
+‎
+‎    function sendOrder() {
+‎        const contactInfo = document.getElementById('pubgid').value.trim();
+‎        const tgUser = document.getElementById('tguser').value.trim();
+‎
+‎        if (!contactInfo || !tgUser) {
+‎            alert("Sargyt üçin meýdançalary dolduryň!");
+‎            return;
+‎        }
+‎
+‎        if (!selectedItemName) {
+‎            alert(currentMode === "UC" ? "Bir UC paketi saýlaň!" : "Satyn aljak akkauntyňyzy saýlaň!");
+‎            return;
+‎        }
+‎
+‎        const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
+‎        const CHAT_ID = "7819113909"; 
+‎
+‎        let textMessage = "";
+‎        if(currentMode === "UC") {
+‎            textMessage = `⚡ TÄZE UC SARGYT ⚡\n\n` +
+‎                          `👤 Müşderi: ${tgUser}\n` +
+‎                          `🆔 PUBG ID: ${contactInfo}\n` +
+‎                          `📦 Paket: ${selectedItemName}\n` +
+‎                          `💰 Baha: ${selectedPrice}`;
+‎        } else {
+‎            textMessage = `🔥 AKKAUNT SATYN ALMAK HAÝYŞY 🔥\n\n` +
+‎                          `👤 Müşderi: ${tgUser}\n` +
+‎                          `📞 Tel/Aragatnaşyk: ${contactInfo}\n` +
+‎                          `🎮 Saýlanan Akk: ${selectedItemName}\n` +
+‎                          `💰 Baha: ${selectedPrice}`;
+‎        }
+‎
+‎        const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+‎        document.getElementById('submitBtn').disabled = true;
+‎
+‎        fetch(telegramUrl, {
+‎            method: 'POST',
+‎            headers: { 'Content-Type': 'application/json' },
+‎            body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage })
+‎        })
+‎        .then(response => response.json())
+‎        .then(data => {
+‎            if (data.ok) {
+‎                const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(textMessage)}`;
+‎                window.location.href = whatsappUrl;
+‎
+‎                document.getElementById('pubgid').value = "";
+‎                document.getElementById('tguser').value = "";
+‎                document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
+‎                selectedItemName = "";
+‎            }
+‎        })
+‎        .finally(() => {
+‎            document.getElementById('submitBtn').disabled = false;
+‎        });
+‎    }
+‎</script>
+‎</body>
+‎</html>
+‎
