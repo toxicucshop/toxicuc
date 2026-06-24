@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* --- GIRIŞ SAHYPASY (DÜZEDILDI: BAŞLANGYÇTA GÖRÜNÝÄR) --- */
+        /* --- GIRIŞ SAHYPASY (OVERLAY) --- */
         #login-overlay {
             position: fixed;
             top: 0;
@@ -39,7 +39,7 @@
             height: 100%;
             background-color: var(--dark-bg);
             z-index: 9999;
-            display: flex; /* Gara ekranyň öňüni almak üçin göni açyk durýar */
+            display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -358,7 +358,6 @@
 </head>
 <body>
 
-<!-- GIRIŞ MEÝDANÇASY -->
 <div id="login-overlay">
     <div class="login-box">
         <h2>Toxic Shop</h2>
@@ -371,14 +370,13 @@
         
         <div class="input-group" style="text-align: left; margin-top: 15px;">
             <label>Telefon Belgiňiz *</label>
-            <input type="text" id="login-phone" placeholder="Mysal üçin: +9936xxxxxxx" required>
+            <input type="text" id="login-phone" value="+993" oninput="validatePhoneInput(this)" required>
         </div>
         
         <button class="btn-login" onclick="handleLogin()">Giriş et</button>
     </div>
 </div>
 
-<!-- ESASY SAÝT -->
 <div class="container" id="main-site">
     
     <div class="profile-bar">
@@ -413,7 +411,6 @@
         </div>
     </div>
 
-    <!-- UC PANEL -->
     <div id="uc-tab" class="section-panel active">
         <div class="uc-grid">
             <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
@@ -443,7 +440,6 @@
         </div>
     </div>
 
-    <!-- ACC PANEL -->
     <div id="acc-tab" class="section-panel">
         <div class="acc-grid">
             <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
@@ -484,22 +480,23 @@
     let userSavedName = "";
     let userSavedPhone = "";
 
+    // +993 kodunyň öçmeginiň öňüni alýan funksiýa
+    function validatePhoneInput(input) {
+        if (!input.value.startsWith("+993")) {
+            input.value = "+993";
+        }
+    }
+
     // SAHYPA ÝÜKLENENDE GIRIŞ BARLAGY
     window.onload = function() {
-        try {
-            const localName = localStorage.getItem('toxic_user_name');
-            const localPhone = localStorage.getItem('toxic_user_phone');
+        const localName = localStorage.getItem('toxic_user_name');
+        const localPhone = localStorage.getItem('toxic_user_phone');
 
-            if (localName && localPhone) {
-                userSavedName = localName;
-                userSavedPhone = localPhone;
-                showMainSite();
-            } else {
-                document.getElementById('login-overlay').style.display = 'flex';
-                document.getElementById('main-site').style.display = 'none';
-            }
-        } catch (e) {
-            // LocalStorage petiklenen bolsa hem saýt işlesin
+        if (localName && localPhone) {
+            userSavedName = localName;
+            userSavedPhone = localPhone;
+            showMainSite();
+        } else {
             document.getElementById('login-overlay').style.display = 'flex';
             document.getElementById('main-site').style.display = 'none';
         }
@@ -509,15 +506,14 @@
         const name = document.getElementById('login-name').value.trim();
         const phone = document.getElementById('login-phone').value.trim();
 
-        if(!name || !phone) {
-            alert("Dowam etmek üçin ähli meýdançalary dolduryň!");
+        // Diňe +993 ýazylan bolsa ýa-da boş bolsa goýbermeýär
+        if(!name || phone === "+993" || phone.length < 7) {
+            alert("Dowam etmek üçin adyňyzy we dogry telefon belgiňizi ýazyň!");
             return;
         }
 
-        try {
-            localStorage.setItem('toxic_user_name', name);
-            localStorage.setItem('toxic_user_phone', phone);
-        } catch (e) {}
+        localStorage.setItem('toxic_user_name', name);
+        localStorage.setItem('toxic_user_phone', phone);
 
         userSavedName = name;
         userSavedPhone = phone;
@@ -534,10 +530,8 @@
 
     function handleLogout() {
         if(confirm("Profilden çykmak isleýärsiňizmi?")) {
-            try {
-                localStorage.removeItem('toxic_user_name');
-                localStorage.removeItem('toxic_user_phone');
-            } catch (e) {}
+            localStorage.removeItem('toxic_user_name');
+            localStorage.removeItem('toxic_user_phone');
             location.reload();
         }
     }
@@ -598,4 +592,11 @@
         }
 
         if (!selectedItemName) {
-            alert
+            alert(currentMode === "UC" ? "Bir UC paketi saýlaň!" : "Satyn aljak akkauntyňyzy saýlaň!");
+            return;
+        }
+
+        const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
+        const CHAT_ID = "7819113909"; 
+
+        let message = "
