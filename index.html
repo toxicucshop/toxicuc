@@ -341,8 +341,35 @@
     </div>
 
     <div id="acc-tab" class="section-panel">
-        <div class="acc-grid" id="accounts-container">
+        <div class="acc-grid">
+            
+            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
+                <div class="acc-img-container">
+                    <img src="4283.png" alt="PUBG Account 1">
+                </div>
+                <div class="acc-details">
+                    <div class="acc-title">PUBG Akk #01</div>
+                    <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
+                    <div class="acc-info-line">👕 Setler: 25+ sany</div>
+                    <div class="acc-info-line">📊 Dereje: 65 lvl</div>
+                    <div class="acc-price">450 TMT</div>
+                </div>
             </div>
+
+            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
+                <div class="acc-img-container">
+                    <img src="4283.png" alt="PUBG Account 2">
+                </div>
+                <div class="acc-details">
+                    <div class="acc-title">PUBG Akk #02</div>
+                    <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
+                    <div class="acc-info-line">🔫 Ýaraglar: 8 sany ugradylýan</div>
+                    <div class="acc-info-line">📊 Dereje: 72 lvl</div>
+                    <div class="acc-price">900 TMT</div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
@@ -396,42 +423,6 @@
         selectedItemName = name;
         selectedPrice = price;
     }
-
-    // Google Sheets Akkauntlary Çekmek
-    const sheetId = '1tZidCby_Lid5v6gNlXREhUat_1LN6oWLFraDQGPgMAbgc';
-    const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-
-    fetch(base)
-    .then(res => res.text())
-    .then(data => {
-        const jsonData = JSON.parse(data.substring(47, data.length - 2));
-        const rows = jsonData.table.rows;
-        const container = document.getElementById('accounts-container');
-        container.innerHTML = ""; 
-
-        rows.forEach((row, index) => {
-            const title = row.c[0] ? row.c[0].v : 'PUBG Akk #' + (index + 1);
-            const price = row.c[1] ? row.c[1].v : '0 TMT';
-            const image = row.c[2] ? row.c[2].v : '4283.png';
-
-            const card = document.createElement('div');
-            card.className = 'acc-card';
-            card.setAttribute('onclick', `selectItem(this, 'ACC', '${title}', '${price}')`);
-            card.innerHTML = `
-                <div class="acc-img-container">
-                    <img src="${image}" alt="${title}">
-                </div>
-                <div class="acc-details">
-                    <div class="acc-title">${title}</div>
-                    <div class="acc-info-line">🔥 Elit Akkaunt</div>
-                    <div class="acc-info-line">📊 Ähli maglumatlar jikme-jik</div>
-                    <div class="acc-price">${price}</div>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    })
-    .catch(err => console.error('Baza okalysynda säwlik döredi:', err));
 
     function sendOrder() {
         const contactInfo = document.getElementById('pubgid').value.trim();
