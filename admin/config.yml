@@ -1,0 +1,14 @@
+backend:
+  name: git-gateway
+  branch: main
+
+collections:
+  - name: "akkauntlar"
+    label: "Satlyk Akkauntlar"
+    folder: "akkauntlar"
+    create: true
+    fields:
+      - {label: "Ady", name: "title", widget: "string"}
+      - {label: "Bahasy", name: "price", widget: "string"}
+      - {label: "Suraty", name: "image", widget: "image"}
+      
