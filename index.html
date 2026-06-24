@@ -25,7 +25,6 @@
             background-color: var(--dark-bg);
             color: var(--text);
             padding: 15px;
-            /* 4282.png resmi arka plana estetik bir şekilde yerleştirildi */
             background-image: linear-gradient(to bottom, rgba(6, 9, 19, 0.85), rgba(6, 9, 19, 0.95)), url('4282.png');
             background-attachment: fixed;
             background-position: center;
@@ -217,7 +216,6 @@
             box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
         }
 
-        /* Kartların Üstüne Gelen PUBG Karakter Resmi */
         .acc-img-container {
             width: 100%;
             height: 200px;
@@ -277,6 +275,7 @@
             text-transform: uppercase;
             transition: 0.3s;
             box-shadow: 0 5px 20px rgba(0, 255, 102, 0.3);
+            margin-top: 20px;
         }
 
         .btn-order.acc-mode {
@@ -295,45 +294,53 @@
 </head>
 <body>
 
-<div id="accounts-container"></div>
-    // Google Sheets baglanyşygy
-const sheetId = '1ox2Mz8xRD2oC9ZG1WmB45yj-LN6oWLFrqDQGPgMAbgc';
-const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+<div class="container">
+    <header>
+        <h1>Toxic Shop</h1>
+        <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
+    </header>
 
-fetch(base)
-  .then(res => res.text())
-  .then(data => {
-    const jsonData = JSON.parse(data.substring(47, data.length - 2));
-    const rows = jsonData.table.rows;
-    const container = document.getElementById('accounts-container');
-    container.innerHTML = ''; // Gaby ilki arassalaýarys
+    <!-- Navigasiýa -->
+    <div class="nav-tabs">
+        <button class="nav-btn active" id="uc-btn" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
+        <button class="nav-btn" id="acc-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
+    </div>
 
-    rows.forEach((row, index) => {
-      // Maglumatlary sütünler boýunça okap alýarys
-      const title = row.c[0] ? row.c[0].v : 'PUBG Akk #' + (index + 1);
-      const price = row.c[1] ? row.c[1].v : '0 TMT';
-      const image = row.c[2] ? row.c[2].v : '4283.png'; // Surat boş bolsa öňki suratyňy ulanar
-
-      // Saýtyň öz dizaýnyna laýyklykda kart döredýäris
-      const card = document.createElement('div');
-      card.className = 'acc-card';
-      card.setAttribute('onclick', `selectItem(this, '${title}', '${price}')`);
-
-      card.innerHTML = `
-        <div class="acc-img-container">
-          <img src="${image}" alt="${title}">
+    <!-- Müşderi Maglumatlary Giriş Formy -->
+    <div class="user-info-section">
+        <div class="input-group">
+            <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
+            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789">
         </div>
-        <div class="acc-details">
-          <div class="acc-title">${Satlyk akk}</div>
-          <div class="acc-info-line">🔥 Elit Akkaunt</div>
-          <div class="acc-price">${700m}</div>
+        <div class="input-group">
+            <label id="contact-label" for="tguser">Habarlaşmak üçin (Nomer/Imo/Telegram) *</label>
+            <input type="text" id="tguser" placeholder="Mysal üçin: 99361234567 ýa-da @username">
         </div>
-      `;
-      container.appendChild(card);
-    });
-  })
-  .catch(err => console.error('Baza okalmady:', err));
-    
+    </div>
+
+    <!-- UC Satyn Al Paneli -->
+    <div id="uc-tab" class="section-panel active">
+        <div class="uc-grid">
+            <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
+                <div class="uc-amount">60<span>UC</span></div>
+                <div class="uc-price">23 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '325 UC', '105 TMT')">
+                <div class="uc-amount">325<span>UC</span></div>
+                <div class="uc-price">105 TMT</div>
+            </div>
+            <div class="uc-card" onclick="selectItem(this, 'UC', '660 UC', '210 TMT')">
+                <div class="uc-amount">660<span>UC</span></div>
+                <div class="uc-price">210 TMT</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Akkauntlar Paneli -->
+    <div id="acc-tab" class="section-panel">
+        <!-- Google Sheets-den gelýän akkauntlar şu gabyň içine awtomatiki goýulýar -->
+        <div class="acc-grid" id="accounts-container"></div>
+    </div>
 
     <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
 
@@ -347,8 +354,53 @@ fetch(base)
     let selectedItemName = "";
     let selectedPrice = "";
 
-    // Öz WhatsApp numara yönlendirme
     const MY_WHATSAPP_NUMBER = "9936xxxxxxx"; 
+
+    // Google Sheets Baza Baglanyşygy
+    const sheetId = '1ox2Mz8xRD2oC9ZG1WmB45yj-LN6oWLFrqDQGPgMAbgc';
+    const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+    // Google Sheets-den Akkauntlary Çekmek
+    function loadAccounts() {
+        fetch(base)
+          .then(res => res.text())
+          .then(data => {
+            const jsonData = JSON.parse(data.substring(47, data.length - 2));
+            const rows = jsonData.table.rows;
+            const container = document.getElementById('accounts-container');
+            if(!container) return;
+            
+            container.innerHTML = ''; 
+
+            rows.forEach((row, index) => {
+              const title = row.c[0] ? row.c[0].v : 'PUBG Akk #' + (index + 1);
+              const price = row.c[1] ? row.c[1].v : '0 TMT';
+              const image = row.c[2] ? row.c[2].v : '4283.png'; 
+
+              const card = document.createElement('div');
+              card.className = 'acc-card';
+              card.setAttribute('onclick', `selectItem(this, 'ACC', '${title}', '${price}')`);
+
+              card.innerHTML = `
+                <div class="acc-img-container">
+                  <img src="${image}" alt="${title}">
+                </div>
+                <div class="acc-details">
+                  <div class="acc-title">${title}</div>
+                  <div class="acc-info-line">🔥 Elit Akkaunt</div>
+                  <div class="acc-price">${price}</div>
+                </div>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch(err => console.error('Baza okalmady:', err));
+    }
+
+    // Sahypa açylanda tablisany awtomatiki ýükleýäris
+    window.onload = function() {
+        loadAccounts();
+    };
 
     function switchTab(tabId, btn) {
         document.getElementById('uc-tab').classList.remove('active');
@@ -408,14 +460,14 @@ fetch(base)
         let textMessage = "";
         if(currentMode === "UC") {
             textMessage = `⚡ TÄZE UC SARGYT ⚡\n\n` +
-                          `👤 Müşderi: ${tgUser}\n` +
+                          `👤 Aragatnaşyk: ${tgUser}\n` +
                           `🆔 PUBG ID: ${contactInfo}\n` +
                           `📦 Paket: ${selectedItemName}\n` +
                           `💰 Baha: ${selectedPrice}`;
         } else {
             textMessage = `🔥 AKKAUNT SATYN ALMAK HAÝYŞY 🔥\n\n` +
-                          `👤 Müşderi: ${tgUser}\n` +
-                          `📞 Tel/Aragatnaşyk: ${contactInfo}\n` +
+                          `👤 Aragatnaşyk: ${tgUser}\n` +
+                          `📞 Tel/Giriş: ${contactInfo}\n` +
                           `🎮 Saýlanan Akk: ${selectedItemName}\n` +
                           `💰 Baha: ${selectedPrice}`;
         }
