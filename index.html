@@ -5,604 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toxic Shop</title>
     <style>
-        :root {
-            --primary: #00ff66;
-            --accent: #ff0055;
-            --dark-bg: #060913;
-            --card-bg: #111827;
-            --text: #ffffff;
-            --text-gray: #9ca3af;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text);
-            padding: 15px;
-            background-image: linear-gradient(to bottom, rgba(6, 9, 19, 0.85), rgba(6, 9, 19, 0.95)), url('4282.png');
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            padding: 35px 0;
-            background: rgba(17, 24, 39, 0.6);
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(0, 255, 102, 0.5);
-            margin-bottom: 5px;
-        }
-
-        header p {
-            color: var(--text-gray);
-            font-size: 1rem;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-btn {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: none;
-            color: var(--text-gray);
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .nav-btn.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
-        }
-
-        .section-panel {
-            display: none;
-        }
-
-        .section-panel.active {
-            display: block;
-        }
-
-        .user-info-section {
-            background: rgba(17, 24, 39, 0.8);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 25px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-        }
-
-        .uc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .uc-card {
-            background: rgba(17, 24, 39, 0.85);
-            border: 2px solid rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 25px 20px;
-            text-align: center;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.2s ease-in-out;
-            position: relative;
-        }
-
-        .uc-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 255, 102, 0.3);
-        }
-
-        .uc-card.selected {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
-        }
-
-        .uc-amount {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .uc-amount span {
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-left: 4px;
-        }
-
-        .uc-price {
-            font-size: 1.3rem;
-            color: #ffcc00;
-            font-weight: 700;
-        }
-
-        .acc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .acc-card {
-            background: rgba(17, 24, 39, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: 0.3s;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            position: relative;
-        }
-
-        .acc-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 0, 85, 0.4);
-        }
-
-        .acc-card.selected {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
-        }
-
-        .acc-img-container {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: #000;
-        }
-
-        .acc-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top;
-            transition: 0.5s;
-        }
-
-        .acc-details {
-            padding: 15px;
-        }
-
-        .acc-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        .acc-info-line {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-bottom: 5px;
-        }
-
-        .acc-price {
-            font-size: 1.4rem;
-            color: #ffcc00;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-
-        .btn-order {
-            display: block;
-            width: 100%;
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 16px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s;
-            box-shadow: 0 5px 20px rgba(0, 255, 102, 0.3);
-        }
-
-        .btn-order.acc-mode {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
-        }
-
-        /* Admin Panel Dizaýny */
-        .admin-panel {
-            display: none;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 16px;
-            margin-top: 30px;
-            border: 2px dashed var(--primary);
-        }
-
-        .admin-title {
-            color: var(--primary);
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .admin-btn-del {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-gray);
-            font-size: 0.85rem;
-        }
-
-        .admin-lock-btn {
-            background: transparent;
-            border: none;
-            color: #2a3447;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-top: 10px;
-        }
+        :root { --primary: #00ff66; --accent: #ff0055; --dark-bg: #060913; --text: #ffffff; }
+        body { background-color: var(--dark-bg); color: var(--text); padding: 15px; font-family: sans-serif; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .nav-tabs { display: flex; gap: 10px; margin: 20px 0; }
+        .nav-btn { flex: 1; padding: 15px; background: #111827; border: 1px solid #333; color: white; border-radius: 10px; cursor: pointer; }
+        .nav-btn.active { background: var(--primary); color: #000; font-weight: bold; }
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+        .uc-grid, .acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: #111827; padding: 20px; border-radius: 15px; border: 2px solid transparent; cursor: pointer; }
+        .card.selected { border-color: var(--primary); }
+        .admin-panel { background: #161e2e; padding: 20px; border-radius: 15px; margin-top: 20px; display: none; border: 1px dashed var(--primary); }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; }
+        .btn-order { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-
-    <header>
-        <h1>Toxic Shop</h1>
-        <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
-    </header>
-
+    <h1 style="text-align:center; color: var(--primary);">TOXIC SHOP</h1>
+    
     <div class="nav-tabs">
-        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
-        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
+        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC AL</button>
+        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 AKKAUNTLAR</button>
     </div>
 
-    <div class="user-info-section">
-        <div class="input-group">
-            <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
-            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789" required>
-        </div>
-        <div class="input-group">
-            <label for="tguser">Habarlaşmak üçin (Nomer/Imo/Telegram) *</label>
-            <input type="text" id="tguser" placeholder="Mysal üçin: +99361234567 ýa-da @username" required>
-        </div>
-    </div>
+    <input type="text" id="pubgid" placeholder="PUBG ID ýa-da Nomer">
+    <input type="text" id="tguser" placeholder="Seniň Nomeriň / Telegramyň">
 
-    <!-- UC Bölümi -->
     <div id="uc-tab" class="section-panel active">
-        <div class="uc-grid" id="uc-container">
-            <!-- UC-ler şu ýere dinamiki goşular -->
-        </div>
+        <div class="uc-grid" id="uc-container"></div>
     </div>
 
-    <!-- Akkauntlar Bölümi -->
     <div id="acc-tab" class="section-panel">
-        <div class="acc-grid" id="acc-container">
-            <!-- Akkauntlar şu ýere dinamiki goşular -->
-        </div>
+        <div class="acc-grid" id="acc-container"></div>
     </div>
 
-    <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
+    <button class="btn-order" onclick="sendOrder()">SARGYT ET</button>
 
-    <!-- GIZLIN ADMIN PANEL (Diňe parol bilen açylýar) -->
     <div class="admin-panel" id="adminPanel">
-        <div class="admin-title">🛠️ Toxic Shop - Dolandyryş Paneli</div>
-        <div class="input-group">
-            <label>Görnüşi Saýlaň</label>
-            <select id="admType" onchange="toggleAdminFields()">
-                <option value="UC">⚡ UC Paket Goşmak</option>
-                <option value="ACC">🔥 Akkaunt Goşmak</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label id="admNameLabel">UC Mukdary (Meselem: 60 UC)</label>
-            <input type="text" id="admName" placeholder="Meselem: 60 UC ýa-da Akk #01">
-        </div>
-        <div class="input-group">
-            <label>Bahasy (Meselem: 23 TMT)</label>
-            <input type="text" id="admPrice" placeholder="Meselem: 23 TMT">
-        </div>
-        
-        <!-- Diňe Akkaunt üçin gerek meýdançalar -->
-        <div id="admAccFields" style="display: none;">
-            <div class="input-group">
-                <label>Aýratynlygy 1</label>
-                <input type="text" id="admInfo1" placeholder="Meselem: 🔥 M416 Lednik (4-lvl)">
-            </div>
-            <div class="input-group">
-                <label>Aýratynlygy 2</label>
-                <input type="text" id="admInfo2" placeholder="Meselem: 👕 Setler: 25+ sany">
-            </div>
-            <div class="input-group">
-                <label>Aýratynlygy 3</label>
-                <input type="text" id="admInfo3" placeholder="Meselem: 📊 Dereje: 65 lvl">
-            </div>
-            <div class="input-group">
-                <label>Surat ady (Eger ýok bolsa boş goýuň)</label>
-                <input type="text" id="admImg" placeholder="Meselem: 4283.png" value="4283.png">
-            </div>
-        </div>
-
-        <button class="btn-order" style="background:#fff; color:#000;" onclick="addItemFromAdmin()">Harydy Saýta Goş</button>
+        <h3>🛠️ ADMIN PANEL</h3>
+        <select id="admType"><option value="UC">UC Paket</option><option value="ACC">Akkaunt</option></select>
+        <input type="text" id="admName" placeholder="Ady">
+        <input type="text" id="admPrice" placeholder="Bahasy">
+        <button class="btn-order" onclick="addItem()">Goş</button>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Toxic Shop. Söwdaňyz bereketli bolsun!</p>
-        <button class="admin-lock-btn" onclick="openAdmin()">Gizlin Giriş ⚙️</button>
-    </footer>
+    <p style="text-align:center; margin-top:20px; cursor:pointer;" onclick="openAdmin()">Gizlin Giriş ⚙️</p>
 </div>
 
 <script>
-    let currentMode = "UC"; 
-    let selectedItemName = "";
-    let selectedPrice = "";
-    let isAdminMode = false;
+    let selectedItemName = "", selectedPrice = "";
+    
+    // Ilkinji maglumatlar
+    const defaultUC = [{name: '60 UC', price: '23 TMT'}, {name: '325 UC', price: '105 TMT'}, {name: '660 UC', price: '210 TMT'}];
+    const defaultACC = [{name: 'AKK #01', price: '450 TMT'}, {name: 'AKK #02', price: '900 TMT'}];
 
-    const MY_WHATSAPP_NUMBER = "9936xxxxxxx"; 
-
-    // Öňünden taýyn harytlar (Saýt ilkinji gezek açylanda boş bolmasyn diýen harytlar)
-    const defaultUC = [
-        { name: '60 UC', price: '23 TMT' },
-        { name: '325 UC', price: '105 TMT' },
-        { name: '660 UC', price: '210 TMT' },
-        { name: '1800 UC', price: '500 TMT' },
-        { name: '3850 UC', price: '1000 TMT' },
-        { name: '8100 UC', price: '2000 TMT' }
-    ];
-
-    const defaultACC = [
-        { name: 'AKK #01 (Lednik 4-lvl)', price: '450 TMT', img: '4283.png', i1: '🔥 M416 Lednik (4-lvl)', i2: '👕 Setler: 25+ sany', i3: '📊 Dereje: 65 lvl' },
-        { name: 'AKK #02 (Faraon)', price: '900 TMT', img: '4283.png', i1: '🔥 Faraon Set (2-lvl)', i2: '🔫 Ýaraglar: 8 sany ugradylýan', i3: '📊 Dereje: 72 lvl' }
-    ];
-
-    // Ýatdan (LocalStorage) maglumatlary okamak
     let ucList = JSON.parse(localStorage.getItem('toxic_uc')) || defaultUC;
     let accList = JSON.parse(localStorage.getItem('toxic_acc')) || defaultACC;
 
-    function renderItems() {
-        // UC görkezmek
-        const ucContainer = document.getElementById('uc-container');
-        ucContainer.innerHTML = "";
-        ucList.forEach((item, index) => {
-            let amount = item.name.replace("UC", "").trim();
-            ucContainer.innerHTML += `
-                <div class="uc-card" onclick="selectItem(this, 'UC', '${item.name}', '${item.price}')">
-                    ${isAdminMode ? `<button class="admin-btn-del" onclick="deleteItem('UC', ${index}, event)">Öçür</button>` : ''}
-                    <div class="uc-amount">${amount}<span>UC</span></div>
-                    <div class="uc-price">${item.price}</div>
-                </div>
-            `;
-        });
-
-        // Akkauntlary görkezmek
-        const accContainer = document.getElementById('acc-container');
-        accContainer.innerHTML = "";
-        accList.forEach((item, index) => {
-            accContainer.innerHTML += `
-                <div class="acc-card" onclick="selectItem(this, 'ACC', '${item.name}', '${item.price}')">
-                    ${isAdminMode ? `<button class="admin-btn-del" onclick="deleteItem('ACC', ${index}, event)">Öçür</button>` : ''}
-                    <div class="acc-img-container">
-                        <img src="${item.img || '4283.png'}" alt="PUBG">
-                    </div>
-                    <div class="acc-details">
-                        <div class="acc-title">${item.name}</div>
-                        <div class="acc-info-line">${item.i1 || ''}</div>
-                        <div class="acc-info-line">${item.i2 || ''}</div>
-                        <div class="acc-info-line">${item.i3 || ''}</div>
-                        <div class="acc-price">${item.price}</div>
-                    </div>
-                </div>
-            `;
-        });
+    function render() {
+        document.getElementById('uc-container').innerHTML = ucList.map((i, idx) => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
+        document.getElementById('acc-container').innerHTML = accList.map((i, idx) => `<div class="card" onclick="select(this, '${i.name}', '${i.price}')"><h3>${i.name}</h3><p>${i.price}</p></div>`).join('');
     }
 
-    function switchTab(tabId, btn) {
-        document.getElementById('uc-tab').classList.remove('active');
-        document.getElementById('acc-tab').classList.remove('active');
-        document.getElementById('uc-btn').classList.remove('active');
-        document.getElementById('acc-btn').classList.remove('active');
-        
-        document.getElementById(tabId).classList.add('active');
+    function switchTab(id, btn) {
+        document.querySelectorAll('.section-panel').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
         btn.classList.add('active');
-
-        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
-        selectedItemName = "";
-        selectedPrice = "";
-
-        const submitBtn = document.getElementById('submitBtn');
-        const idLabel = document.getElementById('id-label');
-
-        if(tabId === 'acc-tab') {
-            currentMode = "ACC";
-            submitBtn.classList.add('acc-mode');
-            idLabel.innerText = "Siz bilen habarlaşmak üçin Telefon belgiňiz *";
-            document.getElementById('pubgid').placeholder = "Mysal üçin: +9936xxxxxxx";
-            document.getElementById('pubgid').type = "text";
-        } else {
-            currentMode = "UC";
-            submitBtn.classList.remove('acc-mode');
-            idLabel.innerText = "PUBG Mobile ID-ňiz *";
-            document.getElementById('pubgid').placeholder = "Mysal üçin: 5123456789";
-            document.getElementById('pubgid').type = "number";
-        }
     }
 
-    function selectItem(element, mode, name, price) {
-        document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedItemName = name;
-        selectedPrice = price;
+    function select(el, name, price) {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedItemName = name; selectedPrice = price;
     }
 
-    // GIZLIN ADMIN PANELI AÇMAK
     function openAdmin() {
-        let password = prompt("Admin şifrini ýazyň:");
-        if(password === "toxic2026") { // Gizlin Şifr
-            isAdminMode = true;
-            document.getElementById('adminPanel').style.display = "block";
-            renderItems();
-            alert("Admin ulgamy açyldy! Indi harytlary öçürip ýa-da täzesini goşup bilersiňiz.");
-        } else {
-            alert("Ýalňyş şifr!");
-        }
+        let p = prompt("Parol:");
+        if(p === "toxic2026") document.getElementById('adminPanel').style.display = "block";
     }
 
-    function toggleAdminFields() {
-        const type = document.getElementById('admType').value;
-        const nameLabel = document.getElementById('admNameLabel');
-        const accFields = document.getElementById('admAccFields');
-        
-        if(type === "ACC") {
-            nameLabel.innerText = "Akkaunt ady (Meselem: AKK #03)";
-            accFields.style.display = "block";
-        } else {
-            nameLabel.innerText = "UC Mukdary (Meselem: 1800 UC)";
-            accFields.style.display = "none";
-        }
-    }
-
-    function addItemFromAdmin() {
-        const type = document.getElementById('admType').value;
-        const name = document.getElementById('admName').value.trim();
-        const price = document.getElementById('admPrice').value.trim();
-
-        if(!name || !price) {
-            alert("Adyny we bahasyny dolduryň!");
-            return;
-        }
-
-        if(type === "UC") {
-            ucList.push({ name: name, price: price });
-            localStorage.setItem('toxic_uc', JSON.stringify(ucList));
-        } else {
-            const i1 = document.getElementById('admInfo1').value.trim();
-            const i2 = document.getElementById('admInfo2').value.trim();
-            const i3 = document.getElementById('admInfo3').value.trim();
-            const img = document.getElementById('admImg').value.trim() || '4283.png';
-            
-            accList.push({ name: name, price: price, img: img, i1: i1, i2: i2, i3: i3 });
-            localStorage.setItem('toxic_acc', JSON.stringify(accList));
-        }
-
-        // Meýdançalary arassalamak
-        document.getElementById('admName').value = "";
-        document.getElementById('admPrice').value = "";
-        renderItems();
-        alert("Haryt üstünlikli goşuldy!");
-    }
-
-    function deleteItem(type, index, event) {
-        event.stopPropagation(); // Karta basylmagyny duruzmak
-        if(!confirm("Bu harydy öçürmek isleýärsiňizmi?")) return;
-
-        if(type === "UC") {
-            ucList.splice(index, 1);
-            localStorage.setItem('toxic_uc', JSON.stringify(ucList));
-        } else {
-            accList.splice(index, 1);
-            localStorage.setItem('toxic_acc', JSON.stringify(accList));
-        }
-        renderItems();
+    function addItem() {
+        let type = document.getElementById('admType').value;
+        let obj = {name: document.getElementById('admName').value, price: document.getElementById('admPrice').value};
+        if(type === 'UC') { ucList.push(obj); localStorage.setItem('toxic_uc', JSON.stringify(ucList)); }
+        else { accList.push(obj); localStorage.setItem('toxic_acc', JSON.stringify(accList)); }
+        render();
     }
 
     function sendOrder() {
-        const contactInfo = document.getElementById('pubgid').value.trim();
-        const tgUser = document.getElementById('tguser').value.trim();
+        let msg = `Sargyt: ${selectedItemName} | Baha: ${selectedPrice} | ID: ${document.getElementById('pubgid').value} | Tel: ${document.getElementById('tguser').value}`;
+        window.location.href = `https://wa.me/9936xxxxxxx?text=${encodeURIComponent(msg)}`;
+    }
 
-        if (!contactInfo || !tgUser) {
-            alert("Sargyt üçin meýdançalary dolduryň!");
-            return;
-        }
-
-        if (!selectedItemName) {
-            alert(currentMode === "UC" ? "Bir UC paketi saýlaň!" : "Satyn aljak akkauntyňyzy saýlaň!");
-            return;
-        }
-
-        const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
-        const CHAT_ID = "7819113909"; 
-
-        let textMessage = "";
-        if(currentMode === "UC") {
-   
+    render();
+</script>
+</body>
+</html>
