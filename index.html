@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxic UC & Account Shop</title>
+    <title>Toxic Shop</title>
     <style>
         :root {
             --primary: #00ff66;
@@ -25,8 +25,12 @@
             background-color: var(--dark-bg);
             color: var(--text);
             padding: 15px;
-            background-image: radial-gradient(circle at top right, rgba(0, 255, 102, 0.05), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(255, 0, 85, 0.05), transparent 40%);
+            /* 4282.png resmi arka plana estetik bir şekilde yerleştirildi */
+            background-image: linear-gradient(to bottom, rgba(6, 9, 19, 0.85), rgba(6, 9, 19, 0.95)), url('4282.png');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .container {
@@ -36,7 +40,12 @@
 
         header {
             text-align: center;
-            padding: 30px 0;
+            padding: 35px 0;
+            background: rgba(17, 24, 39, 0.6);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
         }
 
         header h1 {
@@ -94,12 +103,13 @@
 
         /* Müşderi Maglumaty */
         .user-info-section {
-            background: var(--card-bg);
+            background: rgba(17, 24, 39, 0.8);
             padding: 20px;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
         .input-group {
@@ -117,7 +127,7 @@
         .input-group input {
             width: 100%;
             padding: 14px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: white;
@@ -140,23 +150,24 @@
         }
 
         .uc-card {
-            background: var(--card-bg);
+            background: rgba(17, 24, 39, 0.85);
             border: 2px solid rgba(255, 255, 255, 0.03);
             border-radius: 16px;
             padding: 25px 20px;
             text-align: center;
             cursor: pointer;
+            backdrop-filter: blur(5px);
             transition: 0.2s ease-in-out;
         }
 
         .uc-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(0, 255, 102, 0.2);
+            border-color: rgba(0, 255, 102, 0.3);
         }
 
         .uc-card.selected {
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
         }
 
         .uc-amount {
@@ -187,32 +198,44 @@
         }
 
         .acc-card {
-            background: var(--card-bg);
+            background: rgba(17, 24, 39, 0.9);
             border: 2px solid rgba(255, 255, 255, 0.03);
             border-radius: 16px;
             overflow: hidden;
             transition: 0.3s;
             cursor: pointer;
+            backdrop-filter: blur(5px);
         }
 
         .acc-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(255, 0, 85, 0.3);
+            border-color: rgba(255, 0, 85, 0.4);
         }
 
         .acc-card.selected {
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
         }
 
-        .acc-img-placeholder {
+        /* Kartların Üstüne Gelen PUBG Karakter Resmi */
+        .acc-img-container {
             width: 100%;
-            height: 140px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
+            height: 200px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: #000;
+        }
+
+        .acc-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: 0.5s;
+        }
+
+        .acc-card:hover .acc-img-container img {
+            transform: scale(1.05);
         }
 
         .acc-details {
@@ -223,6 +246,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 8px;
+            color: #fff;
         }
 
         .acc-info-line {
@@ -278,13 +302,11 @@
         <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
     </header>
 
-    <!-- Bölüm Saýlama Menýusy -->
     <div class="nav-tabs">
-        <button class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
-        <button class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
+        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
+        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
     </div>
 
-    <!-- Müşderi Maglumatlary -->
     <div class="user-info-section">
         <div class="input-group">
             <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
@@ -296,7 +318,6 @@
         </div>
     </div>
 
-    <!-- UC BÖLÜMI -->
     <div id="uc-tab" class="section-panel active">
         <div class="uc-grid">
             <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
@@ -326,13 +347,13 @@
         </div>
     </div>
 
-    <!-- AKKAUNT BÖLÜMI -->
     <div id="acc-tab" class="section-panel">
         <div class="acc-grid">
             
-            <!-- Akkaunt 1 -->
             <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
-                <div class="acc-img-placeholder">🎮</div>
+                <div class="acc-img-container">
+                    <img src="4283.png" alt="PUBG Account 1">
+                </div>
                 <div class="acc-details">
                     <div class="acc-title">PUBG Akk #01</div>
                     <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
@@ -342,9 +363,10 @@
                 </div>
             </div>
 
-            <!-- Akkaunt 2 -->
             <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
-                <div class="acc-img-placeholder">👑</div>
+                <div class="acc-img-container">
+                    <img src="4283.png" alt="PUBG Account 2">
+                </div>
                 <div class="acc-details">
                     <div class="acc-title">PUBG Akk #02</div>
                     <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
@@ -357,7 +379,6 @@
         </div>
     </div>
 
-    <!-- Sargyt Düwmesi -->
     <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
 
     <footer>
@@ -370,9 +391,14 @@
     let selectedItemName = "";
     let selectedPrice = "";
 
+    // Öz WhatsApp numara yönlendirme
+    const MY_WHATSAPP_NUMBER = "9936xxxxxxx"; 
+
     function switchTab(tabId, btn) {
-        document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('uc-tab').classList.remove('active');
+        document.getElementById('acc-tab').classList.remove('active');
+        document.getElementById('uc-btn').classList.remove('active');
+        document.getElementById('acc-btn').classList.remove('active');
         
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
@@ -423,34 +449,35 @@
         const BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
         const CHAT_ID = "7819113909"; 
 
-        let message = "";
+        let textMessage = "";
         if(currentMode === "UC") {
-            message = `⚡ *TÄZE UC SARGYT* ⚡\n\n` +
-                      `👤 *Müşderi:* ${tgUser}\n` +
-                      `🆔 *PUBG ID:* \`${contactInfo}\`\n` +
-                      `📦 *Paket:* ${selectedItemName}\n` +
-                      `💰 *Baha:* ${selectedPrice}`;
+            textMessage = `⚡ TÄZE UC SARGYT ⚡\n\n` +
+                          `👤 Müşderi: ${tgUser}\n` +
+                          `🆔 PUBG ID: ${contactInfo}\n` +
+                          `📦 Paket: ${selectedItemName}\n` +
+                          `💰 Baha: ${selectedPrice}`;
         } else {
-            message = `🔥 *AKKAUNT SATYN ALMAK HAÝYŞY* 🔥\n\n` +
-                      `👤 *Müşderi:* ${tgUser}\n` +
-                      `📞 *Tel/Aragatnaşyk:* \`${contactInfo}\`\n` +
-                      `🎮 *Saýlanan Akk:* ${selectedItemName}\n` +
-                      `💰 *Baha:* ${selectedPrice}`;
+            textMessage = `🔥 AKKAUNT SATYN ALMAK HAÝYŞY 🔥\n\n` +
+                          `👤 Müşderi: ${tgUser}\n` +
+                          `📞 Tel/Aragatnaşyk: ${contactInfo}\n` +
+                          `🎮 Saýlanan Akk: ${selectedItemName}\n` +
+                          `💰 Baha: ${selectedPrice}`;
         }
 
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
         document.getElementById('submitBtn').disabled = true;
-        document.getElementById('submitBtn').innerText = "Ugradylýar...";
 
-        fetch(url, {
+        fetch(telegramUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: 'Markdown' })
+            body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage })
         })
         .then(response => response.json())
         .then(data => {
             if (data.ok) {
-                alert("Sargyt bota ugradyldy! Tiz wagtdan habarlaşarys.");
+                const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(textMessage)}`;
+                window.location.href = whatsappUrl;
+
                 document.getElementById('pubgid').value = "";
                 document.getElementById('tguser').value = "";
                 document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
@@ -459,7 +486,6 @@
         })
         .finally(() => {
             document.getElementById('submitBtn').disabled = false;
-            document.getElementById('submitBtn').innerText = "Sargyt Et";
         });
     }
 </script>
