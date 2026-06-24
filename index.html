@@ -121,7 +121,7 @@
             font-weight: 600;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
             padding: 14px;
             background: rgba(0, 0, 0, 0.5);
@@ -154,6 +154,7 @@
             cursor: pointer;
             backdrop-filter: blur(5px);
             transition: 0.2s ease-in-out;
+            position: relative;
         }
 
         .uc-card:hover {
@@ -200,6 +201,7 @@
             transition: 0.3s;
             cursor: pointer;
             backdrop-filter: blur(5px);
+            position: relative;
         }
 
         .acc-card:hover {
@@ -226,10 +228,6 @@
             object-fit: cover;
             object-position: top;
             transition: 0.5s;
-        }
-
-        .acc-card:hover .acc-img-container img {
-            transform: scale(1.05);
         }
 
         .acc-details {
@@ -278,11 +276,51 @@
             box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
         }
 
+        /* Admin Panel Dizaýny */
+        .admin-panel {
+            display: none;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 30px;
+            border: 2px dashed var(--primary);
+        }
+
+        .admin-title {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .admin-btn-del {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
         footer {
             text-align: center;
             padding: 40px 0;
             color: var(--text-gray);
             font-size: 0.85rem;
+        }
+
+        .admin-lock-btn {
+            background: transparent;
+            border: none;
+            color: #2a3447;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -311,71 +349,67 @@
         </div>
     </div>
 
+    <!-- UC Bölümi -->
     <div id="uc-tab" class="section-panel active">
-        <div class="uc-grid">
-            <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
-                <div class="uc-amount">60<span>UC</span></div>
-                <div class="uc-price">23 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '325 UC', '105 TMT')">
-                <div class="uc-amount">325<span>UC</span></div>
-                <div class="uc-price">105 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '660 UC', '210 TMT')">
-                <div class="uc-amount">660<span>UC</span></div>
-                <div class="uc-price">210 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '1800 UC', '500 TMT')">
-                <div class="uc-amount">1800<span>UC</span></div>
-                <div class="uc-price">500 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '3850 UC', '1000 TMT')">
-                <div class="uc-amount">3850<span>UC</span></div>
-                <div class="uc-price">1000 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '8100 UC', '2000 TMT')">
-                <div class="uc-amount">8100<span>UC</span></div>
-                <div class="uc-price">2000 TMT</div>
-            </div>
+        <div class="uc-grid" id="uc-container">
+            <!-- UC-ler şu ýere dinamiki goşular -->
         </div>
     </div>
 
+    <!-- Akkauntlar Bölümi -->
     <div id="acc-tab" class="section-panel">
-        <div class="acc-grid">
-            
-            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
-                <div class="acc-img-container">
-                    <img src="4283.png" alt="PUBG Account 1">
-                </div>
-                <div class="acc-details">
-                    <div class="acc-title">PUBG Akk #01</div>
-                    <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
-                    <div class="acc-info-line">👕 Setler: 25+ sany</div>
-                    <div class="acc-info-line">📊 Dereje: 65 lvl</div>
-                    <div class="acc-price">450 TMT</div>
-                </div>
-            </div>
-
-            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
-                <div class="acc-img-container">
-                    <img src="4283.png" alt="PUBG Account 2">
-                </div>
-                <div class="acc-details">
-                    <div class="acc-title">PUBG Akk #02</div>
-                    <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
-                    <div class="acc-info-line">🔫 Ýaraglar: 8 sany ugradylýan</div>
-                    <div class="acc-info-line">📊 Dereje: 72 lvl</div>
-                    <div class="acc-price">900 TMT</div>
-                </div>
-            </div>
-
+        <div class="acc-grid" id="acc-container">
+            <!-- Akkauntlar şu ýere dinamiki goşular -->
         </div>
     </div>
 
     <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
 
+    <!-- GIZLIN ADMIN PANEL (Diňe parol bilen açylýar) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-title">🛠️ Toxic Shop - Dolandyryş Paneli</div>
+        <div class="input-group">
+            <label>Görnüşi Saýlaň</label>
+            <select id="admType" onchange="toggleAdminFields()">
+                <option value="UC">⚡ UC Paket Goşmak</option>
+                <option value="ACC">🔥 Akkaunt Goşmak</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label id="admNameLabel">UC Mukdary (Meselem: 60 UC)</label>
+            <input type="text" id="admName" placeholder="Meselem: 60 UC ýa-da Akk #01">
+        </div>
+        <div class="input-group">
+            <label>Bahasy (Meselem: 23 TMT)</label>
+            <input type="text" id="admPrice" placeholder="Meselem: 23 TMT">
+        </div>
+        
+        <!-- Diňe Akkaunt üçin gerek meýdançalar -->
+        <div id="admAccFields" style="display: none;">
+            <div class="input-group">
+                <label>Aýratynlygy 1</label>
+                <input type="text" id="admInfo1" placeholder="Meselem: 🔥 M416 Lednik (4-lvl)">
+            </div>
+            <div class="input-group">
+                <label>Aýratynlygy 2</label>
+                <input type="text" id="admInfo2" placeholder="Meselem: 👕 Setler: 25+ sany">
+            </div>
+            <div class="input-group">
+                <label>Aýratynlygy 3</label>
+                <input type="text" id="admInfo3" placeholder="Meselem: 📊 Dereje: 65 lvl">
+            </div>
+            <div class="input-group">
+                <label>Surat ady (Eger ýok bolsa boş goýuň)</label>
+                <input type="text" id="admImg" placeholder="Meselem: 4283.png" value="4283.png">
+            </div>
+        </div>
+
+        <button class="btn-order" style="background:#fff; color:#000;" onclick="addItemFromAdmin()">Harydy Saýta Goş</button>
+    </div>
+
     <footer>
         <p>&copy; 2026 Toxic Shop. Söwdaňyz bereketli bolsun!</p>
+        <button class="admin-lock-btn" onclick="openAdmin()">Gizlin Giriş ⚙️</button>
     </footer>
 </div>
 
@@ -383,8 +417,65 @@
     let currentMode = "UC"; 
     let selectedItemName = "";
     let selectedPrice = "";
+    let isAdminMode = false;
 
     const MY_WHATSAPP_NUMBER = "9936xxxxxxx"; 
+
+    // Öňünden taýyn harytlar (Saýt ilkinji gezek açylanda boş bolmasyn diýen harytlar)
+    const defaultUC = [
+        { name: '60 UC', price: '23 TMT' },
+        { name: '325 UC', price: '105 TMT' },
+        { name: '660 UC', price: '210 TMT' },
+        { name: '1800 UC', price: '500 TMT' },
+        { name: '3850 UC', price: '1000 TMT' },
+        { name: '8100 UC', price: '2000 TMT' }
+    ];
+
+    const defaultACC = [
+        { name: 'AKK #01 (Lednik 4-lvl)', price: '450 TMT', img: '4283.png', i1: '🔥 M416 Lednik (4-lvl)', i2: '👕 Setler: 25+ sany', i3: '📊 Dereje: 65 lvl' },
+        { name: 'AKK #02 (Faraon)', price: '900 TMT', img: '4283.png', i1: '🔥 Faraon Set (2-lvl)', i2: '🔫 Ýaraglar: 8 sany ugradylýan', i3: '📊 Dereje: 72 lvl' }
+    ];
+
+    // Ýatdan (LocalStorage) maglumatlary okamak
+    let ucList = JSON.parse(localStorage.getItem('toxic_uc')) || defaultUC;
+    let accList = JSON.parse(localStorage.getItem('toxic_acc')) || defaultACC;
+
+    function renderItems() {
+        // UC görkezmek
+        const ucContainer = document.getElementById('uc-container');
+        ucContainer.innerHTML = "";
+        ucList.forEach((item, index) => {
+            let amount = item.name.replace("UC", "").trim();
+            ucContainer.innerHTML += `
+                <div class="uc-card" onclick="selectItem(this, 'UC', '${item.name}', '${item.price}')">
+                    ${isAdminMode ? `<button class="admin-btn-del" onclick="deleteItem('UC', ${index}, event)">Öçür</button>` : ''}
+                    <div class="uc-amount">${amount}<span>UC</span></div>
+                    <div class="uc-price">${item.price}</div>
+                </div>
+            `;
+        });
+
+        // Akkauntlary görkezmek
+        const accContainer = document.getElementById('acc-container');
+        accContainer.innerHTML = "";
+        accList.forEach((item, index) => {
+            accContainer.innerHTML += `
+                <div class="acc-card" onclick="selectItem(this, 'ACC', '${item.name}', '${item.price}')">
+                    ${isAdminMode ? `<button class="admin-btn-del" onclick="deleteItem('ACC', ${index}, event)">Öçür</button>` : ''}
+                    <div class="acc-img-container">
+                        <img src="${item.img || '4283.png'}" alt="PUBG">
+                    </div>
+                    <div class="acc-details">
+                        <div class="acc-title">${item.name}</div>
+                        <div class="acc-info-line">${item.i1 || ''}</div>
+                        <div class="acc-info-line">${item.i2 || ''}</div>
+                        <div class="acc-info-line">${item.i3 || ''}</div>
+                        <div class="acc-price">${item.price}</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
 
     function switchTab(tabId, btn) {
         document.getElementById('uc-tab').classList.remove('active');
@@ -424,6 +515,77 @@
         selectedPrice = price;
     }
 
+    // GIZLIN ADMIN PANELI AÇMAK
+    function openAdmin() {
+        let password = prompt("Admin şifrini ýazyň:");
+        if(password === "toxic2026") { // Gizlin Şifr
+            isAdminMode = true;
+            document.getElementById('adminPanel').style.display = "block";
+            renderItems();
+            alert("Admin ulgamy açyldy! Indi harytlary öçürip ýa-da täzesini goşup bilersiňiz.");
+        } else {
+            alert("Ýalňyş şifr!");
+        }
+    }
+
+    function toggleAdminFields() {
+        const type = document.getElementById('admType').value;
+        const nameLabel = document.getElementById('admNameLabel');
+        const accFields = document.getElementById('admAccFields');
+        
+        if(type === "ACC") {
+            nameLabel.innerText = "Akkaunt ady (Meselem: AKK #03)";
+            accFields.style.display = "block";
+        } else {
+            nameLabel.innerText = "UC Mukdary (Meselem: 1800 UC)";
+            accFields.style.display = "none";
+        }
+    }
+
+    function addItemFromAdmin() {
+        const type = document.getElementById('admType').value;
+        const name = document.getElementById('admName').value.trim();
+        const price = document.getElementById('admPrice').value.trim();
+
+        if(!name || !price) {
+            alert("Adyny we bahasyny dolduryň!");
+            return;
+        }
+
+        if(type === "UC") {
+            ucList.push({ name: name, price: price });
+            localStorage.setItem('toxic_uc', JSON.stringify(ucList));
+        } else {
+            const i1 = document.getElementById('admInfo1').value.trim();
+            const i2 = document.getElementById('admInfo2').value.trim();
+            const i3 = document.getElementById('admInfo3').value.trim();
+            const img = document.getElementById('admImg').value.trim() || '4283.png';
+            
+            accList.push({ name: name, price: price, img: img, i1: i1, i2: i2, i3: i3 });
+            localStorage.setItem('toxic_acc', JSON.stringify(accList));
+        }
+
+        // Meýdançalary arassalamak
+        document.getElementById('admName').value = "";
+        document.getElementById('admPrice').value = "";
+        renderItems();
+        alert("Haryt üstünlikli goşuldy!");
+    }
+
+    function deleteItem(type, index, event) {
+        event.stopPropagation(); // Karta basylmagyny duruzmak
+        if(!confirm("Bu harydy öçürmek isleýärsiňizmi?")) return;
+
+        if(type === "UC") {
+            ucList.splice(index, 1);
+            localStorage.setItem('toxic_uc', JSON.stringify(ucList));
+        } else {
+            accList.splice(index, 1);
+            localStorage.setItem('toxic_acc', JSON.stringify(accList));
+        }
+        renderItems();
+    }
+
     function sendOrder() {
         const contactInfo = document.getElementById('pubgid').value.trim();
         const tgUser = document.getElementById('tguser').value.trim();
@@ -443,43 +605,4 @@
 
         let textMessage = "";
         if(currentMode === "UC") {
-            textMessage = `⚡ TÄZE UC SARGYT ⚡\n\n` +
-                          `👤 Müşderi: ${tgUser}\n` +
-                          `🆔 PUBG ID: ${contactInfo}\n` +
-                          `📦 Paket: ${selectedItemName}\n` +
-                          `💰 Baha: ${selectedPrice}`;
-        } else {
-            textMessage = `🔥 AKKAUNT SATYN ALMAK HAÝYŞY 🔥\n\n` +
-                          `👤 Müşderi: ${tgUser}\n` +
-                          `📞 Tel/Aragatnaşyk: ${contactInfo}\n` +
-                          `🎮 Saýlanan Akk: ${selectedItemName}\n` +
-                          `💰 Baha: ${selectedPrice}`;
-        }
-
-        const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        document.getElementById('submitBtn').disabled = true;
-
-        fetch(telegramUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, text: textMessage })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(textMessage)}`;
-                window.location.href = whatsappUrl;
-
-                document.getElementById('pubgid').value = "";
-                document.getElementById('tguser').value = "";
-                document.querySelectorAll('.uc-card, .acc-card').forEach(c => c.classList.remove('selected'));
-                selectedItemName = "";
-            }
-        })
-        .finally(() => {
-            document.getElementById('submitBtn').disabled = false;
-        });
-    }
-</script>
-</body>
-</html>
+   
