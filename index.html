@@ -295,89 +295,45 @@
 </head>
 <body>
 
-<div class="container">
+<div id="accounts-container"></div>
+    // Google Sheets baglanyşygy
+const sheetId = '1ox2Mz8xRD2oC9ZG1WmB45yj-LN6oWLFrqDQGPgMAbgc';
+const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
 
-    <header>
-        <h1>Toxic Shop</h1>
-        <p>Iň amatly UC we Ýokary Derejeli Akkauntlar!</p>
-    </header>
+fetch(base)
+  .then(res => res.text())
+  .then(data => {
+    const jsonData = JSON.parse(data.substring(47, data.length - 2));
+    const rows = jsonData.table.rows;
+    const container = document.getElementById('accounts-container');
+    container.innerHTML = ''; // Gaby ilki arassalaýarys
 
-    <div class="nav-tabs">
-        <button id="uc-btn" class="nav-btn active" onclick="switchTab('uc-tab', this)">⚡ UC SATYN AL</button>
-        <button id="acc-btn" class="nav-btn" onclick="switchTab('acc-tab', this)">🔥 SATLYK AKKAUNTLAR</button>
-    </div>
+    rows.forEach((row, index) => {
+      // Maglumatlary sütünler boýunça okap alýarys
+      const title = row.c[0] ? row.c[0].v : 'PUBG Akk #' + (index + 1);
+      const price = row.c[1] ? row.c[1].v : '0 TMT';
+      const image = row.c[2] ? row.c[2].v : '4283.png'; // Surat boş bolsa öňki suratyňy ulanar
 
-    <div class="user-info-section">
-        <div class="input-group">
-            <label id="id-label" for="pubgid">PUBG Mobile ID-ňiz *</label>
-            <input type="number" id="pubgid" placeholder="Mysal üçin: 5123456789" required>
+      // Saýtyň öz dizaýnyna laýyklykda kart döredýäris
+      const card = document.createElement('div');
+      card.className = 'acc-card';
+      card.setAttribute('onclick', `selectItem(this, '${title}', '${price}')`);
+
+      card.innerHTML = `
+        <div class="acc-img-container">
+          <img src="${image}" alt="${title}">
         </div>
-        <div class="input-group">
-            <label for="tguser">Telegram Nikňiz (Username) *</label>
-            <input type="text" id="tguser" placeholder="Mysal üçin: @toxic_admin" required>
+        <div class="acc-details">
+          <div class="acc-title">${Satlyk akk}</div>
+          <div class="acc-info-line">🔥 Elit Akkaunt</div>
+          <div class="acc-price">${700m}</div>
         </div>
-    </div>
-
-    <div id="uc-tab" class="section-panel active">
-        <div class="uc-grid">
-            <div class="uc-card" onclick="selectItem(this, 'UC', '60 UC', '23 TMT')">
-                <div class="uc-amount">60<span>UC</span></div>
-                <div class="uc-price">23 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '325 UC', '105 TMT')">
-                <div class="uc-amount">325<span>UC</span></div>
-                <div class="uc-price">105 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '660 UC', '210 TMT')">
-                <div class="uc-amount">660<span>UC</span></div>
-                <div class="uc-price">210 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '1800 UC', '500 TMT')">
-                <div class="uc-amount">1800<span>UC</span></div>
-                <div class="uc-price">500 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '3850 UC', '100 TMT')">
-                <div class="uc-amount">3850<span>UC</span></div>
-                <div class="uc-price">100 TMT</div>
-            </div>
-            <div class="uc-card" onclick="selectItem(this, 'UC', '8100 UC', '2000 TMT')">
-                <div class="uc-amount">8100<span>UC</span></div>
-                <div class="uc-price">2000 TMT</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="acc-tab" class="section-panel">
-        <div class="acc-grid">
-            
-            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #01 (Lednik 4-lvl)', '450 TMT')">
-                <div class="acc-img-container">
-                    <img src="4283.png" alt="PUBG Account 1">
-                </div>
-                <div class="acc-details">
-                    <div class="acc-title">PUBG Akk #01</div>
-                    <div class="acc-info-line">🔥 M416 Lednik (4-lvl)</div>
-                    <div class="acc-info-line">👕 Setler: 25+ sany</div>
-                    <div class="acc-info-line">📊 Dereje: 65 lvl</div>
-                    <div class="acc-price">450 TMT</div>
-                </div>
-            </div>
-
-            <div class="acc-card" onclick="selectItem(this, 'ACC', 'AKK #02 (Faraon)', '900 TMT')">
-                <div class="acc-img-container">
-                    <img src="4283.png" alt="PUBG Account 2">
-                </div>
-                <div class="acc-details">
-                    <div class="acc-title">PUBG Akk #02</div>
-                    <div class="acc-info-line">🔥 Faraon Set (2-lvl)</div>
-                    <div class="acc-info-line">🔫 Ýaraglar: 8 sany ugradylýan</div>
-                    <div class="acc-info-line">📊 Dereje: 72 lvl</div>
-                    <div class="acc-price">900 TMT</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+      `;
+      container.appendChild(card);
+    });
+  })
+  .catch(err => console.error('Baza okalmady:', err));
+    
 
     <button class="btn-order" id="submitBtn" onclick="sendOrder()">Sargyt Et</button>
 
