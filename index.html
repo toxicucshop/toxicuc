@@ -154,12 +154,14 @@
         <h1>Toxic <span>Shop</span></h1>
         <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
+        <!-- Kategoriýa Menýusy -->
         <div class="tab-menu">
             <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
             <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
             <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
         </div>
 
+        <!-- Müşderi Maglumat Formasy -->
         <div class="form-group">
             <label>PUBG Mobile ID-ňiz</label>
             <div class="input-wrapper">
@@ -184,6 +186,7 @@
             </div>
         </div>
 
+        <!-- UC PAKETLERI (BÖLÜM 1) -->
         <div id="uc-grid-section" class="uc-grid">
             <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
                 <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
@@ -211,6 +214,7 @@
             </div>
         </div>
 
+        <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
                 <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Ag</div>
@@ -226,11 +230,13 @@
             </div>
         </div>
 
+        <!-- AKKAUNT BÖLÜMI (BÖLÜM 3) -->
         <div id="akkaunt-section" style="display: none; padding: 20px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
             <i class="fa-solid fa-fire" style="font-size: 2rem; color: var(--accent); margin-bottom: 10px;"></i>
             <p>Akkauntlar tiz wagtda goşular!</p>
         </div>
 
+        <!-- Düwmeler -->
         <button class="btn-submit" onclick="sendOrder()">
             Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -239,20 +245,24 @@
             <i class="fa-solid fa-copy"></i> Teksti Göçür (Copy)
         </button>
 
+        <!-- Habarlaşmak we Kanallar -->
         <div class="contacts-footer">
             <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
             <div class="contact-links">
                 
+                <!-- Düzedilen TMSTART Linki -->
                 <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-solid fa-rocket"></i><span>Start Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
                 </a>
 
+                <!-- Düzedilen Telegram Linki -->
                 <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
                 </a>
 
+                <!-- Imo Nomeri -->
                 <div class="contact-item" style="cursor: default;">
                     <div class="contact-info"><i class="fa-solid fa-comments"></i><span>Imo / Telegram: 71523250</span></div>
                     <div class="contact-action" style="color: var(--text-muted);">IMO</div>
