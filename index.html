@@ -3,17 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toxic Shop</title>
+    <title>Toxic Shop - Admin Panel</title>
     <style>
-        body { background: #060913; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        h1 { color: #00ff66; }
-        .card { background: #111827; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #333; }
+        :root {
+            --bg-color: #0b0f15;
+            --card-bg: #141c24;
+            --primary-cyan: #00f2fe;
+            --primary-blue: #007bff;
+            --text-main: #ffffff;
+            --text-muted: #5e9b99;
+            --border-color: #233e45;
+            --danger-red: #ff3b3b;
+            --input-bg: #0d1117;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px; /* Mobile first görnüşi üçin */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .header h1 {
+            color: #00e5ff;
+            font-size: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: #00e5ff;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #00e5ff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #00e5ff, #007bff);
+            color: #000;
+        }
+
+        .list-item {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .list-item span {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-red);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Toxic Shop</h1>
-    <div class="card">
-        <p>Saýt işleýär!</p>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Toxic Admin Panel</h1>
+        </div>
+
+        <!-- Dükanyň Sazlamalary Card -->
+        <div class="card">
+            <div class="card-title">Dükanyň Sazlamalary</div>
+            
+            <div class="form-group">
+                <label>Dükan Ady</label>
+                <input type="text" value="Toxic Shop" placeholder="Dükan adyny giriziň">
+            </div>
+
+            <div class="form-group">
+                <label>Iş Wagty</label>
+                <input type="text" value="09:00 - 22:00" placeholder="00:00 - 00:00">
+            </div>
+
+            <button class="btn btn-primary">Sazlamalary Sakla</button>
+        </div>
+
+        <!-- Toxic UC Goşmak Card -->
+        <div class="card">
+            <div class="card-title">Toxic UC Goşmak</div>
+            
+            <div class="form-group">
+                <label>UC Sany (Ady)</label>
+                <input type="text" value="60 UC 💎" placeholder="UC mukdaryny giriziň">
+            </div>
+
+            <div class="form-group">
+                <label>Bahasy (TMT)</label>
+                <input type="number" value="15" placeholder="Bahasyny giriziň">
+            </div>
+
+            <button class="btn btn-primary">UC Goş</button>
+
+            <!-- Hasaba alnan UC-leriň sanawy -->
+            <div class="list-item">
+                <span>60uc - 23 TMT</span>
+                <button class="btn-danger">Öçür</button>
+            </div>
+        </div>
+
+        <!-- Toxic Akkaunt Goşmak Card -->
+        <div class="card">
+            <div class="card-title">Toxic Akkaunt Goşmak</div>
+            
+            <div class="form-group">
+                <label>Akkaunt Ady / Nomeri</label>
+                <input type="text" value="Akkaunt #1 ⚡" placeholder="Akkaunt adyny giriziň">
+            </div>
+
+            <div class="form-group">
+                <label>Akkaunt Barada (Gysgaça we @kanal silkalary)</label>
+                <textarea rows="3" placeholder="Maglumatlary giriziň..."></textarea>
+            </div>
+        </div>
+
     </div>
+
 </body>
 </html>
