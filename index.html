@@ -4,353 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOXIC UC SHOP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root {
-            --primary: #00ff66;
-            --primary-glow: rgba(0, 255, 102, 0.3);
-            --accent: #ff0055;
-            --bg-dark: #0b0f19;
-            --card-bg: #151c2c;
-            --text-main: #ffffff;
-            --text-muted: #8fa0be;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(21, 28, 44, 0.6);
-            padding: 25px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
-        h1 span {
-            color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        /* Tab Menu */
-        .tab-menu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
-
-        .tab-btn {
-            background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-main); padding: 12px 5px; border-radius: 12px;
-            font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
-            color: #000; box-shadow: 0 0 15px var(--primary-glow); border: none;
-        }
-
-        .form-group { position: relative; margin-bottom: 18px; text-align: left; }
-        .form-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .input-wrapper { position: relative; }
-        .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
-
-        .form-control {
-            width: 100%; background: #111622; border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 14px 14px 14px 45px; border-radius: 14px; color: #fff;
-            font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; outline: none; transition: all 0.3s ease;
-        }
-
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.15); background: #141b2a; }
-
-        .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-
-        .uc-card {
-            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
-        }
-
-        .uc-card:hover, .uc-card.selected {
-            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .uc-amount {
-            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
-            color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-
-        .uc-amount i { color: #ffcc00; font-size: 1.1rem; }
-        .uc-amount .fa-box-open { color: #00ff66; }
-        .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
-
-        .btn-submit {
-            width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none;
-            color: #000; padding: 16px; border-radius: 16px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 800;
-            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
-            display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
-
-        .btn-copy {
-            width: 100%; background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-muted); padding: 12px; border-radius: 14px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-bottom: 25px;
-        }
-
-        .btn-copy:hover { background: #253047; color: #fff; border-color: rgba(255, 255, 255, 0.15); }
-
-        /* Footer */
-        .contacts-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: left; }
-        .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-        .contacts-title i { color: var(--primary); }
-        .contact-links { display: flex; flex-direction: column; gap: 10px; }
-        .contact-item { display: flex; align-items: center; justify-content: space-between; background: #111622; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03); text-decoration: none; color: #fff; font-size: 1.1rem; font-weight: 600; transition: all 0.2s ease; }
-        .contact-item:hover { border-color: var(--primary); background: #141b2a; transform: translateX(3px); }
-        .contact-info { display: flex; align-items: center; gap: 12px; }
-        .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
-        .fa-telegram { color: #0088cc; }
-        .fa-rocket { color: #ff9900; }
-        .fa-comments { color: #38863c; }
-        .contact-action { font-size: 0.9rem; color: var(--primary); text-transform: uppercase; font-family: 'Orbitron', sans-serif; font-weight: bold; }
+        /* CSS-leri öz içine göçürdim (VPN gerek däl) */
+        :root { --primary: #00ff66; --bg-dark: #0b0f19; --card-bg: #151c2c; }
+        body { background-color: var(--bg-dark); color: #fff; font-family: Arial, sans-serif; padding: 20px; display: flex; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 450px; background: var(--card-bg); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 20px; text-transform: uppercase; }
+        .tab-menu { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 12px; background: #1e2638; border: none; color: #fff; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--primary); color: #000; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { color: #8fa0be; font-size: 0.8rem; margin-bottom: 5px; display: block; }
+        .form-control { width: 100%; padding: 12px; background: #111622; border: 1px solid #333; border-radius: 10px; color: #fff; box-sizing: border-box; }
+        .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .uc-card { background: #1e2638; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; border: 2px solid transparent; transition: 0.3s; }
+        .uc-card.selected { border-color: var(--primary); background: #1f2a40; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-bottom: 10px; }
+        .btn-copy { width: 100%; padding: 12px; background: #1e2638; color: #8fa0be; border: 1px solid #333; border-radius: 10px; cursor: pointer; }
+        .contacts-footer { margin-top: 25px; border-top: 1px solid #333; padding-top: 20px; }
+        .contact-item { display: flex; justify-content: space-between; padding: 12px; background: #111622; margin-bottom: 10px; border-radius: 10px; text-decoration: none; color: #fff; align-items: center; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Toxic <span>Shop</span></h1>
-        <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
-
-        <div class="tab-menu">
-            <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
-            <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
-            <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
-        </div>
-
-        <div class="form-group">
-            <label>PUBG Mobile ID-ňiz</label>
-            <div class="input-wrapper">
-                <i class="fa-solid fa-id-card"></i>
-                <input type="number" id="pubg-id" class="form-control" placeholder="Mysal üçin: 51009055604">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>PUBG Oýundaky Adyňyz (Nickname)</label>
-            <div class="input-wrapper">
-                <i class="fa-solid fa-user-tag"></i>
-                <input type="text" id="pubg-nick" class="form-control" placeholder="Mysal üçin: TOXIC_BOSS">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Habarlaşmak Üçin (Imo / Telegram)</label>
-            <div class="input-wrapper">
-                <i class="fa-solid fa-phone"></i>
-                <input type="text" id="user-contact" class="form-control" placeholder="Mysal üçin: +993 61 234567">
-            </div>
-        </div>
-
-        <div id="uc-grid-section" class="uc-grid">
-            <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
-                <div class="uc-price">23 TMT</div>
-            </div>
-            <div class="uc-card" data-type="UC" data-value="325" data-price="105" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 325</div>
-                <div class="uc-price">105 TMT</div>
-            </div>
-            <div class="uc-card" data-type="UC" data-value="660" data-price="210" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 660</div>
-                <div class="uc-price">210 TMT</div>
-            </div>
-            <div class="uc-card" data-type="UC" data-value="1800" data-price="530" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 1800</div>
-                <div class="uc-price">530 TMT</div>
-            </div>
-            <div class="uc-card" data-type="UC" data-value="3850" data-price="1000" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 3850</div>
-                <div class="uc-price">1000 TMT</div>
-            </div>
-            <div class="uc-card" data-type="UC" data-value="8100" data-price="2000" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 8100</div>
-                <div class="uc-price">2000 TMT</div>
-            </div>
-        </div>
-
-        <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
-            <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Ag</div>
-                <div class="uc-price">30 TMT</div>
-            </div>
-            <div class="uc-card" data-type="Sandyk" data-value="Material sandyk" data-price="80" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Material</div>
-                <div class="uc-price">80 TMT</div>
-            </div>
-            <div class="uc-card" data-type="Sandyk" data-value="Amblem sandyk" data-price="125" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Amblem</div>
-                <div class="uc-price">125 TMT</div>
-            </div>
-        </div>
-
-        <div id="akkaunt-section" style="display: none; padding: 20px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
-            <i class="fa-solid fa-fire" style="font-size: 2rem; color: var(--accent); margin-bottom: 10px;"></i>
-            <p>Akkauntlar tiz wagtda goşular!</p>
-        </div>
-
-        <button class="btn-submit" onclick="sendOrder()">
-            Sargyt Et <i class="fa-solid fa-paper-plane"></i>
-        </button>
-
-        <button class="btn-copy" onclick="copyOrderText()">
-            <i class="fa-solid fa-copy"></i> Teksti Göçür (Copy)
-        </button>
-
-        <div class="contacts-footer">
-            <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
-            <div class="contact-links">
-                
-                <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
-                    <div class="contact-info"><i class="fa-solid fa-rocket"></i><span>Start Kanalymyz</span></div>
-                    <div class="contact-action">Giriş</div>
-                </a>
-
-                <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
-                    <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
-                    <div class="contact-action">Giriş</div>
-                </a>
-
-                <div class="contact-item" style="cursor: default;">
-                    <div class="contact-info"><i class="fa-solid fa-comments"></i><span>Imo / Telegram: 71523250</span></div>
-                    <div class="contact-action" style="color: var(--text-muted);">IMO</div>
-                </div>
-
-            </div>
-        </div>
-
+<div class="container">
+    <h1>TOXIC SHOP</h1>
+    
+    <div class="tab-menu">
+        <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')">UC</button>
+        <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')">SANDYK</button>
     </div>
 
-    <script>
-        const MY_PHONE_NUMBER = '+99371523250'; 
+    <div class="form-group">
+        <label>PUBG ID</label>
+        <input type="number" id="pubg-id" class="form-control" placeholder="ID ýaz">
+    </div>
+    <div class="form-group">
+        <label>Nickname</label>
+        <input type="text" id="pubg-nick" class="form-control" placeholder="Adyňyz">
+    </div>
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('uc-grid-section').style.display = 'none';
-            document.getElementById('sandyk-grid-section').style.display = 'none';
-            document.getElementById('akkaunt-section').style.display = 'none';
+    <div id="uc-grid" class="uc-grid">
+        <div class="uc-card selected" data-val="60 UC" data-price="23" onclick="select(this)">60 UC<br>23 TMT</div>
+        <div class="uc-card" data-val="325 UC" data-price="105" onclick="select(this)">325 UC<br>105 TMT</div>
+        <div class="uc-card" data-val="660 UC" data-price="210" onclick="select(this)">660 UC<br>210 TMT</div>
+        <div class="uc-card" data-val="1800 UC" data-price="530" onclick="select(this)">1800 UC<br>530 TMT</div>
+    </div>
+    
+    <div id="sandyk-grid" class="uc-grid" style="display:none;">
+        <div class="uc-card" data-val="Ag sandyk" data-price="30" onclick="select(this)">Ag<br>30 TMT</div>
+        <div class="uc-card" data-val="Material" data-price="80" onclick="select(this)">Material<br>80 TMT</div>
+    </div>
 
-            if (tabName === 'uc') {
-                document.getElementById('btn-uc').classList.add('active');
-                document.getElementById('uc-grid-section').style.display = 'grid';
-                resetSelection('#uc-grid-section .uc-card');
-            } else if (tabName === 'sandyk') {
-                document.getElementById('btn-sandyk').classList.add('active');
-                document.getElementById('sandyk-grid-section').style.display = 'grid';
-                resetSelection('#sandyk-grid-section .uc-card');
-            } else if (tabName === 'akkaunt') {
-                document.getElementById('btn-akkaunt').classList.add('active');
-                document.getElementById('akkaunt-section').style.display = 'block';
-                document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            }
-        }
+    <button class="btn-submit" onclick="sendOrder()">Sargyt Et</button>
+    <button class="btn-copy" onclick="copyOrder()">Teksti göçür (Copy)</button>
 
-        function selectCard(card) {
-            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-        }
+    <div class="contacts-footer">
+        <a href="https://tmstart.me/toxic_pubg" class="contact-item"><span>Start Kanalymyz</span> <span>→</span></a>
+        <a href="https://t.me/toxic_pubg_tg" class="contact-item"><span>Telegram Kanalymyz</span> <span>→</span></a>
+    </div>
+</div>
 
-        function resetSelection(selector) {
-            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            const firstCard = document.querySelector(selector);
-            if (firstCard) firstCard.classList.add('selected');
-        }
+<script>
+    function switchTab(t) {
+        document.getElementById('uc-grid').style.display = t === 'uc' ? 'grid' : 'none';
+        document.getElementById('sandyk-grid').style.display = t === 'sandyk' ? 'grid' : 'none';
+        document.getElementById('btn-uc').className = t === 'uc' ? 'tab-btn active' : 'tab-btn';
+        document.getElementById('btn-sandyk').className = t === 'sandyk' ? 'tab-btn active' : 'tab-btn';
+    }
+    
+    function select(el) {
+        document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
 
-        function generateMessage() {
-            const pubgId = document.getElementById('pubg-id').value.trim();
-            const pubgNick = document.getElementById('pubg-nick').value.trim();
-            const contact = document.getElementById('user-contact').value.trim();
-            const selectedCard = document.querySelector('.uc-card.selected');
-            
-            if (!selectedCard) {
-                alert('Ýalňyşlyk: Haýsyda bolsa bir haryt saýlamaly (UC ýa-da Sandyk)!');
-                return null;
-            }
+    function getMsg() {
+        let card = document.querySelector('.uc-card.selected');
+        let id = document.getElementById('pubg-id').value;
+        let nick = document.getElementById('pubg-nick').value;
+        if(!id || !nick) { alert('Maglumatlary doldur!'); return null; }
+        return `Sargyt: ${card.dataset.val}\nBaha: ${card.dataset.price} TMT\nID: ${id}\nNick: ${nick}`;
+    }
 
-            if (!pubgId || !pubgNick || !contact) {
-                alert('Ýalňyşlyk: Ähli öýjükleri (ID, Nickname we Nomer) doldurmaly!');
-                return null;
-            }
+    function sendOrder() {
+        let m = getMsg();
+        if(m) window.location.href = `sms:+99371523250?body=${encodeURIComponent(m)}`;
+    }
 
-            if (pubgId.length < 8 || pubgId.length > 12) {
-                alert('Ýalňyşlyk: PUBG ID-ňiz dogry däl! (8-12 sifr aralygynda bolmaly)');
-                return null;
-            }
-
-            const type = selectedCard.getAttribute('data-type');
-            const value = selectedCard.getAttribute('data-value');
-            const price = selectedCard.getAttribute('data-price');
-
-            const itemLine = type === 'UC' ? `📦 Paket: ${value} UC` : `📦 Sandyk: ${value}`;
-
-            return `Salam Toxic Shop, men haryt satyn aljak!\n\n` +
-                   `${itemLine}\n` +
-                   `💰 Baha: ${price} TMT\n` +
-                   `🆔 PUBG ID: ${pubgId}\n` +
-                   `👤 Nickname: ${pubgNick}\n` +
-                   `📞 Habarlaşmak: ${contact}`;
-        }
-
-        function sendOrder() {
-            const message = generateMessage();
-            if (!message) return;
-
-            const encodedMessage = encodeURIComponent(message);
-            window.location.href = `sms:${MY_PHONE_NUMBER}?body=${encodedMessage}`;
-        }
-
-        function copyOrderText() {
-            const message = generateMessage();
-            if (!message) return;
-
-            navigator.clipboard.writeText(message).then(() => {
-                alert('Sargyt maglumatlary göçürildi! Indi saňa islän mesenjeriňden (Telegram/Imo) ugradyp biler.');
-            }).catch(err => {
-                alert('Ýalňyşlyk boldy, täzeden barlap görüň!');
-            });
-        }
-    </script>
+    function copyOrder() {
+        let m = getMsg();
+        if(m) { navigator.clipboard.writeText(m); alert('Göçürildi!'); }
+    }
+</script>
 </body>
 </html>
