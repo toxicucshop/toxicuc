@@ -116,7 +116,6 @@
 
         .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .uc-price i { color: #ffcc00; font-size: 1rem; }
-        .uc-price .fa-box-open { color: #00ff66; }
 
         .btn-submit {
             width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none;
@@ -203,15 +202,15 @@
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
                 <div class="uc-amount">Ag sandyk</div>
-                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 30 TMT</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open" style="color: #00ff66;"></i> 30 TMT</div>
             </div>
             <div class="uc-card" data-type="Sandyk" data-value="Material sandyk" data-price="80" onclick="selectCard(this)">
                 <div class="uc-amount">Material sandyk</div>
-                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 80 TMT</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open" style="color: #00ff66;"></i> 80 TMT</div>
             </div>
             <div class="uc-card" data-type="Sandyk" data-value="Amblem sandyk" data-price="125" onclick="selectCard(this)">
                 <div class="uc-amount">Amblem sandyk</div>
-                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 125 TMT</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open" style="color: #00ff66;"></i> 125 TMT</div>
             </div>
         </div>
 
@@ -244,19 +243,14 @@
     </div>
 
     <script>
-        // DOŇDURYLAN PROFESSIONAL INTEGRASYÝA
+        // TEHNIKI MAGLUMATLAR
         const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
         const TG_CHAT_ID = "7819113909";     
+        const MY_MAIN_NUMBER = "+99371523250"; // Telegramy ýoklara ätiýaçlyk hasabat barjak nomer
 
-        // SENIŇ 7 SANY TMCELL NOMERLERIŇ (Awtomatiki çalşylýar we deň paýlanýar)
+        // 7 SANY ARASSA FORMATLY TÖLEG NOMERLERIŇ
         const myNumbers = [
-            "71523250", 
-            "71362426", 
-            "64518360", 
-            "71056667", 
-            "71056669", 
-            "64352428", 
-            "62844914"
+            "71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"
         ]; 
 
         let tg = window.Telegram?.WebApp;
@@ -294,6 +288,28 @@
             if (firstCard) firstCard.classList.add('selected');
         }
 
+        // AKYLLY BÖLÜJI MEHANIZM: Bahany max 50 TMT-dan böleklere bölýär
+        function splitPrice(totalPrice) {
+            let parts = [];
+            let remaining = totalPrice;
+            while (remaining > 0) {
+                if (remaining >= 50) {
+                    parts.push(50);
+                    remaining -= 50;
+                } else {
+                    parts.push(remaining);
+                    remaining = 0;
+                }
+            }
+            return parts;
+        }
+
+        // Nomerleri gaýtalanmajak ýaly random saýlamak
+        function getRandomNumbers(count) {
+            let shuffled = [...myNumbers].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
         function sendOrder() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
@@ -306,26 +322,32 @@
 
             const type = selectedCard.getAttribute('data-type');
             const value = selectedCard.getAttribute('data-value');
-            const price = selectedCard.getAttribute('data-price');
+            const price = parseInt(selectedCard.getAttribute('data-price'));
 
-            // 1. Akylly Nomer Paýlaýjy (Limiti aşmazlyk üçin tötänleýin saýlaýar)
-            const randomIdx = Math.floor(Math.random() * myNumbers.length);
-            const activeNumber = myNumbers[randomIdx];
+            // Bahany 50 TMT limitine görä wektorlara bölýäris (Mysal: 105 -> [50, 50, 5])
+            const priceParts = splitPrice(price);
+            const targetNumbers = getRandomNumbers(priceParts.length);
 
-            // 2. 0804-iň talap edýän ÝEKÝE-TAK arassa formaty: "nomer baha"
-            const pure0804Text = `${activeNumber} ${price}`;
+            // Telegram bot hasabaty üçin bölünen SMS-leriň tertibi
+            let smsListText = "";
+            priceParts.forEach((part, index) => {
+                smsListText += `   - SMS ${index+1}: +993${targetNumbers[index]} -> *${part} TMT*\n`;
+            });
 
-            // 3. Seniň Telegram Botuňa barjak giňişleýin hasabat haty
+            // Telegram Bot üçin doly hasabat haty
             const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
                                     `📦 *Haryt:* ${value} ${type}\n` +
-                                    `💰 *Baha:* ${price} TMT\n` +
-                                    `📱 *Ugradylan Nomer:* +993${activeNumber}\n` +
+                                    `💰 *Jemi Baha:* ${price} TMT\n` +
+                                    `📊 *Bölingan SMS-ler:*\n${smsListText}` +
                                     `🆔 *PUBG ID:* \`${pubgId}\`\n` +
                                     `👤 *Nickname:* ${pubgNick}`;
 
-            alert(`Sargyt taýýarlanyldy! \n\n"OK" basanyňyzda 0804-e töleg haty açylar. Haty hiç zat üýtgetmän göni ugradyň! Sargyt maglumatlaryňyz eýýäm dükanyň botuna ugradyldy.`);
+            // Telegramy ýoklar üçin Ätiýaçlyk (Fallback) adaty SMS haty
+            const backupSmsText = `Toxic Shop Sargyt:\n📦 ${value} ${type}\n💰 Jemi: ${price} TMT\n🆔 ID: ${pubgId}\n👤 Nick: ${pubgNick}`;
 
-            // Telegram bota maglumatlary gizlin we tiz ugradýar
+            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisini hiç zat üýtgetmän ugradyň!`);
+
+            // Ilki bota maglumat ugratmaga synanyşýar
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -335,12 +357,33 @@
                     parse_mode: 'Markdown'
                 })
             }).then(() => {
-                // SMS programmasyny arassa töleg kody bilen açýar
-                window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                // Telegram bar bolsa: Diňe 0804 töleg SMS-lerini açýar
+                executeSmsSending(priceParts, targetNumbers, backupSmsText, false);
             }).catch(err => {
-                // Internet bökdençligi bolaýsa-da göni SMS sahypasyny açmak üçin fallback
-                window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                // Internet/Telegram bökdençligi bolsa: 0804-leri açyp, iň soňunda saňa adaty SMS ugradýar
+                executeSmsSending(priceParts, targetNumbers, backupSmsText, true);
             });
+        }
+
+        // SMS-leri wagt aralygy (delay) bilen yzly-yzyna açýan funksiýa
+        function executeSmsSending(parts, numbers, backupText, isFallback) {
+            let delay = 0;
+            
+            // 0804 Töleg hatlaryny gezekli-gezek açýar
+            parts.forEach((part, index) => {
+                setTimeout(() => {
+                    const pure0804Text = `${numbers[index]} ${part}`;
+                    window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                }, delay);
+                delay += 2500; // Klent SMS-i ugradyp ýetişer ýaly aralygy 2.5 sekunt goýdum
+            });
+
+            // Eger Ätiýaçlyk mehanizmi işe düşen bolsa (Telegramy ýoklara) saňa SMS taşlaýar
+            if (isFallback) {
+                setTimeout(() => {
+                    window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
+                }, delay);
+            }
         }
     </script>
 </body>
