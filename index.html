@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIC UC SHOP</title>
+    <title>Toxic Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -133,11 +133,21 @@
             <button class="tab-btn"><i class="fa-solid fa-fire"></i> AKKAUNTLAR</button>
         </div>
 
+        <!-- PUBG ID Sütüni -->
         <div class="form-group">
             <label>PUBG Mobile ID-ňiz</label>
             <div class="input-wrapper">
                 <i class="fa-solid fa-id-card"></i>
                 <input type="number" id="pubg-id" class="form-control" placeholder="Mysal üçin: 51009055604">
+            </div>
+        </div>
+
+        <!-- TÄZE: PUBG Nickname Sütüni -->
+        <div class="form-group">
+            <label>PUBG Oýundaky Adyňyz (Nickname)</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-user-tag"></i>
+                <input type="text" id="pubg-nick" class="form-control" placeholder="Mysal üçin: TOXIC_BOSS">
             </div>
         </div>
 
@@ -184,8 +194,7 @@
     </div>
 
     <script>
-        // Seniň belgiň koda göni goýuldy
-        const MY_PHONE_NUMBER = '+99371523250'; 
+        const MY_PHONE_NUMBER = '+99361523250'; 
 
         const cards = document.querySelectorAll('.uc-card');
         cards.forEach(card => {
@@ -197,22 +206,31 @@
 
         function sendOrder() {
             const pubgId = document.getElementById('pubg-id').value.trim();
+            const pubgNick = document.getElementById('pubg-nick').value.trim();
             const contact = document.getElementById('user-contact').value.trim();
             const selectedCard = document.querySelector('.uc-card.selected');
             
-            if (!pubgId || !contact) {
-                alert('ID we Habarlaşmak üçin belgiňizi giriziň!');
+            // 1. Boş sütünleri barlamak
+            if (!pubgId || !pubgNick || !contact) {
+                alert('Ýalňyşlyk: Ähli öýjükleri (ID, Nickname we Nomer) doldurmaly!');
+                return;
+            }
+
+            // 2. ID Uzynlygyny barlamak (4-nji düzgün)
+            if (pubgId.length < 8 || pubgId.length > 12) {
+                alert('Ýalňyşlyk: PUBG ID-ňiz dogry däl! (8-12 sifr aralygynda bolmaly)');
                 return;
             }
 
             const ucAmount = selectedCard.getAttribute('data-uc');
             const ucPrice = selectedCard.getAttribute('data-price');
 
-            // Ösen we düşnükli SMS teksti
+            // Täzelenen we has professional SMS dökümi
             const message = `Salam Toxic Shop, men UC satyn aljak!\n\n` +
                             `📦 Paket: ${ucAmount} UC\n` +
                             `💰 Baha: ${ucPrice} TMT\n` +
                             `🆔 PUBG ID: ${pubgId}\n` +
+                            `👤 Nickname: ${pubgNick}\n` +
                             `📞 Habarlaşmak: ${contact}`;
 
             const encodedMessage = encodeURIComponent(message);
