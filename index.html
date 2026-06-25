@@ -4,58 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toxic Shop - Admin Panel</title>
+    <style>
+        /* Reňkleriň we esasy dizaýnyň sazlamalary */
+        :root {
+            --bg-color: #0b0f15;
+            --card-bg: #141c24;
+            --primary-cyan: #00e5ff;
+            --primary-blue: #007bff;
+            --text-main: #ffffff;
+            --text-muted: #5e9b99;
+            --border-color: #233e45;
+            --danger-red: #ff3b3b;
+            --input-bg: #0d1117;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; /* Telefonyň ekranyna doly uýgunlaşar ýaly */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+
+        header h1 {
+            color: var(--primary-cyan);
+            font-size: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        section h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Guty adynyň çep tarapyndaky dik gök çyzyk */
+        section h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: var(--primary-cyan);
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary-cyan);
+        }
+
+        /* Ähli esasy gök knopkalar */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+            background: linear-gradient(to right, var(--primary-cyan), var(--primary-blue));
+            color: #000;
+        }
+
+        /* Goşulan UC sanawynyň dizaýny */
+        .uc-list-container {
+            margin-top: 20px;
+        }
+
+        .uc-list-container h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        .btn-delete {
+            background-color: var(--danger-red);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>Toxic Admin Panel</h1>
-    </header>
+    <div class="container">
+        
+        <header>
+            <h1>Toxic Admin Panel</h1>
+        </header>
 
-    <section id="sazlamalar">
-        <h2>Dükanyň Sazlamalary</h2>
-        <form>
-            <label for="shop-name">Dükan Ady</label><br>
-            <input type="text" id="shop-name" value="Toxic Shop"><br><br>
+        <section id="sazlamalar">
+            <h2>Dükanyň Sazlamalary</h2>
+            <form>
+                <div class="form-group">
+                    <label for="shop-name">Dükan Ady</label>
+                    <input type="text" id="shop-name" value="Toxic Shop">
+                </div>
 
-            <label for="work-hours">Iş Wagty</label><br>
-            <input type="text" id="work-hours" value="09:00 - 22:00"><br><br>
+                <div class="form-group">
+                    <label for="work-hours">Iş Wagty</label>
+                    <input type="text" id="work-hours" value="09:00 - 22:00">
+                </div>
 
-            <button type="button">Sazlamalary Sakla</button>
-        </form>
-    </section>
-    <hr>
+                <button type="button" class="btn-submit">Sazlamalary Sakla</button>
+            </form>
+        </section>
 
-    <section id="uc-gosmak">
-        <h2>Toxic UC Goşmak</h2>
-        <form>
-            <label for="uc-name">UC Sany (Ady)</label><br>
-            <input type="text" id="uc-name" value="60 UC 💎"><br><br>
+        <section id="uc-gosmak">
+            <h2>Toxic UC Goşmak</h2>
+            <form>
+                <div class="form-group">
+                    <label for="uc-name">UC Sany (Ady)</label>
+                    <input type="text" id="uc-name" value="60 UC 💎">
+                </div>
 
-            <label for="uc-price">Bahasy (TMT)</label><br>
-            <input type="number" id="uc-price" value="15"><br><br>
+                <div class="form-group">
+                    <label for="uc-price">Bahasy (TMT)</label>
+                    <input type="number" id="uc-price" value="15">
+                </div>
 
-            <button type="button">UC Goş</button>
-        </form>
+                <button type="button" class="btn-submit">UC Goş</button>
+            </form>
 
-        <h3>Goşulan UC-ler:</h3>
-        <ul id="uc-list">
-            <li>60uc - 23 TMT <button type="button">Öçür</button></li>
-        </ul>
-    </section>
-    <hr>
+            <div class="uc-list-container">
+                <ul id="uc-list">
+                    <li>
+                        <span>60uc - 23 TMT</span>
+                        <button type="button" class="btn-delete">Öçür</button>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-    <section id="akkaunt-gosmak">
-        <h2>Toxic Akkaunt Goşmak</h2>
-        <form>
-            <label for="acc-name">Akkaunt Ady / Nomeri</label><br>
-            <input type="text" id="acc-name" value="Akkaunt #1 ⚡"><br><br>
+        <section id="akkaunt-gosmak">
+            <h2>Toxic Akkaunt Goşmak</h2>
+            <form>
+                <div class="form-group">
+                    <label for="acc-name">Akkaunt Ady / Nomeri</label>
+                    <input type="text" id="acc-name" value="Akkaunt #1 ⚡">
+                </div>
 
-            <label for="acc-desc">Akkaunt Barada (Gysgaça we @kanal silkalary)</label><br>
-            <textarea id="acc-desc" rows="3"></textarea><br><br>
-            
-            <button type="button">Akkaunt Goş</button>
-        </form>
-    </section>
+                <div class="form-group">
+                    <label for="acc-desc">Akkaunt Barada (Gysgaça we @kanal silkalary)</label>
+                    <textarea id="acc-desc" rows="3"></textarea>
+                </div>
+                
+                <button type="button" class="btn-submit">Akkaunt Goş</button>
+            </form>
+        </section>
+
+    </div>
 
 </body>
 </html>
