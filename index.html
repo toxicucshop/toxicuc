@@ -1,1 +1,310 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toxic Shop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background: linear-gradient(rgba(15, 15, 25, 0.85), rgba(10, 10, 15, 0.9)), 
+                        url('https://images.hdqwalls.com/download/pubg-game-4k-2020-mo-1080x1920.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
+            color: #ffffff; 
+            padding-bottom: 60px; 
+        }
+        
+        header { padding: 40px 20px 25px 20px; text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        header h1 { font-size: 34px; font-weight: 900; background: linear-gradient(45deg, #00ffcc, #0077ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 4px; cursor: pointer; text-shadow: 0 0 20px rgba(0, 255, 204, 0.3); }
+        .verified-badge { background: linear-gradient(135deg, #0077ff, #00ffcc); color: #fff; border-radius: 50%; font-size: 11px; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; }
+        
+        .container { width: 92%; max-width: 480px; margin: 10px auto; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; text-align: center; }
+        .stat-box { background: rgba(25, 25, 35, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(0, 255, 204, 0.15); padding: 14px 10px; border-radius: 16px; }
+        .stat-box div:first-child { color: #00ffcc; font-size: 16px; font-weight: bold; }
+        .stat-box div:last-child { color: #b3b3b3; font-size: 11px; margin-top: 3px; }
+        
+        .promo-banner { background: linear-gradient(135deg, #ff2222, #7700aa); padding: 16px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 5px 20px rgba(255, 34, 34, 0.3); }
+        .promo-banner h4 { font-size: 18px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+        .promo-banner p { font-size: 12px; color: #f0f0f0; }
+        
+        .pill-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; }
+        .pill-btn { background: rgba(25, 25, 35, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08); color: #e8eaed; padding: 18px 20px; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+        .check-circle { background-color: rgba(0, 255, 204, 0.1); color: #00ffcc; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; border: 1px solid rgba(0, 255, 204, 0.3); }
+        
+        .shop-section { display: none; animation: fadeIn 0.4s ease forwards; margin-bottom: 30px; }
+        .shop-title { font-size: 20px; color: #fff; margin-bottom: 18px; border-left: 4px solid #00ffcc; padding-left: 12px; }
+        
+        .search-container { position: relative; margin-bottom: 18px; }
+        .search-input { width: 100%; background: rgba(25, 25, 35, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(0, 255, 204, 0.3); padding: 14px 16px; padding-left: 40px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; outline: none; }
+        .search-input:focus { border-color: #00ffcc; box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #00ffcc; font-size: 16px; pointer-events: none; }
 
+.product-card { background: linear-gradient(145deg, rgba(22, 22, 32, 0.8), rgba(32, 32, 48, 0.8)); backdrop-filter: blur(12px); border-radius: 20px; padding: 18px; margin-bottom: 18px; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); position: relative; }
+        .product-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
+        .time-badge { font-size: 11px; color: #00ffcc; background: rgba(0, 255, 204, 0.1); border: 1px solid rgba(0, 255, 204, 0.2); padding: 4px 10px; border-radius: 8px; font-weight: 600; width: fit-content; margin-bottom: -4px; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; }
+
+        .slider-wrapper { position: relative; width: 100%; height: 240px; overflow: hidden; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); }
+        .slider-container { display: flex; transition: transform 0.3s ease-in-out; width: 100%; height: 100%; }
+        .slider-img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.8); color: #00ffcc; border: 1px solid #444; border-radius: 50%; width: 36px; height: 36px; font-weight: bold; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; z-index: 5; }
+        .slider-btn.prev { left: 8px; }
+        .slider-btn.next { right: 8px; }
+        .slider-counter { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; z-index: 5; }
+        
+        .product-info h3 { font-size: 18px; color: #fff; font-weight: 700; }
+        .product-info p { color: #9aa0a6; font-size: 13px; margin-top: 5px; white-space: pre-line; line-height: 1.6; }
+        .start-link { color: #00ffcc; font-weight: bold; text-decoration: underline; }
+        .price { color: #00ffcc; font-weight: 800; font-size: 20px; margin-top: 6px; }
+        
+        .buy-btn { background: linear-gradient(135deg, #00ffcc, #0077ff); color: #000; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+        .buy-btn:active { transform: scale(0.95); }
+        
+        .news-section { margin-top: 35px; }
+        .news-tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .news-tab-btn { background-color: rgba(30, 30, 40, 0.7); border: 1px solid rgba(255,255,255,0.06); color: #ffffff; padding: 11px 22px; border-radius: 20px; font-size: 14px; cursor: pointer; font-weight: 600; }
+        .news-tab-btn.active { background-color: #ff2222; border-color: #ff2222; box-shadow: 0 0 12px rgba(255, 34, 34, 0.4); }
+        .news-container { display: none; margin-top: 10px; animation: fadeIn 0.3s ease; }
+        .news-item { background: rgba(22, 22, 32, 0.8); border-radius: 14px; padding: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: #e8eaed; }
+        
+        .info-card { background-color: rgba(25, 25, 35, 0.8); border-radius: 20px; padding: 20px; margin-top: 40px; border: 1px solid rgba(255,255,255,0.06); }
+        .info-card h4 { font-size: 19px; color: #ffffff; margin-bottom: 15px; }
+        .info-item { font-size: 15px; margin-bottom: 11px; color: #b3b3b3; }
+        .info-item a { color: #00ffcc; text-decoration: none; font-weight: bold; }
+        .empty-text { color: #777; text-align: center; font-size: 14px; padding: 20px; }
+        
+        .live-feed-box { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(20, 20, 30, 0.95); backdrop-filter: blur(10px); border: 1px solid #00ffcc; padding: 12px 20px; border-radius: 14px; display: flex; align-items: center; gap: 10px; z-index: 999; font-size: 13px; color: #fff; transition: all 0.5s ease-in-out; width: 90%; max-width: 360px; }
+
+.live-feed-box.show { transform: translateX(-50%) translateY(0); }
+        .live-dot { width: 8px; height: 8px; background-color: #00ffcc; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="display-shop-name" onclick="checkAdminClick()">Toxic Shop</h1>
+        <span class="verified-badge">✓</span>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-box"><div>100%</div><div>Ynamly</div></div>
+            <div class="stat-box"><div>5-15 m.</div><div>Tiz Ugratmak</div></div>
+            <div class="stat-box"><div>24/7</div><div>Goldaw</div></div>
+        </div>
+
+        <div class="promo-banner">
+            <h4>🔥 ARZANLAŞYK NUKDASY!</h4>
+            <p>Iň amatly bahadan UC we professional bäsleşikli turnirler diňe biziň dükanywgyzda!</p>
+        </div>
+
+        <div class="pill-group">
+            <button class="pill-btn" onclick="openSection('toxic-uc')"><span>Toxic UC</span><span class="check-circle">✓</span></button>
+            <button class="pill-btn" onclick="openSection('toxic-acc')"><span>Toxic Akk</span><span class="check-circle">✓</span></button>
+            <button class="pill-btn" onclick="openSection('turnirler')"><span>Turnirler</span><span class="check-circle">✓</span></button>
+        </div>
+
+        <div id="toxic-uc" class="shop-section">
+            <h2 class="shop-title">Toxic UC Dükany</h2>
+            <div id="uc-container"></div>
+        </div>
+
+        <div id="toxic-acc" class="shop-section">
+            <h2 class="shop-title">Toxic Akkountlar</h2>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="acc-search-input" class="search-input" placeholder="Akkount sanyny giriziň (Mysal: 1 ýa-da #1)..." oninput="searchAccount()">
+            </div>
+            <div id="acc-container"></div>
+        </div>
+
+        <div id="turnirler" class="shop-section">
+            <h2 class="shop-title">Açyk Turnirler</h2>
+            <div id="turnir-container"></div>
+        </div>
+
+        <div class="news-section">
+            <h3 style="font-size: 18px; margin-bottom: 12px; color: #ff2222;">🔥 Toxic Habarlary</h3>
+            <div class="news-tabs">
+                <button class="news-tab-btn active" onclick="showNews('n1', this)">📢 Ählisi</button>
+                <button class="news-tab-btn" onclick="showNews('n2', this)">💎 Täzelikler</button>
+                <button class="news-tab-btn" onclick="showNews('n3', this)">🎁 Konkurslar</button>
+            </div>
+            <div id="n1" class="news-container" style="display: block;"></div>
+            <div id="n2" class="news-container"></div>
+            <div id="n3" class="news-container"></div>
+        </div>
+
+        <div class="info-card">
+            <h4>Dükanyň Maglumatlary</h4>
+            <div class="info-item"><strong>Start Kanal:</strong> <a id="display-tg" href="https://tmstart.me/toxic_pubg/17142" target="_blank">@toxic_uc</a></div>
+            <div class="info-item"><strong>İşleýän wagty:</strong> <span id="display-time">09:00 - 22:00</span></div>
+        </div>
+    </div>
+
+    <div id="live-purchase-feed" class="live-feed-box">
+        <div class="live-dot"></div>
+        <span id="live-feed-text">Ulanyjy sargyt etdi!</span>
+    </div>
+    <script>
+        const mySMSNumber = "+99371408711";
+        const myStartLink = "https://tmstart.me/toxic_pubg/17142";
+
+        function formatStartLinks(text) {
+            if (!text) return "";
+            return text.replace(/@([a-zA-Z0-9_]+)/g, '<a class="start-link" href="https://tmstart.me/$1" target="_blank">@$1</a>');
+        }
+
+function openSection(id) {
+            document.querySelectorAll('.shop-section').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+        
+        function showNews(id, btn) {
+            document.querySelectorAll('.news-container').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.news-tab-btn').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            btn.classList.add('active');
+        }
+
+        let clickCount = 0;
+        function checkAdminClick() {
+            clickCount++;
+            if (clickCount === 3) {
+                clickCount = 0;
+                let password = prompt("Admin koduny giriziň:");
+                if (password === "toxic2026") { window.location.href = "admin.html"; }
+            }
+            setTimeout(() => { clickCount = 0; }, 2000);
+        }
+
+        window.onload = function() {
+            if(localStorage.getItem('shopName')) document.getElementById('display-shop-name').innerText = localStorage.getItem('shopName');
+            if(localStorage.getItem('workTime')) document.getElementById('display-time').innerText = localStorage.getItem('workTime');
+            loadUC(); loadAccounts(); loadTurnirs(); loadNews(); setTimeout(startLiveFeed, 3000);
+        }
+
+        function loadUC() {
+            let ucs = JSON.parse(localStorage.getItem('ucList') || "[]");
+            let container = document.getElementById('uc-container');
+            if(ucs.length === 0) { container.innerHTML = '<p class="empty-text">Haryt ýok</p>'; return; }
+            container.innerHTML = ucs.map(item => 
+                <div class="product-card">
+                    <div class="product-top">
+                        <div class="product-info"><h3>${item.title}</h3><p>Global | ID arkaly</p><div class="price">${item.price} TMT</div></div>
+                        <button class="buy-btn" onclick="orderUC('${item.title}', '${item.price}')">Satyn Al</button>
+                    </div>
+                </div>
+            ).join('');
+        }
+
+        function loadAccounts() {
+            let accs = JSON.parse(localStorage.getItem('accList') || "[]");
+            let container = document.getElementById('acc-container');
+            if(accs.length === 0) { container.innerHTML = '<p class="empty-text">Akkount ýok</p>'; return; }
+
+            container.innerHTML = accs.map((item, index) => {
+                let images = item.images || [];
+                let hasMultiple = images.length > 1;
+                let displayTime = item.time || "Täze";
+                return 
+                    <div class="product-card acc-item-card" data-title="${item.title.toLowerCase()}">
+                        <div class="time-badge">🕒 Goýuldy: ${displayTime}</div>
+                        ${images.length > 0 ? 
+                            <div class="slider-wrapper">
+                                ${hasMultiple ? <button class="slider-btn prev" onclick="moveSlider(${index}, -1, event)">‹</button> : ''}
+                                <div class="slider-container" id="slider-${index}" data-current="0" data-total="${images.length}">
+                                    ${images.map(imgSrc => <img class="slider-img" src="${imgSrc}">).join('')}
+                                </div>
+                                ${hasMultiple ? <button class="slider-btn next" onclick="moveSlider(${index}, 1, event)">›</button> : ''}
+                                <div class="slider-counter" id="counter-${index}">1 / ${images.length}</div>
+                            </div>
+                        ` : ''}
+                        <div class="product-top">
+                            <div class="product-info"><h3>${item.title}</h3><p>${formatStartLinks(item.desc)}</p><div class="price">${item.price} TMT</div></div>
+
+<button class="buy-btn" onclick="orderAcc()">Satyn Al</button>
+                        </div>
+                    </div>
+                ;
+            }).join('');
+        }
+
+        function searchAccount() {
+            let value = document.getElementById('acc-search-input').value.toLowerCase().trim();
+            document.querySelectorAll('.acc-item-card').forEach(card => {
+                let title = card.getAttribute('data-title');
+                if (title.includes(value) || title.includes('#' + value)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function moveSlider(cardIdx, direction, event) {
+            if(event) event.stopPropagation();
+            let slider = document.getElementById(slider-${cardIdx});
+            let counter = document.getElementById(counter-${cardIdx});
+            let current = parseInt(slider.getAttribute('data-current')) + direction;
+            let total = parseInt(slider.getAttribute('data-total'));
+            if (current < 0) current = total - 1;
+            if (current >= total) current = 0;
+            slider.setAttribute('data-current', current);
+            slider.style.transform = translateX(-${current * 100}%);
+            counter.innerText = ${current + 1} / ${total};
+        }
+
+        function loadTurnirs() {
+            let turnirs = JSON.parse(localStorage.getItem('turnirList') || "[]");
+            let container = document.getElementById('turnir-container');
+            if(turnirs.length === 0) { container.innerHTML = '<p class="empty-text">Turnir ýok</p>'; return; }
+            container.innerHTML = turnirs.map(item => {
+                let displayTime = item.time || "Täze";
+                return 
+                    <div class="product-card">
+                        <div class="time-badge">🕒 Goýuldy: ${displayTime}</div>
+                        <div class="product-top">
+                            <div class="product-info"><h3>${item.title}</h3><p style="color:#00ffcc;">ID: ${item.id}</p><div class="price">Giriş: ${item.price} TMT</div></div>
+                            <button class="buy-btn" onclick="orderAcc()">Gatnaş</button>
+                        </div>
+                    </div>
+                ;
+            }).join('');
+        }
+
+        function loadNews() {
+            let newsList = JSON.parse(localStorage.getItem('toxicNewsList') || "[]");
+            if(newsList.length === 0) return;
+            document.getElementById('n1').innerHTML = newsList.map(n => <div class="news-item">📢 <b>${n.type.toUpperCase()}:</b><br>${formatStartLinks(n.text)}</div>).reverse().join('');
+            document.getElementById('n2').innerHTML = newsList.filter(n => n.type === 'tazelik').map(n => <div class="news-item">💎 ${formatStartLinks(n.text)}</div>).reverse().join('');
+            document.getElementById('n3').innerHTML = newsList.filter(n => n.type === 'konkurs').map(n => <div class="news-item">🎁 ${formatStartLinks(n.text)}</div>`).reverse().join('');
+        }
+
+        function orderUC(title, price) {
+            const msg = "Salam, Toxic Shop! Men şu UC harydyny satyn aljak:\n📦 Görnüşi: Toxic UC\n💎 Ady: " + title + "\n💰 Bahasy: " + price + " TMT";
+            window.location.href = "sms:" + mySMSNumber + "?body=" + encodeURIComponent(msg);
+        }
+
+        function orderAcc() {
+            window.open(myStartLink, "_blank");
+        }
+
+        function startLiveFeed() {
+            const feedBox = document.getElementById('live-purchase-feed');
+            const feedText = document.getElementById('live-feed-text');
+            if(!feedBox || !feedText) return;
+            const names = ["Döwlet", "Meylis", "Şohrat", "Azamat", "Süleýman", "Arslan", "Merdan", "Begler", "Ylyas", "Wepa"];
+
+const items = ["60 UC 💎", "325 UC 💎", "660 UC 🔥", "Premium Turnire Gatnaşyk 🎁", "Old akk ⚡", "Weekly Prime Plus 👑"];
+            setInterval(() => {
+                feedText.innerHTML = ⚡ <b>${names[Math.floor(Math.random() * names.length)]}</b> az öň <b>${items[Math.floor(Math.random() * items.length)]}</b> satyn aldy!;
+                feedBox.classList.add('show');
+                setTimeout(() => { feedBo
