@@ -110,9 +110,9 @@
             color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
 
-        .uc-amount i { color: #ffcc00; font-size: 1.1rem; }
-        .uc-amount .fa-box-open { color: #00ff66; }
-        .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
+        .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .uc-price i { color: #ffcc00; font-size: 1rem; }
+        .uc-price .fa-box-open { color: #00ff66; }
 
         .btn-submit {
             width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none;
@@ -178,55 +178,47 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Habarlaşmak Üçin (Imo / Telegram)</label>
-            <div class="input-wrapper">
-                <i class="fa-solid fa-phone"></i>
-                <input type="text" id="user-contact" class="form-control" placeholder="Mysal üçin: +993 61 234567">
-            </div>
-        </div>
-
         <!-- UC PAKETLERI (BÖLÜM 1) -->
         <div id="uc-grid-section" class="uc-grid">
             <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
-                <div class="uc-price">23 TMT</div>
+                <div class="uc-amount">60 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 23 TMT</div>
             </div>
             <div class="uc-card" data-type="UC" data-value="325" data-price="105" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 325</div>
-                <div class="uc-price">105 TMT</div>
+                <div class="uc-amount">325 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 105 TMT</div>
             </div>
             <div class="uc-card" data-type="UC" data-value="660" data-price="210" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 660</div>
-                <div class="uc-price">210 TMT</div>
+                <div class="uc-amount">660 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 210 TMT</div>
             </div>
             <div class="uc-card" data-type="UC" data-value="1800" data-price="530" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 1800</div>
-                <div class="uc-price">530 TMT</div>
+                <div class="uc-amount">1800 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 530 TMT</div>
             </div>
             <div class="uc-card" data-type="UC" data-value="3850" data-price="1000" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 3850</div>
-                <div class="uc-price">1000 TMT</div>
+                <div class="uc-amount">3850 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 1000 TMT</div>
             </div>
             <div class="uc-card" data-type="UC" data-value="8100" data-price="2000" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 8100</div>
-                <div class="uc-price">2000 TMT</div>
+                <div class="uc-amount">8100 UC</div>
+                <div class="uc-price"><i class="fa-solid fa-coins"></i> 2000 TMT</div>
             </div>
         </div>
 
         <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Ag</div>
-                <div class="uc-price">30 TMT</div>
+                <div class="uc-amount">Ag Sandyk</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 30 TMT</div>
             </div>
             <div class="uc-card" data-type="Sandyk" data-value="Material sandyk" data-price="80" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Material</div>
-                <div class="uc-price">80 TMT</div>
+                <div class="uc-amount">Material</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 80 TMT</div>
             </div>
             <div class="uc-card" data-type="Sandyk" data-value="Amblem sandyk" data-price="125" onclick="selectCard(this)">
-                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Amblem</div>
-                <div class="uc-price">125 TMT</div>
+                <div class="uc-amount">Amblem</div>
+                <div class="uc-price"><i class="fa-solid fa-box-open"></i> 125 TMT</div>
             </div>
         </div>
 
@@ -250,13 +242,13 @@
             <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
             <div class="contact-links">
                 
-                <!-- Düzedilen TMSTART Linki -->
+                <!-- TMSTART Linki -->
                 <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-solid fa-rocket"></i><span>Start Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
                 </a>
 
-                <!-- Düzedilen Telegram Linki -->
+                <!-- Telegram Linki -->
                 <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
@@ -311,7 +303,6 @@
         function generateMessage() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
-            const contact = document.getElementById('user-contact').value.trim();
             const selectedCard = document.querySelector('.uc-card.selected');
             
             if (!selectedCard) {
@@ -319,8 +310,8 @@
                 return null;
             }
 
-            if (!pubgId || !pubgNick || !contact) {
-                alert('Ýalňyşlyk: Ähli öýjükleri (ID, Nickname we Nomer) doldurmaly!');
+            if (!pubgId || !pubgNick) {
+                alert('Ýalňyşlyk: Ähli öýjükleri (ID we Nickname) doldurmaly!');
                 return null;
             }
 
@@ -339,8 +330,7 @@
                    `${itemLine}\n` +
                    `💰 Baha: ${price} TMT\n` +
                    `🆔 PUBG ID: ${pubgId}\n` +
-                   `👤 Nickname: ${pubgNick}\n` +
-                   `📞 Habarlaşmak: ${contact}`;
+                   `👤 Nickname: ${pubgNick}`;
         }
 
         function sendOrder() {
