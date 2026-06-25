@@ -1,32 +1,371 @@
-<style>
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .card { background: #151c2c; padding: 15px; border-radius: 12px; cursor: pointer; border: 2px solid transparent; text-align: center; }
-    .card.active { border-color: #00ff66; }
-    .btn { background: #00ff66; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
-</style>
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOXIC UC SHOP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #00ff66;
+            --primary-glow: rgba(0, 255, 102, 0.3);
+            --accent: #ff0055;
+            --bg-dark: #0b0f19;
+            --card-bg: #151c2c;
+            --text-main: #ffffff;
+            --text-muted: #8fa0be;
+        }
 
-<!-- Kategoriýalar -->
-<div id="uc-cat" class="grid">
-    <div class="card active" onclick="select(this)" data-name="60 UC" data-price="23">60 UC - 23 TMT</div>
-    <div class="card" onclick="select(this)" data-name="325 UC" data-price="105">325 UC - 105 TMT</div>
-</div>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<div id="sandyk-cat" class="grid" style="display:none;">
-    <div class="card" onclick="select(this)" data-name="Ag sandyk" data-price="30">Ag sandyk - 30 TMT</div>
-    <div class="card" onclick="select(this)" data-name="Material sandyk" data-price="80">Material sandyk - 80 TMT</div>
-    <div class="card" onclick="select(this)" data-name="Amblem sandyk" data-price="125">Amblem sandyk - 125 TMT</div>
-</div>
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<button class="btn" onclick="send()">Sargyt Et</button>
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(21, 28, 44, 0.6);
+            padding: 25px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
 
-<script>
-    function select(el) {
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-    }
-    function send() {
-        let s = document.querySelector('.card.active');
-        let msg = `Sargyt: ${s.dataset.name}, Baha: ${s.dataset.price} TMT, ID: ${document.getElementById('pubg-id').value}, Nick: ${document.getElementById('pubg-nick').value}`;
-        window.location.href = `sms:+99371523250?body=${encodeURIComponent(msg)}`;
-    }
-</script>
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        h1 span {
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Tab Menu */
+        .tab-menu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
+
+        .tab-btn {
+            background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main); padding: 12px 5px; border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
+            color: #000; box-shadow: 0 0 15px var(--primary-glow); border: none;
+        }
+
+        .form-group { position: relative; margin-bottom: 18px; text-align: left; }
+        .form-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
+
+        .form-control {
+            width: 100%; background: #111622; border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 14px 14px 45px; border-radius: 14px; color: #fff;
+            font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; outline: none; transition: all 0.3s ease;
+        }
+
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.15); background: #141b2a; }
+
+        .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+
+        .uc-card {
+            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
+        }
+
+        .uc-card:hover, .uc-card.selected {
+            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .uc-amount {
+            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
+            color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        .uc-amount i { color: #ffcc00; font-size: 1.1rem; }
+        .uc-amount .fa-box-open { color: #00ff66; }
+        .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
+
+        .btn-submit {
+            width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none;
+            color: #000; padding: 16px; border-radius: 16px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 800;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
+            display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
+
+        .btn-copy {
+            width: 100%; background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted); padding: 12px; border-radius: 14px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .btn-copy:hover { background: #253047; color: #fff; border-color: rgba(255, 255, 255, 0.15); }
+
+        /* Footer */
+        .contacts-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: left; }
+        .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .contacts-title i { color: var(--primary); }
+        .contact-links { display: flex; flex-direction: column; gap: 10px; }
+        .contact-item { display: flex; align-items: center; justify-content: space-between; background: #111622; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03); text-decoration: none; color: #fff; font-size: 1.1rem; font-weight: 600; transition: all 0.2s ease; }
+        .contact-item:hover { border-color: var(--primary); background: #141b2a; transform: translateX(3px); }
+        .contact-info { display: flex; align-items: center; gap: 12px; }
+        .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
+        .fa-telegram { color: #0088cc; }
+        .fa-comments { color: #38863c; }
+        .fa-link { color: var(--primary); }
+        .contact-action { font-size: 0.9rem; color: var(--primary); text-transform: uppercase; font-family: 'Orbitron', sans-serif; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Toxic <span>Shop</span></h1>
+        <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
+
+        <!-- Kategoriýa Menýusy -->
+        <div class="tab-menu">
+            <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
+            <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
+            <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
+        </div>
+
+        <!-- Müşderi Maglumat Formasy -->
+        <div class="form-group">
+            <label>PUBG Mobile ID-ňiz</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-id-card"></i>
+                <input type="number" id="pubg-id" class="form-control" placeholder="Mysal üçin: 51009055604">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>PUBG Oýundaky Adyňyz (Nickname)</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-user-tag"></i>
+                <input type="text" id="pubg-nick" class="form-control" placeholder="Mysal üçin: TOXIC_BOSS">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Habarlaşmak Üçin (Imo / Telegram)</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-phone"></i>
+                <input type="text" id="user-contact" class="form-control" placeholder="Mysal üçin: +993 61 234567">
+            </div>
+        </div>
+
+        <!-- UC PAKETLERI (BÖLÜM 1) -->
+        <div id="uc-grid-section" class="uc-grid">
+            <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
+                <div class="uc-price">23 TMT</div>
+            </div>
+            <div class="uc-card" data-type="UC" data-value="325" data-price="105" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 325</div>
+                <div class="uc-price">105 TMT</div>
+            </div>
+            <div class="uc-card" data-type="UC" data-value="660" data-price="210" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 660</div>
+                <div class="uc-price">210 TMT</div>
+            </div>
+            <div class="uc-card" data-type="UC" data-value="1800" data-price="530" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 1800</div>
+                <div class="uc-price">530 TMT</div>
+            </div>
+            <div class="uc-card" data-type="UC" data-value="3850" data-price="1000" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 3850</div>
+                <div class="uc-price">1000 TMT</div>
+            </div>
+            <div class="uc-card" data-type="UC" data-value="8100" data-price="2000" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-coins"></i> 8100</div>
+                <div class="uc-price">2000 TMT</div>
+            </div>
+        </div>
+
+        <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
+        <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
+            <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Ag</div>
+                <div class="uc-price">30 TMT</div>
+            </div>
+            <div class="uc-card" data-type="Sandyk" data-value="Material sandyk" data-price="80" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Material</div>
+                <div class="uc-price">80 TMT</div>
+            </div>
+            <div class="uc-card" data-type="Sandyk" data-value="Amblem sandyk" data-price="125" onclick="selectCard(this)">
+                <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Amblem</div>
+                <div class="uc-price">125 TMT</div>
+            </div>
+        </div>
+
+        <!-- AKKAUNT BÖLÜMI (BÖLÜM 3) -->
+        <div id="akkaunt-section" style="display: none; padding: 20px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
+            <i class="fa-solid fa-fire-burner" style="font-size: 2rem; color: var(--accent); margin-bottom: 10px;"></i>
+            <p>Akkauntlar tiz wagtda goşular!</p>
+        </div>
+
+        <!-- Düwmeler -->
+        <button class="btn-submit" onclick="sendOrder()">
+            Sargyt Et <i class="fa-solid fa-paper-plane"></i>
+        </button>
+
+        <button class="btn-copy" onclick="copyOrderText()">
+            <i class="fa-solid fa-copy"></i> Teksti Göçür (Copy)
+        </button>
+
+        <!-- Habarlaşmak we Kanallar -->
+        <div class="contacts-footer">
+            <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
+            <div class="contact-links">
+                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
+                    <div class="contact-info"><i class="fa-solid fa-link"></i><span>Start Kanalymyz (@toxic_pubg)</span></div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+                <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
+                    <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
+                    <div class="contact-info"><i class="fa-solid fa-hashtag"></i><span>Link (@toxic_pubg)</span></div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+                <div class="contact-item" style="cursor: default;">
+                    <div class="contact-info"><i class="fa-solid fa-comments"></i><span>Imo: 71523250</span></div>
+                    <div class="contact-action" style="color: var(--text-muted);">IMO</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const MY_PHONE_NUMBER = '+99371523250'; 
+
+        // Kategoriýalary çalşyrmak
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('uc-grid-section').style.display = 'none';
+            document.getElementById('sandyk-grid-section').style.display = 'none';
+            document.getElementById('akkaunt-section').style.display = 'none';
+
+            if (tabName === 'uc') {
+                document.getElementById('btn-uc').classList.add('active');
+                document.getElementById('uc-grid-section').style.display = 'grid';
+                // UC saýlananda awtomatiki birinji elementi saýlaýar
+                resetSelection('#uc-grid-section .uc-card');
+            } else if (tabName === 'sandyk') {
+                document.getElementById('btn-sandyk').classList.add('active');
+                document.getElementById('sandyk-grid-section').style.display = 'grid';
+                // Sandyk saýlananda awtomatiki birinji elementi saýlaýar
+                resetSelection('#sandyk-grid-section .uc-card');
+            } else if (tabName === 'akkaunt') {
+                document.getElementById('btn-akkaunt').classList.add('active');
+                document.getElementById('akkaunt-section').style.display = 'block';
+                // Ähli saýlawlary aýyrýar
+                document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            }
+        }
+
+        // Kartlary saýlamak
+        function selectCard(card) {
+            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+
+        // Täze kategoriýa geçilende birinji kartyny awtomatiki işjeňleşdirýär
+        function resetSelection(selector) {
+            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            const firstCard = document.querySelector(selector);
+            if (firstCard) firstCard.classList.add('selected');
+        }
+
+        // Maglumatlary barlamak we SMS tekstini taýýarlamak
+        function generateMessage() {
+            const pubgId = document.getElementById('pubg-id').value.trim();
+            const pubgNick = document.getElementById('pubg-nick').value.trim();
+            const contact = document.getElementById('user-contact').value.trim();
+            const selectedCard = document.querySelector('.uc-card.selected');
+            
+            if (!selectedCard) {
+                alert('Ýalňyşlyk: Haýsyda bolsa bir haryt saýlamaly (UC ýa-da Sandyk)!');
+                return null;
+            }
+
+            if (!pubgId || !pubgNick || !contact) {
+                alert('Ýalňyşlyk: Ähli öýjükleri (ID, Nickname we Nomer) doldurmaly!');
+                return null;
+            }
+
+            if (pubgId.length < 8 || pubgId.length > 12) {
+                alert('Ýalňyşlyk: PUBG ID-ňiz dogry däl! (8-12 sifr aralygynda bolmaly)');
+                return null;
+            }
+
+            const type = selectedCard.getAttribute('data-type');
+            const value = selectedCard.getAttribute('data-value');
+            const price = selectedCard.getAttribute('data-price');
+
+            // Haryt görnüşine görä tekst dökümi
+            const itemLine = type === 'UC' ? `📦 Paket: ${value} UC` : `📦 Sandyk: ${value}`;
+
+            return `Salam Toxic Shop, men haryt satyn aljak!\n\n` +
+                   `${itemLine}\n` +
+                   `💰 Baha: ${price} TMT\n` +
+                   `🆔 PUBG ID: ${pubgId}\n` +
+                   `👤 Nickname: ${pubgNick}\n` +
+                   `📞 Habarlaşmak: ${contact}`;
+        }
+
+        function sendOrder() {
+            const message = generateMessage();
+            if (!message) return;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.location.href = `sms:${MY_PHONE_NUMBER}?body=${encodedMessage}`;
+        }
+
+        function copyOrderText() {
+            const message = generateMessage();
+            if (!message) return;
+
+            navigator.clipboard.writeText(message).then(() => {
+                alert('Sargyt maglumatlary göçürildi! Indi saňa islän mesenjeriňden (Telegram/Imo) ugradyp biler.');
+            }).catch(err => {
+                alert('Ýalňyşlyk boldy, täzeden barlap görüň!');
+            });
+        }
+    </script>
+</body>
+</html>
