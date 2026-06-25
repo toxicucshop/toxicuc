@@ -122,14 +122,78 @@
 
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
 
-        /* TÄZE: Göçürgiç düwmesiniň dizaýny */
         .btn-copy {
             width: 100%; background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-muted); padding: 12px; border-radius: 14px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
             cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 25px;
         }
 
         .btn-copy:hover { background: #253047; color: #fff; border-color: rgba(255, 255, 255, 0.15); }
+
+        /* TÄZE: Habarlaşmak we Sosial Media dizaýny */
+        .contacts-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        .contacts-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contacts-title i { color: var(--primary); }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #111622;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--primary);
+            background: #141b2a;
+            transform: translateX(3px);
+        }
+
+        .contact-info { display: flex; align-items: center; gap: 12px; }
+        .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
+        
+        /* Sosial ulgamlaryň reňkleri */
+        .fa-telegram { color: #0088cc; }
+        .fa-comments { color: #38863c; } /* Imo däl-de umumy çat logojygy */
+        .fa-link { color: var(--primary); }
+
+        .contact-action {
+            font-size: 0.9rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -202,10 +266,51 @@
             Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
 
-        <!-- TÄZE: Teksti Göçürmek Düwmesi -->
+        <!-- Teksti Göçürmek Düwmesi -->
         <button class="btn-copy" onclick="copyOrderText()">
             <i class="fa-solid fa-copy"></i> Teksti Göçür (Copy)
         </button>
+
+        <!-- TÄZE: Biz Bilir Habarlaşmak Bölümi -->
+        <div class="contacts-footer">
+            <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
+            <div class="contact-links">
+                
+                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
+                    <div class="contact-info">
+                        <i class="fa-solid fa-link"></i>
+                        <span>Start Kanalymyz (@toxic_pubg)</span>
+                    </div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+
+                <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
+                    <div class="contact-info">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>Telegram Kanalymyz</span>
+                    </div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+
+                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
+                    <div class="contact-info">
+                        <i class="fa-solid fa-hashtag"></i>
+                        <span>Link (@toxic_pubg)</span>
+                    </div>
+                    <div class="contact-action">Giriş</div>
+                </a>
+
+                <div class="contact-item" style="cursor: default;">
+                    <div class="contact-info">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Imo: 71523250</span>
+                    </div>
+                    <div class="contact-action" style="color: var(--text-muted);">IMO</div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -219,7 +324,6 @@
             });
         });
 
-        // Umumy tekst döretmek funksiýasy
         function generateMessage() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
@@ -247,7 +351,6 @@
                    `📞 Habarlaşmak: ${contact}`;
         }
 
-        // Göni SMS ugratmak
         function sendOrder() {
             const message = generateMessage();
             if (!message) return;
@@ -256,7 +359,6 @@
             window.location.href = `sms:${MY_PHONE_NUMBER}?body=${encodedMessage}`;
         }
 
-        // TÄZE: Teksti buferize göçürmek
         function copyOrderText() {
             const message = generateMessage();
             if (!message) return;
