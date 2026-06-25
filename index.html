@@ -143,8 +143,8 @@
         .contact-info { display: flex; align-items: center; gap: 12px; }
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
         .fa-telegram { color: #0088cc; }
+        .fa-rocket { color: #ff9900; }
         .fa-comments { color: #38863c; }
-        .fa-link { color: var(--primary); }
         .contact-action { font-size: 0.9rem; color: var(--primary); text-transform: uppercase; font-family: 'Orbitron', sans-serif; font-weight: bold; }
     </style>
 </head>
@@ -154,14 +154,12 @@
         <h1>Toxic <span>Shop</span></h1>
         <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
-        <!-- Kategoriýa Menýusy -->
         <div class="tab-menu">
             <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
             <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
             <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
         </div>
 
-        <!-- Müşderi Maglumat Formasy -->
         <div class="form-group">
             <label>PUBG Mobile ID-ňiz</label>
             <div class="input-wrapper">
@@ -186,7 +184,6 @@
             </div>
         </div>
 
-        <!-- UC PAKETLERI (BÖLÜM 1) -->
         <div id="uc-grid-section" class="uc-grid">
             <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
                 <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
@@ -214,7 +211,6 @@
             </div>
         </div>
 
-        <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
                 <div class="uc-amount"><i class="fa-solid fa-box-open"></i> Ag</div>
@@ -230,13 +226,11 @@
             </div>
         </div>
 
-        <!-- AKKAUNT BÖLÜMI (BÖLÜM 3) -->
         <div id="akkaunt-section" style="display: none; padding: 20px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
-            <i class="fa-solid fa-fire-burner" style="font-size: 2rem; color: var(--accent); margin-bottom: 10px;"></i>
+            <i class="fa-solid fa-fire" style="font-size: 2rem; color: var(--accent); margin-bottom: 10px;"></i>
             <p>Akkauntlar tiz wagtda goşular!</p>
         </div>
 
-        <!-- Düwmeler -->
         <button class="btn-submit" onclick="sendOrder()">
             Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -245,26 +239,25 @@
             <i class="fa-solid fa-copy"></i> Teksti Göçür (Copy)
         </button>
 
-        <!-- Habarlaşmak we Kanallar -->
         <div class="contacts-footer">
             <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
             <div class="contact-links">
-                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
-                    <div class="contact-info"><i class="fa-solid fa-link"></i><span>Start Kanalymyz (@toxic_pubg)</span></div>
+                
+                <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
+                    <div class="contact-info"><i class="fa-solid fa-rocket"></i><span>Start Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
                 </a>
+
                 <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
                     <div class="contact-action">Giriş</div>
                 </a>
-                <a href="https://t.me/toxic_pubg" target="_blank" class="contact-item">
-                    <div class="contact-info"><i class="fa-solid fa-hashtag"></i><span>Link (@toxic_pubg)</span></div>
-                    <div class="contact-action">Giriş</div>
-                </a>
+
                 <div class="contact-item" style="cursor: default;">
-                    <div class="contact-info"><i class="fa-solid fa-comments"></i><span>Imo: 71523250</span></div>
+                    <div class="contact-info"><i class="fa-solid fa-comments"></i><span>Imo / Telegram: 71523250</span></div>
                     <div class="contact-action" style="color: var(--text-muted);">IMO</div>
                 </div>
+
             </div>
         </div>
 
@@ -273,7 +266,6 @@
     <script>
         const MY_PHONE_NUMBER = '+99371523250'; 
 
-        // Kategoriýalary çalşyrmak
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('uc-grid-section').style.display = 'none';
@@ -283,35 +275,29 @@
             if (tabName === 'uc') {
                 document.getElementById('btn-uc').classList.add('active');
                 document.getElementById('uc-grid-section').style.display = 'grid';
-                // UC saýlananda awtomatiki birinji elementi saýlaýar
                 resetSelection('#uc-grid-section .uc-card');
             } else if (tabName === 'sandyk') {
                 document.getElementById('btn-sandyk').classList.add('active');
                 document.getElementById('sandyk-grid-section').style.display = 'grid';
-                // Sandyk saýlananda awtomatiki birinji elementi saýlaýar
                 resetSelection('#sandyk-grid-section .uc-card');
             } else if (tabName === 'akkaunt') {
                 document.getElementById('btn-akkaunt').classList.add('active');
                 document.getElementById('akkaunt-section').style.display = 'block';
-                // Ähli saýlawlary aýyrýar
                 document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
             }
         }
 
-        // Kartlary saýlamak
         function selectCard(card) {
             document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
             card.classList.add('selected');
         }
 
-        // Täze kategoriýa geçilende birinji kartyny awtomatiki işjeňleşdirýär
         function resetSelection(selector) {
             document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
             const firstCard = document.querySelector(selector);
             if (firstCard) firstCard.classList.add('selected');
         }
 
-        // Maglumatlary barlamak we SMS tekstini taýýarlamak
         function generateMessage() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
@@ -337,7 +323,6 @@
             const value = selectedCard.getAttribute('data-value');
             const price = selectedCard.getAttribute('data-price');
 
-            // Haryt görnüşine görä tekst dökümi
             const itemLine = type === 'UC' ? `📦 Paket: ${value} UC` : `📦 Sandyk: ${value}`;
 
             return `Salam Toxic Shop, men haryt satyn aljak!\n\n` +
