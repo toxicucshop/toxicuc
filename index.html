@@ -243,12 +243,11 @@
     </div>
 
     <script>
-        // TEHNIKI MAGLUMATLAR
         const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
         const TG_CHAT_ID = "7819113909";     
-        const MY_MAIN_NUMBER = "+99371523250"; // Telegramy ýoklara ätiýaçlyk hasabat barjak nomer
+        const MY_MAIN_NUMBER = "+99371523250"; 
 
-        // 7 SANY ARASSA FORMATLY TÖLEG NOMERLERIŇ
+        // 7 sany elýeterli nomerleriň
         const myNumbers = [
             "71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"
         ]; 
@@ -288,7 +287,7 @@
             if (firstCard) firstCard.classList.add('selected');
         }
 
-        // AKYLLY BÖLÜJI MEHANIZM: Bahany max 50 TMT-dan böleklere bölýär
+        // AKYLLY BÖLÜJI MEHANIZM (Bahany max 50-den bölýär)
         function splitPrice(totalPrice) {
             let parts = [];
             let remaining = totalPrice;
@@ -302,12 +301,6 @@
                 }
             }
             return parts;
-        }
-
-        // Nomerleri gaýtalanmajak ýaly random saýlamak
-        function getRandomNumbers(count) {
-            let shuffled = [...myNumbers].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
         }
 
         function sendOrder() {
@@ -324,61 +317,57 @@
             const value = selectedCard.getAttribute('data-value');
             const price = parseInt(selectedCard.getAttribute('data-price'));
 
-            // Bahany 50 TMT limitine görä wektorlara bölýäris (Mysal: 105 -> [50, 50, 5])
+            // Bahany bölýäris (105 -> [50, 50, 5])
             const priceParts = splitPrice(price);
-            const targetNumbers = getRandomNumbers(priceParts.length);
 
-            // Telegram bot hasabaty üçin bölünen SMS-leriň tertibi
+            // GÖNI 1 SANÝA NOMER SAÝLAÝARYS (Bütin tölegler diňe şu ýekeje nomere gider!)
+            const randomIdx = Math.floor(Math.random() * myNumbers.length);
+            const chosenNumber = myNumbers[randomIdx];
+
+            // Telegram bot hasabaty üçin tekst dretmek
             let smsListText = "";
             priceParts.forEach((part, index) => {
-                smsListText += `   - SMS ${index+1}: +993${targetNumbers[index]} -> *${part} TMT*\n`;
+                smsListText += `   - SMS ${index+1}: +993${chosenNumber} -> *${part} TMT*\n`;
             });
 
-            // Telegram Bot üçin doly hasabat haty
             const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
                                     `📦 *Haryt:* ${value} ${type}\n` +
                                     `💰 *Jemi Baha:* ${price} TMT\n` +
+                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
                                     `📊 *Bölingan SMS-ler:*\n${smsListText}` +
                                     `🆔 *PUBG ID:* \`${pubgId}\`\n` +
                                     `👤 *Nickname:* ${pubgNick}`;
 
-            // Telegramy ýoklar üçin Ätiýaçlyk (Fallback) adaty SMS haty
-            const backupSmsText = `Toxic Shop Sargyt:\n📦 ${value} ${type}\n💰 Jemi: ${price} TMT\n🆔 ID: ${pubgId}\n👤 Nick: ${pubgNick}`;
+            const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
 
-            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisini hiç zat üýtgetmän ugradyň!`);
+            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisi +993${chosenNumber} nomerine gider. SMS-leri üýtgetmän ugradyň!`);
 
-            // Ilki bota maglumat ugratmaga synanyşýar
+            // Telegram bota ugradylýar
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TG_CHAT_ID,
-                    text: tgReportMessage,
-                    parse_mode: 'Markdown'
-                })
+                body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgReportMessage, parse_mode: 'Markdown' })
             }).then(() => {
-                // Telegram bar bolsa: Diňe 0804 töleg SMS-lerini açýar
-                executeSmsSending(priceParts, targetNumbers, backupSmsText, false);
-            }).catch(err => {
-                // Internet/Telegram bökdençligi bolsa: 0804-leri açyp, iň soňunda saňa adaty SMS ugradýar
-                executeSmsSending(priceParts, targetNumbers, backupSmsText, true);
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, false);
+            }).catch(() => {
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, true);
             });
         }
 
-        // SMS-leri wagt aralygy (delay) bilen yzly-yzyna açýan funksiýa
-        function executeSmsSending(parts, numbers, backupText, isFallback) {
+        // SMS-leri şol bir nomere gezekli-gezek ugradýan akylly funksiýa
+        function executeSmsSending(parts, number, backupText, isFallback) {
             let delay = 0;
             
-            // 0804 Töleg hatlaryny gezekli-gezek açýar
+            // Ähli bölünen pullary göni şol bir 'number' (nomere) ugradýar
             parts.forEach((part, index) => {
                 setTimeout(() => {
-                    const pure0804Text = `${numbers[index]} ${part}`;
+                    const pure0804Text = `${number} ${part}`;
                     window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
                 }, delay);
-                delay += 2500; // Klent SMS-i ugradyp ýetişer ýaly aralygy 2.5 sekunt goýdum
+                delay += 2500; // Klent birini ugradyp ýetişip, yzyna dönende ikinjisi açylýar
             });
 
-            // Eger Ätiýaçlyk mehanizmi işe düşen bolsa (Telegramy ýoklara) saňa SMS taşlaýar
+            // Telegramy ýoklar üçin saňa geljek adaty SMS
             if (isFallback) {
                 setTimeout(() => {
                     window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
