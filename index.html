@@ -5,15 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toxic Shop</title>
     <style>
-        body { background: #060913; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        h1 { color: #00ff66; }
-        .card { background: #111827; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #333; }
+        :root {
+            --primary: #00ff66;
+            --accent: #ff0055;
+            --dark-bg: #060913;
+        }
+        body { background-color: var(--dark-bg); color: white; font-family: sans-serif; padding: 20px; text-align: center; }
+        h1 { color: var(--primary); }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: #111827; padding: 20px; margin: 15px 0; border-radius: 15px; border: 1px solid #333; }
+        .btn { background: var(--primary); color: #000; padding: 15px; border: none; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>Toxic Shop</h1>
-    <div class="card">
-        <p>Saýt işleýär!</p>
+    <div class="container">
+        <h1>Toxic Shop</h1>
+        <div class="card">
+            <p>Iň amatly UC we Akkauntlar!</p>
+        </div>
+        <div class="card">
+            <input type="number" id="pubgid" placeholder="PUBG ID-ňiz" style="width: 90%; padding: 10px; border-radius: 5px; border: none;">
+        </div>
+        <button class="btn" onclick="alert('Sargyt ugradyldy!')">Sargyt Et</button>
     </div>
 </body>
 </html>
