@@ -35,7 +35,7 @@
 
         .container {
             width: 100%;
-            max-width: 480px; /* Telefonyň ekranyna doly uýgunlaşar ýaly */
+            max-width: 480px;
         }
 
         header {
@@ -67,7 +67,6 @@
             align-items: center;
         }
 
-        /* Guty adynyň çep tarapyndaky dik gök çyzyk */
         section h2::before {
             content: '';
             display: inline-block;
@@ -106,7 +105,6 @@
             border-color: var(--primary-cyan);
         }
 
-        /* Ähli esasy gök knopkalar */
         .btn-submit {
             width: 100%;
             padding: 14px;
@@ -119,17 +117,15 @@
             margin-top: 10px;
             background: linear-gradient(to right, var(--primary-cyan), var(--primary-blue));
             color: #000;
+            transition: opacity 0.2s ease;
         }
 
-        /* Goşulan UC sanawynyň dizaýny */
+        .btn-submit:active {
+            opacity: 0.8;
+        }
+
         .uc-list-container {
             margin-top: 20px;
-        }
-
-        .uc-list-container h3 {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
         }
 
         ul {
@@ -170,7 +166,7 @@
 
         <section id="sazlamalar">
             <h2>Dükanyň Sazlamalary</h2>
-            <form>
+            <form id="shop-settings-form">
                 <div class="form-group">
                     <label for="shop-name">Dükan Ady</label>
                     <input type="text" id="shop-name" value="Toxic Shop">
@@ -181,24 +177,24 @@
                     <input type="text" id="work-hours" value="09:00 - 22:00">
                 </div>
 
-                <button type="button" class="btn-submit">Sazlamalary Sakla</button>
+                <button type="button" class="btn-submit" id="btn-save-settings">Sazlamalary Sakla</button>
             </form>
         </section>
 
         <section id="uc-gosmak">
             <h2>Toxic UC Goşmak</h2>
-            <form>
+            <form id="uc-form">
                 <div class="form-group">
                     <label for="uc-name">UC Sany (Ady)</label>
-                    <input type="text" id="uc-name" value="60 UC 💎">
+                    <input type="text" id="uc-name" placeholder="Mysal: 60 UC 💎">
                 </div>
 
                 <div class="form-group">
                     <label for="uc-price">Bahasy (TMT)</label>
-                    <input type="number" id="uc-price" value="15">
+                    <input type="number" id="uc-price" placeholder="Mysal: 15">
                 </div>
 
-                <button type="button" class="btn-submit">UC Goş</button>
+                <button type="button" class="btn-submit" id="btn-add-uc">UC Goş</button>
             </form>
 
             <div class="uc-list-container">
@@ -213,22 +209,86 @@
 
         <section id="akkaunt-gosmak">
             <h2>Toxic Akkaunt Goşmak</h2>
-            <form>
+            <form id="account-form">
                 <div class="form-group">
                     <label for="acc-name">Akkaunt Ady / Nomeri</label>
-                    <input type="text" id="acc-name" value="Akkaunt #1 ⚡">
+                    <input type="text" id="acc-name" placeholder="Mysal: Akkaunt #1 ⚡">
                 </div>
 
                 <div class="form-group">
                     <label for="acc-desc">Akkaunt Barada (Gysgaça we @kanal silkalary)</label>
-                    <textarea id="acc-desc" rows="3"></textarea>
+                    <textarea id="acc-desc" rows="3" placeholder="Maglumatlary ýazyň..."></textarea>
                 </div>
                 
-                <button type="button" class="btn-submit">Akkaunt Goş</button>
+                <button type="button" class="btn-submit" id="btn-add-account">Akkaunt Goş</button>
             </form>
         </section>
 
     </div>
 
+    <script>
+        // 1. Sazlamalary saklamak funksiýasy
+        document.getElementById('btn-save-settings').addEventListener('click', function() {
+            const shopName = document.getElementById('shop-name').value;
+            const workHours = document.getElementById('work-hours').value;
+            
+            alert(`Sazlamalar ýatda saklandy!\nDükan: ${shopName}\nWagt: ${workHours}`);
+        });
+
+        // 2. UC Goşmak funksiýasy
+        document.getElementById('btn-add-uc').addEventListener('click', function() {
+            const ucNameInput = document.getElementById('uc-name');
+            const ucPriceInput = document.getElementById('uc-price');
+            
+            const ucName = ucNameInput.value.trim();
+            const ucPrice = ucPriceInput.value.trim();
+
+            // Meýdançalar boş bolsa goýbermejek bolmaly
+            if (ucName === '' || ucPrice === '') {
+                alert('Eý ýigit, meýdançalary doldur!');
+                return;
+            }
+
+            const ucList = document.getElementById('uc-list');
+
+            // Täze li elementi döredýäris
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${ucName} - ${ucPrice} TMT</span>
+                <button type="button" class="btn-delete">Öçür</button>
+            `;
+
+            // Täze goşulan "Öçür" knopkasyna funksiýa birikdirýäris
+            li.querySelector('.btn-delete').addEventListener('click', function() {
+                li.remove();
+            });
+
+            // Sanawa goşýarys
+            ucList.appendChild(li);
+
+            // Inputs arassalaýarys
+            ucNameInput.value = '';
+            ucPriceInput.value = '';
+        });
+
+        // 3. Ilkinji duran nusga elementi öçürmek funksiýasy
+        document.querySelectorAll('.btn-delete').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.target.closest('li').remove();
+            });
+        });
+
+        // 4. Akkaunt goşmak funksiýasy
+        document.getElementById('btn-add-account').addEventListener('click', function() {
+            const accName = document.getElementById('acc-name').value;
+            if(accName.trim() === '') {
+                alert('Akkaunt adyny ýazyň!');
+                return;
+            }
+            alert(`Akkaunt üstünlikli goşuldy: ${accName}`);
+            document.getElementById('acc-name').value = '';
+            document.getElementById('acc-desc').value = '';
+        });
+    </script>
 </body>
 </html>
