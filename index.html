@@ -149,7 +149,7 @@
             </div>
         </div>
 
-        <!-- UC Bahalary Grid (Täze paketler goşuldy) -->
+        <!-- UC Paketleri -->
         <div class="uc-grid">
             <div class="uc-card selected" data-uc="60" data-price="23">
                 <div class="uc-amount"><i class="fa-solid fa-coins"></i> 60</div>
@@ -177,14 +177,15 @@
             </div>
         </div>
 
+        <!-- Sargyt Etmek Düwmesi -->
         <button class="btn-submit" onclick="sendOrder()">
             Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
     </div>
 
     <script>
-        // ⚠️ ŞU ÝERE ÖZ TELEFON NOMERIŇIZI ÝAZYŇ (Telegram ýa-da Imo üçin)
-        const MY_PHONE_NUMBER = '+99371523250'; 
+        // Seniň belgiň koda göni goýuldy
+        const MY_PHONE_NUMBER = '+99361523250'; 
 
         const cards = document.querySelectorAll('.uc-card');
         cards.forEach(card => {
@@ -195,32 +196,29 @@
         });
 
         function sendOrder() {
-            const pubgId = document.getElementById('pubg-id').value;
-            const contact = document.getElementById('user-contact').value;
+            const pubgId = document.getElementById('pubg-id').value.trim();
+            const contact = document.getElementById('user-contact').value.trim();
             const selectedCard = document.querySelector('.uc-card.selected');
             
             if (!pubgId || !contact) {
-                alert('Siz ähli maglumatlary doldurmaly!');
+                alert('ID we Habarlaşmak üçin belgiňizi giriziň!');
                 return;
             }
 
             const ucAmount = selectedCard.getAttribute('data-uc');
             const ucPrice = selectedCard.getAttribute('data-price');
 
-            // ⚡️ Owadan awtomatiki sms teksti
-            const message = `🚀 *TOXIC UC SHOP SARGYT*\n\n` +
-                            `👋 Salam Toxic Shop, men UC satyn aljak!\n` +
-                            `📦 *Paket:* ${ucAmount} UC\n` +
-                            `💰 *Baha:* ${ucPrice} TMT\n` +
-                            `🆔 *PUBG ID:* ${pubgId}\n` +
-                            `📞 *Habarlaşmak:* ${contact}`;
+            // Ösen we düşnükli SMS teksti
+            const message = `Salam Toxic Shop, men UC satyn aljak!\n\n` +
+                            `📦 Paket: ${ucAmount} UC\n` +
+                            `💰 Baha: ${ucPrice} TMT\n` +
+                            `🆔 PUBG ID: ${pubgId}\n` +
+                            `📞 Habarlaşmak: ${contact}`;
 
-            // Telegram ulanýan müşderiler üçin göni aragatnaşyk silkasy
             const encodedMessage = encodeURIComponent(message);
-            const telegramUrl = `https://t.me/share/url?url=${encodedMessage}`;
             
-            // Ýa-da göni brauzerden ugratmak
-            window.open(telegramUrl, '_blank');
+            // Göni seniň nomeriňe SMS taýýarlaýar
+            window.location.href = `sms:${MY_PHONE_NUMBER}?body=${encodedMessage}`;
         }
     </script>
 </body>
