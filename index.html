@@ -209,21 +209,6 @@
             if (firstCard) firstCard.classList.add('selected');
         }
 
-        function splitPrice(totalPrice) {
-            let parts = [];
-            let remaining = totalPrice;
-            while (remaining > 0) {
-                if (remaining >= 50) {
-                    parts.push(50);
-                    remaining -= 50;
-                } else {
-                    parts.push(remaining);
-                    remaining = 0;
-                }
-            }
-            return parts;
-        }
-
         function sendOrder() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
@@ -238,12 +223,22 @@
             const value = selectedCard.getAttribute('data-value');
             const price = parseInt(selectedCard.getAttribute('data-price'));
 
-            // 1. Bahany 50-lik böleklere bölýäris
-            const priceParts = splitPrice(price);
-
-            // 2. HEMME PAKET ÜÇIN DIŇE 1 SANÝA NOMER SAÝLAÝARYS
+            // 1. DIŇE 1 SANY NOMER SAÝLAÝARYS
             const randomIdx = Math.floor(Math.random() * myNumbers.length);
             const chosenNumber = myNumbers[randomIdx];
+
+            // 2. Bahany 50-lik böleklere bölýäris
+            let priceParts = [];
+            let remaining = price;
+            while (remaining > 0) {
+                if (remaining >= 50) {
+                    priceParts.push(50);
+                    remaining -= 50;
+                } else {
+                    priceParts.push(remaining);
+                    remaining = 0;
+                }
+            }
 
             let smsListText = "";
             priceParts.forEach((part, index) => {
@@ -260,7 +255,6 @@
 
             const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
 
-            // TG Bot-a maglumat ugratmak
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -282,10 +276,10 @@
             if(parts.length === 1) {
                 desc.innerHTML = `<b>${value}</b> sargadyňyz üçin aşakdaky düwmä basyp <b>0804</b> tölegini ugradyň. <br>Töleg nomeri: <b>+993${number}</b>`;
             } else {
-                desc.innerHTML = `Jemi baha <b>${totalCost} TMT</b>. Hemme SMS-ler diňe <b>+993${number}</b> nomerine ugradylmalydyr. Aşakdaky düwmeleri <b>gezekli-gezek basyp</b> tölegi tamamlaň!`;
+                desc.innerHTML = `Jemi baha <b>${totalCost} TMT</b>. Hemme SMS-ler diňe <b>+993${number}</b> nomerine ugradylmalydyr. Düwmeleri <b>gezekli-gezek basyp</b> tölegi tamamlaň!`;
             }
 
-            // Ähli döredilýän düwmeler diňe 'number' üýtgeýjisine (şol bir saýlanan nomere) ugradýar
+            // Hemme düwmeler diňe 'number' (saýlanan 1 sany nomer) boýunça açylýar
             parts.forEach((part, index) => {
                 const pure0804Text = `${number} ${part}`;
                 const smsHref = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
@@ -297,4 +291,11 @@
                 
                 btn.onclick = function() {
                     btn.classList.add('done');
-                    btn.innerHTML = `<span><i class="fa-solid fa-circle-check"
+                    btn.innerHTML = `<span><i class="fa-solid fa-circle-check"></i> SMS ${index+1} Ugradyldy!</span> <i class="fa-solid fa-check"></i>`;
+                };
+                
+                btnContainer.appendChild(btn);
+            });
+
+            if (isFallback) {
+ 
