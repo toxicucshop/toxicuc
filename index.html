@@ -103,13 +103,11 @@
             padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
         }
 
-        /* NÄSAZLYK DÜZEDILDI: Diňe hakyky saýlanan (.selected) ýagdaýynda ýaşyl bolar */
-        .uc-card.selected { 
-            border-color: var(--primary); 
-            background: #192235; 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 102, 0.1); 
+        .uc-card:hover, .uc-card.selected {
+            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
+
+        .uc-card.selected { box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
 
         .uc-amount {
             font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
@@ -140,74 +138,6 @@
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
         .fa-telegram { color: #0088cc; }
         .fa-rocket { color: #ff9900; }
-
-        /* MODAL STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 7, 12, 0.85);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-        .modal-box {
-            width: 100%;
-            max-width: 400px;
-            background: #151c2c;
-            border: 2px solid var(--primary);
-            border-radius: 20px;
-            padding: 22px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0, 255, 102, 0.2);
-        }
-        .modal-desc {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-        .sms-btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-        .sms-link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1e2638;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        .sms-link-btn.done {
-            background: rgba(0, 255, 102, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        .modal-close {
-            background: #ff0055;
-            border: none;
-            color: #fff;
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
     </style>
 </head>
 <body>
@@ -312,15 +242,6 @@
 
     </div>
 
-    <!-- MODAL HTML (Töleg Düwmeleri) -->
-    <div id="paymentModal" class="modal-overlay">
-        <div class="modal-box">
-            <div id="modalDesc" class="modal-desc"></div>
-            <div id="smsBtnContainer" class="sms-btn-container"></div>
-            <button class="modal-close" onclick="document.getElementById('paymentModal').style.display='none'">Ýap</button>
-        </div>
-    </div>
-
     <script>
         const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
         const TG_CHAT_ID = "7819113909";     
@@ -366,6 +287,22 @@
             if (firstCard) firstCard.classList.add('selected');
         }
 
+        // AKYLLY BÖLÜJI MEHANIZM (Bahany max 50-den bölýär)
+        function splitPrice(totalPrice) {
+            let parts = [];
+            let remaining = totalPrice;
+            while (remaining > 0) {
+                if (remaining >= 50) {
+                    parts.push(50);
+                    remaining -= 50;
+                } else {
+                    parts.push(remaining);
+                    remaining = 0;
+                }
+            }
+            return parts;
+        }
+
         function sendOrder() {
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
@@ -380,23 +317,14 @@
             const value = selectedCard.getAttribute('data-value');
             const price = parseInt(selectedCard.getAttribute('data-price'));
 
-            // 1. Ulgam ilki bilen DIŇE 1 sany töleg nomerini saýlaýar
+            // Bahany bölýäris (105 -> [50, 50, 5])
+            const priceParts = splitPrice(price);
+
+            // GÖNI 1 SANÝA NOMER SAÝLAÝARYS (Bütin tölegler diňe şu ýekeje nomere gider!)
             const randomIdx = Math.floor(Math.random() * myNumbers.length);
             const chosenNumber = myNumbers[randomIdx];
 
-            // 2. Bahany 50-lik böleklere bölmek
-            let priceParts = [];
-            let remaining = price;
-            while (remaining > 0) {
-                if (remaining >= 50) {
-                    priceParts.push(50);
-                    remaining -= 50;
-                } else {
-                    priceParts.push(remaining);
-                    remaining = 0;
-                }
-            }
-
+            // Telegram bot hasabaty üçin tekst dretmek
             let smsListText = "";
             priceParts.forEach((part, index) => {
                 smsListText += `   - SMS ${index+1}: +993${chosenNumber} -> *${part} TMT*\n`;
@@ -405,23 +333,47 @@
             const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
                                     `📦 *Haryt:* ${value} ${type}\n` +
                                     `💰 *Jemi Baha:* ${price} TMT\n` +
-                                    `📱 *Töleg Nomeri:* +993${chosenNumber}\n` +
+                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
                                     `📊 *Bölingan SMS-ler:*\n${smsListText}` +
                                     `🆔 *PUBG ID:* \`${pubgId}\`\n` +
                                     `👤 *Nickname:* ${pubgNick}`;
 
             const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
 
-            // Telegrama ugratmak we ekrana Modaly çykarmak
+            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisi +993${chosenNumber} nomerine gider. SMS-leri üýtgetmän ugradyň!`);
+
+            // Telegram bota ugradylýar
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgReportMessage, parse_mode: 'Markdown' })
             }).then(() => {
-                openPaymentModal(priceParts, chosenNumber, backupSmsText, false, value, price);
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, false);
             }).catch(() => {
-                openPaymentModal(priceParts, chosenNumber, backupSmsText, true, value, price);
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, true);
             });
         }
 
-        function ope
+        // SMS-leri şol bir nomere gezekli-gezek ugradýan akylly funksiýa
+        function executeSmsSending(parts, number, backupText, isFallback) {
+            let delay = 0;
+            
+            // Ähli bölünen pullary göni şol bir 'number' (nomere) ugradýar
+            parts.forEach((part, index) => {
+                setTimeout(() => {
+                    const pure0804Text = `${number} ${part}`;
+                    window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                }, delay);
+                delay += 2500; // Klent birini ugradyp ýetişip, yzyna dönende ikinjisi açylýar
+            });
+
+            // Telegramy ýoklar üçin saňa geljek adaty SMS
+            if (isFallback) {
+                setTimeout(() => {
+                    window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
+                }, delay);
+            }
+        }
+    </script>
+</body>
+</html>
