@@ -22,9 +22,9 @@
             --input-bg: #111622;
             --card-hover: #192235;
             --container-bg: rgba(21, 28, 44, 0.6);
+            --review-bg: rgba(255, 255, 255, 0.03);
         }
 
-        /* Gije/Gündiz režimi - Light Mode */
         body.light-mode {
             --bg-dark: #f0f2f5;
             --card-bg: #ffffff;
@@ -35,6 +35,7 @@
             --input-bg: #ffffff;
             --card-hover: #e8ecf1;
             --container-bg: rgba(255, 255, 255, 0.8);
+            --review-bg: rgba(0, 0, 0, 0.03);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,7 +65,7 @@
             transition: all 0.4s ease;
         }
 
-        /* Header with Dark/Light Mode Button */
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -85,6 +86,12 @@
         .header h1 span {
             color: var(--primary);
             text-shadow: 0 0 20px var(--primary-glow);
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 20px var(--primary-glow); }
+            50% { text-shadow: 0 0 40px var(--primary-glow), 0 0 80px var(--primary-glow); }
         }
 
         .theme-toggle {
@@ -131,6 +138,12 @@
 
         .order-id-display.show {
             display: flex;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .order-id-display .label {
@@ -163,6 +176,34 @@
         .order-id-display .copy-btn:hover {
             color: var(--primary);
             background: rgba(0, 255, 102, 0.1);
+        }
+
+        /* Anti-Spam Warning */
+        .spam-warning {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease;
+        }
+
+        .spam-warning.show {
+            display: flex;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
         }
 
         /* Scrollable Tab Menu */
@@ -268,11 +309,20 @@
             padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
         }
 
-        .uc-card:hover, .uc-card.selected {
+        .uc-card:hover {
             border-color: var(--primary); background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow-color);
         }
 
-        .uc-card.selected { box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
+        .uc-card.selected {
+            border-color: var(--primary); background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+            animation: cardSelect 0.4s ease;
+        }
+
+        @keyframes cardSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
 
         .uc-amount {
             font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
@@ -288,9 +338,216 @@
             cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
             display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
             margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: btnGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes btnGlow {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(10%, 10%) rotate(180deg); }
+        }
+
+        .btn-submit:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
+        .btn-submit:active { transform: scale(0.95); }
+
+        /* Order History */
+        .order-history {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .order-history.show {
+            display: block;
+        }
+
+        .order-history-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .order-history-title .clear-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .order-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--input-bg);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .order-history-item .oh-id {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .order-history-item .oh-info {
+            color: var(--text-muted);
+        }
+
+        .order-history-item .oh-time {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+
+        /* Reviews */
+        .reviews-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .reviews-section.show {
+            display: block;
+        }
+
+        .reviews-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .review-item {
+            background: var(--review-bg);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .review-item .review-name {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .review-item .review-stars {
+            color: #ffcc00;
+            font-size: 0.9rem;
+        }
+
+        .review-item .review-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .review-item .review-time {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            margin-top: 4px;
+        }
+
+        .review-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .review-input-area input {
+            flex: 1;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .review-input-area input:focus {
+            border-color: var(--primary);
+        }
+
+        .review-input-area .stars-select {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .review-input-area .stars-select i {
+            color: #ffcc00;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .review-input-area .stars-select i:hover {
+            transform: scale(1.3);
+        }
+
+        .review-input-area .send-review {
+            background: var(--primary);
+            border: none;
+            color: #000;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .review-input-area .send-review:hover {
+            transform: scale(1.05);
+        }
 
         .contacts-footer { border-top: 1px solid var(--border-color); padding-top: 20px; text-align: left; }
         .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
@@ -315,7 +572,6 @@
             margin-bottom: 15px;
         }
 
-        /* Toast bildiriş */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -363,13 +619,16 @@
             .container { padding: 15px; }
             .header h1 { font-size: 1.5rem; }
             .uc-amount { font-size: 1.1rem; }
+            .review-input-area {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Header with Dark/Light Mode -->
+        <!-- Header -->
         <div class="header">
             <h1>Toxic <span>Shop</span></h1>
             <button class="theme-toggle" onclick="toggleTheme()" title="Gije/Gündiz režimi">
@@ -385,6 +644,21 @@
             <button class="copy-btn" onclick="copyOrderId()" title="Göçürip al">
                 <i class="fa-regular fa-copy"></i>
             </button>
+        </div>
+
+        <!-- Anti-Spam Warning -->
+        <div class="spam-warning" id="spamWarning">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>5 minutda iň köp 3 sargyt edip bilersiňiz! Sözüňiz 10 minutdan soň aýrylýar.</span>
+        </div>
+
+        <!-- Order History -->
+        <div class="order-history" id="orderHistory">
+            <div class="order-history-title">
+                <span><i class="fa-solid fa-clock-rotate-left"></i> Sargyt taryhy</span>
+                <button class="clear-btn" onclick="clearHistory()"><i class="fa-solid fa-trash-can"></i> Arassala</button>
+            </div>
+            <div id="historyList"></div>
         </div>
 
         <!-- Scrollable Kategoriýa Menýusy -->
@@ -506,6 +780,26 @@
             Töleg we Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
 
+        <!-- Ulanyjy pikirleri -->
+        <div class="reviews-section" id="reviewsSection">
+            <div class="reviews-title">
+                <span><i class="fa-solid fa-star" style="color: #ffcc00;"></i> Ulanyjy pikirleri</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);" id="reviewCount">0 pikir</span>
+            </div>
+            <div id="reviewsList"></div>
+            <div class="review-input-area">
+                <input type="text" id="reviewInput" placeholder="Pikiriňizi ýazyň..." maxlength="200">
+                <div class="stars-select" id="starsSelect">
+                    <i class="fa-regular fa-star" data-star="1" onclick="setReviewStar(1)"></i>
+                    <i class="fa-regular fa-star" data-star="2" onclick="setReviewStar(2)"></i>
+                    <i class="fa-regular fa-star" data-star="3" onclick="setReviewStar(3)"></i>
+                    <i class="fa-regular fa-star" data-star="4" onclick="setReviewStar(4)"></i>
+                    <i class="fa-regular fa-star" data-star="5" onclick="setReviewStar(5)"></i>
+                </div>
+                <button class="send-review" onclick="addReview()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
         <!-- Habarlaşmak we Kanallar -->
         <div class="contacts-footer">
             <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
@@ -542,8 +836,96 @@
         if (tg) tg.expand();
 
         let currentOrderId = '';
+        let selectedStars = 0;
+        let reviewCounter = 0;
 
-        // ---------- FUNKSIÝA 2a: Sargyt belgisi (Order ID) ----------
+        // ---------- ANTI-SPAM (1) ----------
+        let orderTimestamps = [];
+
+        function checkSpam() {
+            const now = Date.now();
+            // 5 minutdan köne sargytlary aýyr
+            orderTimestamps = orderTimestamps.filter(t => now - t < 300000);
+            
+            if (orderTimestamps.length >= 3) {
+                document.getElementById('spamWarning').classList.add('show');
+                return false;
+            }
+            document.getElementById('spamWarning').classList.remove('show');
+            return true;
+        }
+
+        function addOrderTimestamp() {
+            orderTimestamps.push(Date.now());
+            localStorage.setItem('orderTimestamps', JSON.stringify(orderTimestamps));
+        }
+
+        function loadOrderTimestamps() {
+            const saved = localStorage.getItem('orderTimestamps');
+            if (saved) {
+                orderTimestamps = JSON.parse(saved);
+                // Köne sargytlary aýyr
+                const now = Date.now();
+                orderTimestamps = orderTimestamps.filter(t => now - t < 300000);
+                checkSpam();
+            }
+        }
+
+        // ---------- ORDER HISTORY (2) ----------
+        function addOrderToHistory(orderId, item, price) {
+            const history = getHistory();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
+            
+            history.unshift({
+                id: orderId,
+                item: item,
+                price: price,
+                time: timeStr,
+                timestamp: now.getTime()
+            });
+            
+            // Iň köp 20 sargyt sakla
+            if (history.length > 20) history.pop();
+            
+            localStorage.setItem('orderHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function getHistory() {
+            const saved = localStorage.getItem('orderHistory');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        function renderHistory() {
+            const history = getHistory();
+            const container = document.getElementById('historyList');
+            const section = document.getElementById('orderHistory');
+            
+            if (history.length === 0) {
+                section.classList.remove('show');
+                return;
+            }
+            
+            section.classList.add('show');
+            container.innerHTML = history.map(item => `
+                <div class="order-history-item">
+                    <span class="oh-id">${item.id}</span>
+                    <span class="oh-info">${item.item} - ${item.price} TMT</span>
+                    <span class="oh-time">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            if (confirm('Sargyt taryhyny arassalamak isleýärsiňizmi?')) {
+                localStorage.removeItem('orderHistory');
+                renderHistory();
+                showToast('🗑️ Taryh arassalandy!');
+            }
+        }
+
+        // ---------- ORDER ID (2a) ----------
         function generateOrderId() {
             const timestamp = Date.now().toString(36).toUpperCase();
             const random = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -557,7 +939,6 @@
                 currentOrderId = orderId;
                 value.textContent = orderId;
                 display.classList.add('show');
-                // 5 sekuntdan soň gizle
                 setTimeout(() => {
                     display.classList.remove('show');
                 }, 8000);
@@ -569,7 +950,6 @@
             navigator.clipboard.writeText(currentOrderId).then(() => {
                 showToast('✅ Sargyt belgiňiz kopyalandy!');
             }).catch(() => {
-                // Köne brauzer üçin alternatiw
                 const textarea = document.createElement('textarea');
                 textarea.value = currentOrderId;
                 document.body.appendChild(textarea);
@@ -580,7 +960,7 @@
             });
         }
 
-        // ---------- FUNKSIÝA 2c: Gije/Gündiz režimi ----------
+        // ---------- THEME (2c) ----------
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('themeIcon');
@@ -600,7 +980,6 @@
             }
         }
 
-        // Sahypa ýüklenende ýatda saklanan temany ýükle
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
             const icon = document.getElementById('themeIcon');
@@ -615,9 +994,91 @@
             }
         }
 
-        // ---------- TOAST BILDIRIŞ ----------
+        // ---------- REVIEWS (5) ----------
+        function setReviewStar(star) {
+            selectedStars = star;
+            const stars = document.querySelectorAll('#starsSelect i');
+            stars.forEach((el, index) => {
+                if (index < star) {
+                    el.className = 'fa-solid fa-star';
+                    el.style.color = '#ffcc00';
+                } else {
+                    el.className = 'fa-regular fa-star';
+                    el.style.color = '#ffcc00';
+                }
+            });
+        }
+
+        function addReview() {
+            const input = document.getElementById('reviewInput');
+            const text = input.value.trim();
+            
+            if (!text) {
+                showToast('⚠️ Pikiriňizi ýazyň!');
+                return;
+            }
+            if (selectedStars === 0) {
+                showToast('⭐ Ýyldyz saýlaň!');
+                return;
+            }
+            
+            const reviews = getReviews();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
+            
+            reviews.unshift({
+                name: 'Ulanyjy',
+                stars: selectedStars,
+                text: text,
+                time: timeStr,
+                timestamp: now.getTime()
+            });
+            
+            if (reviews.length > 10) reviews.pop();
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            
+            input.value = '';
+            setReviewStar(0);
+            renderReviews();
+            showToast('✅ Pikiriňiz üçin sagboluň!');
+        }
+
+        function getReviews() {
+            const saved = localStorage.getItem('reviews');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        function renderReviews() {
+            const reviews = getReviews();
+            const container = document.getElementById('reviewsList');
+            const section = document.getElementById('reviewsSection');
+            const count = document.getElementById('reviewCount');
+            
+            if (reviews.length === 0) {
+                section.classList.remove('show');
+                return;
+            }
+            
+            section.classList.add('show');
+            count.textContent = `${reviews.length} pikir`;
+            
+            container.innerHTML = reviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-name">${review.name}</span>
+                        <span class="review-stars">${'⭐'.repeat(review.stars)}</span>
+                    </div>
+                    <div class="review-text">${review.text}</div>
+                    <div class="review-time">${review.time}</div>
+                </div>
+            `).join('');
+        }
+
+        // ---------- TOAST ----------
         function showToast(message) {
             const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
             toastMessage.textContent = message;
             toast.classList.add('show');
@@ -628,10 +1089,18 @@
             }, 2500);
         }
 
-        // ---------- SCROLLABLE TABS FUNKSIÝALARY ----------
+        // ---------- SCROLLABLE TABS ----------
         document.addEventListener('DOMContentLoaded', function() {
             loadTheme();
+            loadOrderTimestamps();
+            renderHistory();
+            renderReviews();
             initScrollableTabs();
+            
+            // Klawiaturan Enter bilen sargyt iber
+            document.getElementById('pubg-nick').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendOrder();
+            });
         });
 
         function initScrollableTabs() {
@@ -772,6 +1241,12 @@
         }
 
         function sendOrder() {
+            // Anti-Spam barlagy
+            if (!checkSpam()) {
+                showToast('⏳ 5 minutda iň köp 3 sargyt!');
+                return;
+            }
+
             const pubgId = document.getElementById('pubg-id').value.trim();
             const pubgNick = document.getElementById('pubg-nick').value.trim();
             const selectedCard = document.querySelector('.uc-card.selected');
@@ -788,6 +1263,12 @@
             // Sargyt belgisi döret
             const orderId = generateOrderId();
             showOrderId(orderId);
+            
+            // Spam-a goş
+            addOrderTimestamp();
+            
+            // Taryha goş
+            addOrderToHistory(orderId, `${value} ${type}`, price);
 
             const priceParts = splitPrice(price);
             const randomIdx = Math.floor(Math.random() * myNumbers.length);
