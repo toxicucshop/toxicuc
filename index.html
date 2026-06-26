@@ -17,6 +17,24 @@
             --card-bg: #151c2c;
             --text-main: #ffffff;
             --text-muted: #8fa0be;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --input-bg: #111622;
+            --card-hover: #192235;
+            --container-bg: rgba(21, 28, 44, 0.6);
+        }
+
+        /* Gije/Gündiz režimi - Light Mode */
+        body.light-mode {
+            --bg-dark: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1a1a2e;
+            --text-muted: #555555;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --card-hover: #e8ecf1;
+            --container-bg: rgba(255, 255, 255, 0.8);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,33 +48,64 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            transition: all 0.4s ease;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
-            background: rgba(21, 28, 44, 0.6);
+            background: var(--container-bg);
             padding: 25px;
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px var(--shadow-color);
             text-align: center;
+            transition: all 0.4s ease;
         }
 
-        h1 {
+        /* Header with Dark/Light Mode Button */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.4rem;
+            font-size: 2rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--text-main);
-            margin-bottom: 5px;
+            margin: 0;
         }
 
-        h1 span {
+        .header h1 span {
             color: var(--primary);
             text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg) scale(1.1);
+            border-color: var(--primary);
         }
 
         .subtitle {
@@ -64,6 +113,56 @@
             font-size: 1.1rem;
             margin-bottom: 25px;
             font-weight: 500;
+            text-align: left;
+        }
+
+        /* Order ID Display */
+        .order-id-display {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .order-id-display.show {
+            display: flex;
+        }
+
+        .order-id-display .label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-id-display .id-value {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .order-id-display .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .order-id-display .copy-btn:hover {
+            color: var(--primary);
+            background: rgba(0, 255, 102, 0.1);
         }
 
         /* Scrollable Tab Menu */
@@ -93,8 +192,8 @@
         .tab-btn {
             flex: 0 0 auto;
             min-width: 90px;
-            background: #1e2638;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-main);
             padding: 12px 16px;
             border-radius: 12px;
@@ -124,8 +223,8 @@
         }
 
         .scroll-arrow {
-            background: #1e2638;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
             width: 40px;
             height: 40px;
@@ -155,29 +254,29 @@
         .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
 
         .form-control {
-            width: 100%; background: #111622; border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 14px 14px 14px 45px; border-radius: 14px; color: #fff;
+            width: 100%; background: var(--input-bg); border: 1px solid var(--border-color);
+            padding: 14px 14px 14px 45px; border-radius: 14px; color: var(--text-main);
             font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; outline: none; transition: all 0.3s ease;
         }
 
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.15); background: #141b2a; }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.15); background: var(--card-hover); }
 
         .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
 
         .uc-card {
-            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--card-bg); border: 1px solid var(--border-color);
             padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
         }
 
         .uc-card:hover, .uc-card.selected {
-            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary); background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow-color);
         }
 
         .uc-card.selected { box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
 
         .uc-amount {
             font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
-            color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            color: var(--text-main); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
 
         .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -193,18 +292,17 @@
 
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
 
-        .contacts-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: left; }
+        .contacts-footer { border-top: 1px solid var(--border-color); padding-top: 20px; text-align: left; }
         .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
         .contacts-title i { color: var(--primary); }
         .contact-links { display: flex; flex-direction: column; gap: 10px; }
-        .contact-item { display: flex; align-items: center; justify-content: space-between; background: #111622; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03); text-decoration: none; color: #fff; font-size: 1.1rem; font-weight: 600; transition: all 0.2s ease; }
-        .contact-item:hover { border-color: var(--primary); background: #141b2a; transform: translateX(3px); }
+        .contact-item { display: flex; align-items: center; justify-content: space-between; background: var(--input-bg); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); text-decoration: none; color: var(--text-main); font-size: 1.1rem; font-weight: 600; transition: all 0.2s ease; }
+        .contact-item:hover { border-color: var(--primary); background: var(--card-hover); transform: translateX(3px); }
         .contact-info { display: flex; align-items: center; gap: 12px; }
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
         .fa-telegram { color: #0088cc; }
         .fa-rocket { color: #ff9900; }
 
-        /* Empty state */
         .empty-state {
             padding: 40px 10px;
             text-align: center;
@@ -215,6 +313,40 @@
             font-size: 2.5rem;
             display: block;
             margin-bottom: 15px;
+        }
+
+        /* Toast bildiriş */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card-bg);
+            color: var(--text-main);
+            padding: 14px 24px;
+            border-radius: 14px;
+            border: 1px solid var(--primary);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i {
+            color: var(--primary);
+            font-size: 1.2rem;
         }
 
         @media (max-width: 480px) {
@@ -229,7 +361,7 @@
                 font-size: 0.9rem;
             }
             .container { padding: 15px; }
-            h1 { font-size: 1.8rem; }
+            .header h1 { font-size: 1.5rem; }
             .uc-amount { font-size: 1.1rem; }
         }
     </style>
@@ -237,8 +369,23 @@
 <body>
 
     <div class="container">
-        <h1>Toxic <span>Shop</span></h1>
+        <!-- Header with Dark/Light Mode -->
+        <div class="header">
+            <h1>Toxic <span>Shop</span></h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Gije/Gündiz režimi">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
         <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
+
+        <!-- Order ID Display -->
+        <div class="order-id-display" id="orderIdDisplay">
+            <span class="label"><i class="fa-solid fa-hashtag"></i> Sargyt belgiňiz:</span>
+            <span class="id-value" id="orderIdValue">------</span>
+            <button class="copy-btn" onclick="copyOrderId()" title="Göçürip al">
+                <i class="fa-regular fa-copy"></i>
+            </button>
+        </div>
 
         <!-- Scrollable Kategoriýa Menýusy -->
         <div class="tab-menu-wrapper">
@@ -376,6 +523,12 @@
 
     </div>
 
+    <!-- Toast bildiriş -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toastMessage">Kopyalandy!</span>
+    </div>
+
     <script>
         const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0"; 
         const TG_CHAT_ID = "7819113909";     
@@ -386,10 +539,98 @@
         ]; 
 
         let tg = window.Telegram?.WebApp;
-        if (tg) tg.expand(); 
+        if (tg) tg.expand();
+
+        let currentOrderId = '';
+
+        // ---------- FUNKSIÝA 2a: Sargyt belgisi (Order ID) ----------
+        function generateOrderId() {
+            const timestamp = Date.now().toString(36).toUpperCase();
+            const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return `TOX-${timestamp.slice(-4)}-${random}`;
+        }
+
+        function showOrderId(orderId) {
+            const display = document.getElementById('orderIdDisplay');
+            const value = document.getElementById('orderIdValue');
+            if (orderId) {
+                currentOrderId = orderId;
+                value.textContent = orderId;
+                display.classList.add('show');
+                // 5 sekuntdan soň gizle
+                setTimeout(() => {
+                    display.classList.remove('show');
+                }, 8000);
+            }
+        }
+
+        function copyOrderId() {
+            if (!currentOrderId) return;
+            navigator.clipboard.writeText(currentOrderId).then(() => {
+                showToast('✅ Sargyt belgiňiz kopyalandy!');
+            }).catch(() => {
+                // Köne brauzer üçin alternatiw
+                const textarea = document.createElement('textarea');
+                textarea.value = currentOrderId;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('✅ Sargyt belgiňiz kopyalandy!');
+            });
+        }
+
+        // ---------- FUNKSIÝA 2c: Gije/Gündiz režimi ----------
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                icon.className = 'fa-solid fa-sun';
+                icon.style.color = '#ff9900';
+                localStorage.setItem('theme', 'light');
+                showToast('☀️ Gündiz režimi işledi');
+            } else {
+                icon.className = 'fa-solid fa-moon';
+                icon.style.color = '';
+                localStorage.setItem('theme', 'dark');
+                showToast('🌙 Gije režimi işledi');
+            }
+        }
+
+        // Sahypa ýüklenende ýatda saklanan temany ýükle
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const icon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                icon.className = 'fa-solid fa-sun';
+                icon.style.color = '#ff9900';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+                icon.style.color = '';
+            }
+        }
+
+        // ---------- TOAST BILDIRIŞ ----------
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
 
         // ---------- SCROLLABLE TABS FUNKSIÝALARY ----------
         document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
             initScrollableTabs();
         });
 
@@ -470,19 +711,16 @@
             if (container) updateArrowVisibility(container);
         });
 
-        // ---------- TAB SWITCH (Kategoriýalar) ----------
+        // ---------- TAB SWITCH ----------
         function switchTab(tabName) {
-            // Ähli düwmelerden active klassyny aýyr
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             
-            // Ähli bölümleri gizle
             document.getElementById('uc-grid-section').style.display = 'none';
             document.getElementById('sandyk-grid-section').style.display = 'none';
             document.getElementById('akkaunt-section').style.display = 'none';
             document.getElementById('podpiska-grid-section').style.display = 'none';
             document.getElementById('promo-section').style.display = 'none';
 
-            // Saýlanan kategoriýany görkez
             if (tabName === 'uc') {
                 document.getElementById('btn-uc').classList.add('active');
                 document.getElementById('uc-grid-section').style.display = 'grid';
@@ -539,13 +777,17 @@
             const selectedCard = document.querySelector('.uc-card.selected');
             
             if (!selectedCard || !pubgId || !pubgNick) {
-                alert('Ýalňyşlyk: Ähli öýjükleri dolduryň we paket saýlaň!');
+                showToast('⚠️ Ähli öýjükleri dolduryň we paket saýlaň!');
                 return;
             }
 
             const type = selectedCard.getAttribute('data-type');
             const value = selectedCard.getAttribute('data-value');
             const price = parseInt(selectedCard.getAttribute('data-price'));
+
+            // Sargyt belgisi döret
+            const orderId = generateOrderId();
+            showOrderId(orderId);
 
             const priceParts = splitPrice(price);
             const randomIdx = Math.floor(Math.random() * myNumbers.length);
@@ -557,16 +799,17 @@
             });
 
             const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
+                                    `🆔 *Sargyt Belgi:* ${orderId}\n` +
                                     `📦 *Haryt:* ${value} ${type}\n` +
                                     `💰 *Jemi Baha:* ${price} TMT\n` +
-                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
+                                    `📱 *Saýlanan nomer:* +993${chosenNumber}\n` +
                                     `📊 *Bölingan SMS-ler:*\n${smsListText}` +
                                     `🆔 *PUBG ID:* \`${pubgId}\`\n` +
                                     `👤 *Nickname:* ${pubgNick}`;
 
             const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
 
-            alert(`✅ Sargyt taýýar! \n\n💰 Jemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar.\n📱 Ählisi +993${chosenNumber} nomerine gider.\n⚠️ SMS-leri üýtgetmän ugradyň!`);
+            showToast(`✅ Sargyt taýýar! Belgi: ${orderId}`);
 
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
