@@ -9,106 +9,293 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         :root {
             --primary: #00ff66;
+            --primary-glow: rgba(0, 255, 102, 0.3);
+            --accent: #ff0055;
             --bg-dark: #0b0f19;
             --card-bg: #151c2c;
             --text-main: #ffffff;
             --text-muted: #8fa0be;
             --border-color: rgba(255, 255, 255, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --input-bg: #111622;
+            --card-hover: #192235;
+            --container-bg: rgba(21, 28, 44, 0.6);
+            --review-bg: rgba(255, 255, 255, 0.03);
         }
+
+        body.light-mode {
+            --bg-dark: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1a1a2e;
+            --text-muted: #555555;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --card-hover: #e8ecf1;
+            --container-bg: rgba(255, 255, 255, 0.8);
+            --review-bg: rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background: var(--bg-dark);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             font-family: 'Rajdhani', sans-serif;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            color: var(--text-main);
+            transition: all 0.4s ease;
         }
+
         .container {
-            max-width: 480px;
             width: 100%;
-            background: rgba(21, 28, 44, 0.8);
+            max-width: 480px;
+            background: var(--container-bg);
             padding: 25px;
             border-radius: 24px;
             border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            text-align: center;
+            transition: all 0.4s ease;
         }
-        h1 {
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .header h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2rem;
-            text-align: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            margin: 0;
         }
-        h1 span {
+        .header h1 span {
             color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+            animation: neonPulse 2s ease-in-out infinite;
         }
+        @keyframes neonPulse {
+            0%,
+            100% {
+                text-shadow: 0 0 20px var(--primary-glow);
+            }
+            50% {
+                text-shadow: 0 0 40px var(--primary-glow), 0 0 80px var(--primary-glow);
+            }
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .theme-toggle:hover {
+            transform: rotate(30deg) scale(1.1);
+            border-color: var(--primary);
+        }
+
         .subtitle {
             color: var(--text-muted);
-            text-align: center;
-            margin: 10px 0 20px 0;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-align: left;
         }
-        .tab-menu {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-        .tab-btn {
-            flex: 0 0 auto;
-            padding: 10px 16px;
+
+        /* ORDER ID */
+        .order-id-display {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideDown 0.5s ease;
+        }
+        .order-id-display.show {
+            display: flex;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .order-id-display .label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
             font-weight: 700;
-            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .order-id-display .id-value {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .order-id-display .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
             cursor: pointer;
-            white-space: nowrap;
+            padding: 4px 8px;
+        }
+        .order-id-display .copy-btn:hover {
+            color: var(--primary);
+        }
+
+        /* SPAM WARNING */
+        .spam-warning {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease;
+        }
+        .spam-warning.show {
+            display: flex;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-10px);
+            }
+            40% {
+                transform: translateX(10px);
+            }
+            60% {
+                transform: translateX(-5px);
+            }
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* TABS */
+        .tab-menu-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .tab-menu-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            padding: 4px 0;
+            flex: 1;
+        }
+        .tab-menu-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-btn {
+            flex: 0 0 auto;
+            min-width: 85px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            user-select: none;
         }
         .tab-btn.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
             color: #000;
-            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: none;
         }
         .tab-btn:hover {
             transform: scale(1.05);
         }
+
+        .scroll-arrow {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .scroll-arrow:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* FORMS */
         .form-group {
-            margin-bottom: 15px;
+            position: relative;
+            margin-bottom: 18px;
             text-align: left;
         }
         .form-group label {
-            color: var(--text-muted);
             display: block;
-            margin-bottom: 5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-        .form-control {
-            width: 100%;
-            padding: 14px 14px 14px 45px;
-            border-radius: 14px;
-            background: #111622;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-            font-family: 'Rajdhani', sans-serif;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus {
-            border-color: var(--primary);
+            letter-spacing: 1px;
         }
         .input-wrapper {
             position: relative;
@@ -119,42 +306,81 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
+            font-size: 1.1rem;
         }
+        .form-control {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 14px 14px 45px;
+            border-radius: 14px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
+        }
+
+        /* CARDS */
         .uc-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .uc-card {
             background: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 16px;
             border-radius: 16px;
-            text-align: center;
-            border: 1px solid var(--border-color);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
+            text-align: center;
         }
         .uc-card:hover {
             border-color: var(--primary);
+            background: var(--card-hover);
             transform: translateY(-2px);
         }
         .uc-card.selected {
             border-color: var(--primary);
-            background: #192235;
+            background: var(--card-hover);
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+            animation: cardSelect 0.4s ease;
+        }
+        @keyframes cardSelect {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
         .uc-amount {
             font-family: 'Orbitron', sans-serif;
-            color: var(--text-main);
+            font-size: 1.3rem;
             font-weight: 800;
-            font-size: 1.2rem;
+            color: var(--text-main);
         }
         .uc-price {
             color: var(--primary);
+            font-size: 1.1rem;
             font-weight: 700;
             margin-top: 4px;
         }
+        .uc-price i {
+            color: #ffcc00;
+        }
+
+        /* SUBMIT */
         .btn-submit {
             width: 100%;
             background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
@@ -163,66 +389,44 @@
             padding: 16px;
             border-radius: 16px;
             font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
             font-weight: 800;
-            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             text-transform: uppercase;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            animation: btnGlow 3s ease-in-out infinite;
+        }
+        @keyframes btnGlow {
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(10%, 10%) rotate(180deg);
+            }
         }
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4);
+            transform: translateY(-2px) scale(1.02);
         }
-        .btn-submit:active {
-            transform: scale(0.95);
-        }
-        .empty-state {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 30px;
-        }
-        .empty-state i {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 15px;
-        }
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--card-bg);
-            color: var(--text-main);
-            padding: 14px 24px;
-            border-radius: 14px;
-            border: 1px solid var(--primary);
-            font-weight: 700;
-            opacity: 0;
-            transition: all 0.5s ease;
-            z-index: 999;
-            max-width: 90%;
-            text-align: center;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        .spam-warning {
-            background: rgba(255, 0, 85, 0.1);
-            border: 1px solid #ff0055;
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-bottom: 15px;
-            display: none;
-            color: #ff0055;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        .spam-warning.show {
-            display: block;
-        }
+
+        /* ORDER HISTORY */
         .order-history {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -230,7 +434,7 @@
             padding: 16px;
             margin-bottom: 20px;
             display: none;
-            max-height: 250px;
+            max-height: 260px;
             overflow-y: auto;
             text-align: left;
         }
@@ -243,58 +447,38 @@
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .order-history-title .clear-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
         }
         .order-history-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 12px;
-            background: #111622;
-            border-radius: 8px;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--input-bg);
+            border-radius: 10px;
             margin-bottom: 6px;
-            font-size: 0.85rem;
             border-left: 3px solid var(--primary);
+            font-size: 0.9rem;
         }
         .order-history-item .oh-id {
-            color: var(--primary);
             font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
             font-size: 0.75rem;
         }
-        .clear-btn {
-            background: transparent;
-            border: none;
-            color: #ff0055;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .order-id-display {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .order-id-display.show {
-            display: flex;
-        }
-        .order-id-display .id-value {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-            font-weight: 800;
-        }
-        .copy-btn {
-            background: transparent;
-            border: none;
+        .order-history-item .oh-time {
             color: var(--text-muted);
-            cursor: pointer;
-            padding: 4px 8px;
+            font-size: 0.7rem;
         }
-        .copy-btn:hover {
-            color: var(--primary);
-        }
+
+        /* REVIEWS */
         .reviews-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -306,29 +490,57 @@
         .reviews-section.show {
             display: block;
         }
+        .reviews-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
         .review-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--review-bg);
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 8px;
             border: 1px solid var(--border-color);
             text-align: left;
+            animation: fadeInUp 0.4s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .review-item .review-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+        .review-item .review-name {
+            font-weight: 700;
+            color: var(--text-main);
         }
         .review-item .review-stars {
             color: #ffcc00;
+            font-size: 0.9rem;
         }
         .review-item .review-text {
             color: var(--text-muted);
             font-size: 0.95rem;
+            margin-top: 4px;
         }
         .review-item .review-time {
             color: var(--text-muted);
             font-size: 0.7rem;
+            margin-top: 4px;
         }
+
         .review-input-area {
             display: flex;
             gap: 10px;
@@ -337,11 +549,13 @@
         }
         .review-input-area input {
             flex: 1;
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: #111622;
+            background: var(--input-bg);
             border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
             color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
             outline: none;
             min-width: 120px;
         }
@@ -370,10 +584,24 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: 700;
+            transition: all 0.3s ease;
         }
         .review-input-area .send-review:hover {
             transform: scale(1.05);
         }
+
+        .empty-state {
+            padding: 30px 10px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
         .contacts-footer {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
@@ -388,7 +616,7 @@
         .contact-item {
             display: flex;
             justify-content: space-between;
-            background: #111622;
+            background: var(--input-bg);
             padding: 12px 16px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
@@ -403,16 +631,48 @@
         .contact-info i {
             margin-right: 10px;
         }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card-bg);
+            color: var(--text-main);
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: 1px solid var(--primary);
+            font-weight: 700;
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 15px;
             }
-            h1 {
-                font-size: 1.5rem;
+            .header h1 {
+                font-size: 1.4rem;
             }
             .tab-btn {
+                min-width: 70px;
                 font-size: 0.75rem;
-                padding: 8px 12px;
+                padding: 8px 10px;
+            }
+            .scroll-arrow {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+            .uc-amount {
+                font-size: 1rem;
             }
         }
     </style>
@@ -420,23 +680,29 @@
 <body>
     <div class="container">
 
-    <!-- Header -->
-    <h1>Toxic <span>Shop</span></h1>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Toxic <span>Shop</span></h1>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Gije/Gündiz režimi">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
     <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
-    <!-- Spam Warning -->
-    <div class="spam-warning" id="spamWarning">
-        ⚠️ 5 minutda iň köp 3 sargyt edip bilersiňiz!
-    </div>
-
-    <!-- Order ID Display -->
+    <!-- ORDER ID -->
     <div class="order-id-display" id="orderIdDisplay">
-        <span style="color:var(--text-muted);font-size:0.85rem;">Sargyt belgiňiz:</span>
+        <span class="label"><i class="fa-solid fa-hashtag"></i> Sargyt belgiňiz:</span>
         <span class="id-value" id="orderIdValue">------</span>
         <button class="copy-btn" onclick="copyOrderId()"><i class="fa-regular fa-copy"></i></button>
     </div>
 
-    <!-- Order History -->
+    <!-- SPAM WARNING -->
+    <div class="spam-warning" id="spamWarning">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>5 minutda iň köp 3 sargyt edip bilersiňiz!</span>
+    </div>
+
+    <!-- ORDER HISTORY -->
     <div class="order-history" id="orderHistory">
         <div class="order-history-title">
             <span><i class="fa-solid fa-clock-rotate-left"></i> Sargyt taryhy</span>
@@ -445,16 +711,20 @@
         <div id="historyList"></div>
     </div>
 
-    <!-- Tab Menu -->
-    <div class="tab-menu" id="tabMenu">
-        <button class="tab-btn active" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
-        <button class="tab-btn" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
-        <button class="tab-btn" onclick="switchTab('podpiska')"><i class="fa-solid fa-crown"></i> PODPISKA</button>
-        <button class="tab-btn" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
-        <button class="tab-btn" onclick="switchTab('promo')"><i class="fa-solid fa-gift"></i> PROMO</button>
+    <!-- TABS -->
+    <div class="tab-menu-wrapper">
+        <button class="scroll-arrow" onclick="scrollTabs(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="tab-menu-scroll" id="tabMenuScroll">
+            <button class="tab-btn active" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
+            <button class="tab-btn" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
+            <button class="tab-btn" onclick="switchTab('podpiska')"><i class="fa-solid fa-crown"></i> PODPISKA</button>
+            <button class="tab-btn" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
+            <button class="tab-btn" onclick="switchTab('promo')"><i class="fa-solid fa-gift"></i> PROMO</button>
+        </div>
+        <button class="scroll-arrow" onclick="scrollTabs(1)"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <!-- Form -->
+    <!-- FORM -->
     <div class="form-group">
         <label>PUBG Mobile ID</label>
         <div class="input-wrapper">
@@ -470,82 +740,82 @@
         </div>
     </div>
 
-    <!-- UC Grid -->
+    <!-- UC -->
     <div id="uc-grid-section" class="uc-grid">
         <div class="uc-card selected" onclick="selectCard(this)" data-price="23" data-value="60 UC">
             <div class="uc-amount">60 UC</div>
-            <div class="uc-price">23 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 23 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="105" data-value="325 UC">
             <div class="uc-amount">325 UC</div>
-            <div class="uc-price">105 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 105 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="210" data-value="660 UC">
             <div class="uc-amount">660 UC</div>
-            <div class="uc-price">210 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 210 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="530" data-value="1800 UC">
             <div class="uc-amount">1800 UC</div>
-            <div class="uc-price">530 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 530 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="1000" data-value="3850 UC">
             <div class="uc-amount">3850 UC</div>
-            <div class="uc-price">1000 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 1000 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="2000" data-value="8100 UC">
             <div class="uc-amount">8100 UC</div>
-            <div class="uc-price">2000 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 2000 TMT</div>
         </div>
     </div>
 
-    <!-- Sandyk Grid -->
+    <!-- SANDYK -->
     <div id="sandyk-grid-section" class="uc-grid" style="display:none;">
         <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Ag sandyk">
             <div class="uc-amount">Ag sandyk</div>
-            <div class="uc-price">30 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 30 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="80" data-value="Material sandyk">
             <div class="uc-amount">Material sandyk</div>
-            <div class="uc-price">80 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 80 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="125" data-value="Amblem sandyk">
             <div class="uc-amount">Amblem sandyk</div>
-            <div class="uc-price">125 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 125 TMT</div>
         </div>
     </div>
 
-    <!-- Podpiska Grid -->
+    <!-- PODPISKA -->
     <div id="podpiska-grid-section" class="uc-grid" style="display:none;">
         <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Prime">
             <div class="uc-amount">Prime</div>
-            <div class="uc-price">30 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-crown"></i> 30 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="225" data-value="Prime Plus">
             <div class="uc-amount">Prime Plus</div>
-            <div class="uc-price">225 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-crown"></i> 225 TMT</div>
         </div>
     </div>
 
-    <!-- Akkaunt Section -->
+    <!-- AKKAUNT -->
     <div id="akkaunt-section" class="empty-state" style="display:none;">
-        <i class="fa-solid fa-fire" style="color:#ff0055;"></i>
+        <i class="fa-solid fa-fire" style="color:var(--accent);"></i>
         <p>Akkauntlar tiz wagtda goşular!</p>
     </div>
 
-    <!-- Promo Section -->
+    <!-- PROMO -->
     <div id="promo-section" class="empty-state" style="display:none;">
-        <i class="fa-solid fa-gift" style="color:#00ff66;"></i>
+        <i class="fa-solid fa-gift" style="color:var(--primary);"></i>
         <p>Promo kodlar tiz wagtynda!</p>
     </div>
 
-    <!-- Submit Button -->
+    <!-- SUBMIT -->
     <button class="btn-submit" onclick="sendOrder()">
         <i class="fa-solid fa-paper-plane"></i> Töleg we Sargyt Et
     </button>
 
-    <!-- Reviews Section -->
+    <!-- REVIEWS -->
     <div class="reviews-section" id="reviewsSection">
-        <div style="display:flex;justify-content:space-between;font-family:'Orbitron',sans-serif;color:var(--text-muted);font-size:0.85rem;margin-bottom:12px;">
+        <div class="reviews-title">
             <span><i class="fa-solid fa-star" style="color:#ffcc00;"></i> Ulanyjy pikirleri</span>
             <span id="reviewCount">0 pikir</span>
         </div>
@@ -563,7 +833,7 @@
         </div>
     </div>
 
-    <!-- Contacts -->
+    <!-- CONTACTS -->
     <div class="contacts-footer">
         <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak</div>
         <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
@@ -578,14 +848,13 @@
 
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 <script>
-    // ---------- KONFIGURASIÝA ----------
+    // ---------- KONFIG ----------
     const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0";
     const TG_CHAT_ID = "7819113909";
     const MY_NUMBERS = ["71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"];
-    
+
     let tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
@@ -603,6 +872,41 @@
         t._timeout = setTimeout(() => t.classList.remove('show'), 3000);
     }
 
+    // ---------- THEME (Ak/Gara) ----------
+    function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById('themeIcon');
+        body.classList.toggle('light-mode');
+        if (body.classList.contains('light-mode')) {
+            icon.className = 'fa-solid fa-sun';
+            icon.style.color = '#ff9900';
+            localStorage.setItem('theme', 'light');
+            showToast('☀️ Gündiz režimi');
+        } else {
+            icon.className = 'fa-solid fa-moon';
+            icon.style.color = '';
+            localStorage.setItem('theme', 'dark');
+            showToast('🌙 Gije režimi');
+        }
+    }
+
+    function loadTheme() {
+        const saved = localStorage.getItem('theme');
+        const icon = document.getElementById('themeIcon');
+        if (saved === 'light') {
+            document.body.classList.add('light-mode');
+            icon.className = 'fa-solid fa-sun';
+            icon.style.color = '#ff9900';
+        }
+    }
+
+    // ---------- SCROLL TABS ----------
+    function scrollTabs(dir) {
+        const c = document.getElementById('tabMenuScroll');
+        if (!c) return;
+        c.scrollBy({ left: dir * 180, behavior: 'smooth' });
+    }
+
     // ---------- TAB SWITCH ----------
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -614,6 +918,7 @@
         document.getElementById('podpiska-grid-section').style.display = 'none';
         document.getElementById('akkaunt-section').style.display = 'none';
         document.getElementById('promo-section').style.display = 'none';
+
         if (tab === 'uc') {
             document.getElementById('uc-grid-section').style.display = 'grid';
             resetSelection('#uc-grid-section .uc-card');
@@ -632,13 +937,11 @@
         }
     }
 
-    function resetSelection(selector) {
+    function resetSelection(sel) {
         document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-        const first = document.querySelector(selector);
-        if (first) {
-            first.classList.add('selected');
-            selectedCard = first;
-        }
+        const first = document.querySelector(sel);
+        if (first) { first.classList.add('selected');
+            selectedCard = first; }
     }
 
     // ---------- SELECT CARD ----------
@@ -683,20 +986,20 @@
     }
 
     function showOrderId(id) {
-        const display = document.getElementById('orderIdDisplay');
-        const value = document.getElementById('orderIdValue');
+        const d = document.getElementById('orderIdDisplay');
+        const v = document.getElementById('orderIdValue');
         if (id) {
             currentOrderId = id;
-            value.textContent = id;
-            display.classList.add('show');
-            setTimeout(() => display.classList.remove('show'), 8000);
+            v.textContent = id;
+            d.classList.add('show');
+            setTimeout(() => d.classList.remove('show'), 8000);
         }
     }
 
     function copyOrderId() {
         if (!currentOrderId) return;
         navigator.clipboard.writeText(currentOrderId).then(() => {
-            showToast('✅ Sargyt belgiňiz kopyalandy!');
+            showToast('✅ Kopyalandy!');
         }).catch(() => {
             const ta = document.createElement('textarea');
             ta.value = currentOrderId;
@@ -704,62 +1007,55 @@
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            showToast('✅ Sargyt belgiňiz kopyalandy!');
+            showToast('✅ Kopyalandy!');
         });
     }
 
     // ---------- ORDER HISTORY ----------
     function addOrderToHistory(id, item, price) {
-        const history = getHistory();
+        const h = getHistory();
         const now = new Date();
-        const time = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
-        history.unshift({ id, item, price, time });
-        if (history.length > 20) history.pop();
-        localStorage.setItem('orderHistory', JSON.stringify(history));
+        const t = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
+        h.unshift({ id, item, price, time: t });
+        if (h.length > 20) h.pop();
+        localStorage.setItem('orderHistory', JSON.stringify(h));
         renderHistory();
     }
 
     function getHistory() {
-        const saved = localStorage.getItem('orderHistory');
-        return saved ? JSON.parse(saved) : [];
+        const s = localStorage.getItem('orderHistory');
+        return s ? JSON.parse(s) : [];
     }
 
     function renderHistory() {
-        const history = getHistory();
-        const container = document.getElementById('historyList');
-        const section = document.getElementById('orderHistory');
-        if (history.length === 0) {
-            section.classList.remove('show');
-            return;
-        }
-        section.classList.add('show');
-        container.innerHTML = history.map(item =>
+        const h = getHistory();
+        const c = document.getElementById('historyList');
+        const s = document.getElementById('orderHistory');
+        if (h.length === 0) { s.classList.remove('show'); return; }
+        s.classList.add('show');
+        c.innerHTML = h.map(item =>
             `<div class="order-history-item">
                 <span class="oh-id">${item.id}</span>
                 <span>${item.item} - ${item.price} TMT</span>
-                <span style="color:var(--text-muted);font-size:0.7rem;">${item.time}</span>
+                <span class="oh-time">${item.time}</span>
             </div>`
         ).join('');
     }
 
     function clearHistory() {
-        if (confirm('Taryhy arassalamak isleýärsiňizmi?')) {
+        if (confirm('Taryhy arassalamak?')) {
             localStorage.removeItem('orderHistory');
             renderHistory();
-            showToast('🗑️ Taryh arassalandy!');
+            showToast('🗑️ Arassalandy!');
         }
     }
 
-    // ---------- REVIEWS ----------
+    // ---------- REVIEWS (ýyldyz + pikir) ----------
     function setReviewStar(star) {
         selectedStars = star;
         const stars = document.querySelectorAll('#starsSelect i');
         stars.forEach((el, idx) => {
-            if (idx < star) {
-                el.className = 'fa-solid fa-star';
-            } else {
-                el.className = 'fa-regular fa-star';
-            }
+            el.className = idx < star ? 'fa-solid fa-star' : 'fa-regular fa-star';
         });
     }
 
@@ -769,12 +1065,12 @@
         if (!text) { showToast('⚠️ Pikiriňizi ýazyň!'); return; }
         if (selectedStars === 0) { showToast('⭐ Ýyldyz saýlaň!'); return; }
 
-        const reviews = getReviews();
+        const r = getReviews();
         const now = new Date();
-        const time = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
-        reviews.unshift({ name: 'Ulanyjy', stars: selectedStars, text, time });
-        if (reviews.length > 10) reviews.pop();
-        localStorage.setItem('reviews', JSON.stringify(reviews));
+        const t = now.toLocaleTimeString('tk-TM', { hour: '2-digit', minute: '2-digit' });
+        r.unshift({ name: 'Ulanyjy', stars: selectedStars, text, time: t });
+        if (r.length > 10) r.pop();
+        localStorage.setItem('reviews', JSON.stringify(r));
         input.value = '';
         setReviewStar(0);
         renderReviews();
@@ -782,29 +1078,26 @@
     }
 
     function getReviews() {
-        const saved = localStorage.getItem('reviews');
-        return saved ? JSON.parse(saved) : [];
+        const s = localStorage.getItem('reviews');
+        return s ? JSON.parse(s) : [];
     }
 
     function renderReviews() {
-        const reviews = getReviews();
-        const container = document.getElementById('reviewsList');
-        const section = document.getElementById('reviewsSection');
+        const r = getReviews();
+        const c = document.getElementById('reviewsList');
+        const s = document.getElementById('reviewsSection');
         const count = document.getElementById('reviewCount');
-        if (reviews.length === 0) {
-            section.classList.remove('show');
-            return;
-        }
-        section.classList.add('show');
-        count.textContent = `${reviews.length} pikir`;
-        container.innerHTML = reviews.map(r =>
+        if (r.length === 0) { s.classList.remove('show'); return; }
+        s.classList.add('show');
+        count.textContent = `${r.length} pikir`;
+        c.innerHTML = r.map(item =>
             `<div class="review-item">
                 <div class="review-header">
-                    <span style="font-weight:700;">${r.name}</span>
-                    <span class="review-stars">${'⭐'.repeat(r.stars)}</span>
+                    <span class="review-name">${item.name}</span>
+                    <span class="review-stars">${'⭐'.repeat(item.stars)}</span>
                 </div>
-                <div class="review-text">${r.text}</div>
-                <div class="review-time">${r.time}</div>
+                <div class="review-text">${item.text}</div>
+                <div class="review-time">${item.time}</div>
             </div>`
         ).join('');
     }
@@ -836,15 +1129,15 @@
         addOrderTimestamp();
         addOrderToHistory(orderId, value, price);
 
-        const randomIdx = Math.floor(Math.random() * MY_NUMBERS.length);
-        const number = MY_NUMBERS[randomIdx];
+        const idx = Math.floor(Math.random() * MY_NUMBERS.length);
+        const number = MY_NUMBERS[idx];
 
-        showToast(`✅ Sargyt ugradyldy! ${price} TMT -> +993${number}`);
+        showToast(`✅ Sargyt ugradyldy! ${price} TMT`);
 
-        // SMS ugrat
+        // SMS
         window.location.href = `sms:0804?body=${encodeURIComponent(number + ' ' + price)}`;
 
-        // Telegram bot
+        // Telegram
         fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -858,11 +1151,11 @@
 
     // ---------- INIT ----------
     document.addEventListener('DOMContentLoaded', function() {
+        loadTheme();
         loadOrderTimestamps();
         renderHistory();
         renderReviews();
-        
-        // Enter bilen iber
+
         document.getElementById('pubg-nick').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendOrder();
         });
