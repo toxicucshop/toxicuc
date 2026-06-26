@@ -103,11 +103,13 @@
             padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
         }
 
-        .uc-card:hover, .uc-card.selected {
-            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        /* NÄSAZLYK DÜZEDILDI: Diňe hakyky saýlanan (.selected) ýagdaýynda ýaşyl bolar */
+        .uc-card.selected { 
+            border-color: var(--primary); 
+            background: #192235; 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 102, 0.1); 
         }
-
-        .uc-card.selected { box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
 
         .uc-amount {
             font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
@@ -422,4 +424,4 @@
             });
         }
 
-        function openPaymentModal(parts, number, backupText, isFallback, value, totalCost) {
+        function ope
