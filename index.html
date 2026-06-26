@@ -67,20 +67,82 @@
             font-weight: 500;
         }
 
-        /* Tab Menu */
-        .tab-menu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 25px; }
+        /* Scrollable Tab Menu */
+        .tab-menu-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tab-menu-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 4px 0;
+            flex: 1;
+        }
+
+        .tab-menu-scroll::-webkit-scrollbar {
+            display: none;
+        }
 
         .tab-btn {
-            background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-main); padding: 12px 5px; border-radius: 12px;
-            font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
+            flex: 0 0 auto;
+            min-width: 90px;
+            background: #1e2638;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .tab-btn.active {
             background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
-            color: #000; box-shadow: 0 0 15px var(--primary-glow); border: none;
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: none;
+        }
+
+        .scroll-arrow {
+            background: #1e2638;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .scroll-arrow:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .scroll-arrow:active {
+            transform: scale(0.9);
         }
 
         .form-group { position: relative; margin-bottom: 18px; text-align: left; }
@@ -127,7 +189,6 @@
 
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
 
-        /* Footer */
         .contacts-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: left; }
         .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
         .contacts-title i { color: var(--primary); }
@@ -138,6 +199,22 @@
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
         .fa-telegram { color: #0088cc; }
         .fa-rocket { color: #ff9900; }
+
+        @media (max-width: 480px) {
+            .tab-btn {
+                min-width: 75px;
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            .scroll-arrow {
+                width: 34px;
+                height: 34px;
+                font-size: 0.9rem;
+            }
+            .container { padding: 15px; }
+            h1 { font-size: 1.8rem; }
+            .uc-amount { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
@@ -146,12 +223,33 @@
         <h1>Toxic <span>Shop</span></h1>
         <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
-        <!-- Kategoriýa Menýusy -->
-        <div class="tab-menu">
-            <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
-            <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
-            <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
-            <button class="tab-btn" id="btn-podpiska" onclick="switchTab('podpiska')"><i class="fa-solid fa-crown"></i> PODPISKALAR</button>
+        <!-- Scrollable Kategoriýa Menýusy -->
+        <div class="tab-menu-wrapper">
+            <button class="scroll-arrow" onclick="scrollTabs(-1)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <div class="tab-menu-scroll" id="tabMenuScroll">
+                <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')">
+                    <i class="fa-solid fa-bolt"></i> UC
+                </button>
+                <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')">
+                    <i class="fa-solid fa-box-open"></i> SANDYK
+                </button>
+                <button class="tab-btn" id="btn-podpiska" onclick="switchTab('podpiska')">
+                    <i class="fa-solid fa-crown"></i> PODPISKALAR
+                </button>
+                <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')">
+                    <i class="fa-solid fa-fire"></i> AKKAUNT
+                </button>
+                <button class="tab-btn" id="btn-promo" onclick="switchTab('promo')">
+                    <i class="fa-solid fa-gift"></i> PROMO
+                </button>
+            </div>
+            
+            <button class="scroll-arrow" onclick="scrollTabs(1)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
 
         <!-- Müşderi Maglumat Formasy -->
@@ -171,7 +269,7 @@
             </div>
         </div>
 
-        <!-- UC PAKETLERI (BÖLÜM 1) -->
+        <!-- UC PAKETLERI -->
         <div id="uc-grid-section" class="uc-grid">
             <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
                 <div class="uc-amount">60 UC <i class="fa-solid fa-gem" style="color: #00ffff; font-size: 0.9rem;"></i></div>
@@ -199,7 +297,7 @@
             </div>
         </div>
 
-        <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
+        <!-- SANDYK PAKETLERI -->
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
                 <div class="uc-amount">Ag sandyk</div>
@@ -215,7 +313,6 @@
             </div>
         </div>
 
-        
         <!-- PODPISKALAR -->
         <div id="podpiska-grid-section" class="uc-grid" style="display:none;">
             <div class="uc-card" data-type="Podpiska" data-value="Prime" data-price="30" onclick="selectCard(this)">
@@ -228,10 +325,16 @@
             </div>
         </div>
 
-        <!-- AKKAUNT BÖLÜMI (BÖLÜM 3) -->
+        <!-- AKKAUNT BÖLÜMI -->
         <div id="akkaunt-section" style="display: none; padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
             <i class="fa-solid fa-fire" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;"></i>
             <p>Akkauntlar tiz wagtda goşular!</p>
+        </div>
+
+        <!-- PROMO BÖLÜMI -->
+        <div id="promo-section" style="display: none; padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
+            <i class="fa-solid fa-gift" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; display: block;"></i>
+            <p>Promo kodlar we ýörite teklipler tiz wagtynda!</p>
         </div>
 
         <!-- Esasy Düwme -->
@@ -261,7 +364,6 @@
         const TG_CHAT_ID = "7819113909";     
         const MY_MAIN_NUMBER = "+99371523250"; 
 
-        // 7 sany elýeterli nomerleriň
         const myNumbers = [
             "71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"
         ]; 
@@ -269,130 +371,88 @@
         let tg = window.Telegram?.WebApp;
         if (tg) tg.expand(); 
 
+        // ---------- SCROLLABLE TABS FUNKSIÝALARY ----------
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollableTabs();
+        });
+
+        function initScrollableTabs() {
+            const scrollContainer = document.getElementById('tabMenuScroll');
+            if (!scrollContainer) return;
+            
+            updateArrowVisibility(scrollContainer);
+            
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            scrollContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - scrollContainer.offsetLeft;
+                scrollLeft = scrollContainer.scrollLeft;
+            });
+            
+            scrollContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            
+            scrollContainer.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                scrollContainer.scrollLeft = scrollLeft - walk;
+            });
+            
+            scrollContainer.addEventListener('scroll', () => {
+                updateArrowVisibility(scrollContainer);
+            });
+        }
+
+        function scrollTabs(direction) {
+            const container = document.getElementById('tabMenuScroll');
+            if (!container) return;
+            const scrollAmount = 200;
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        function updateArrowVisibility(container) {
+            const wrapper = container.closest('.tab-menu-wrapper');
+            if (!wrapper) return;
+            const arrows = wrapper.querySelectorAll('.scroll-arrow');
+            if (arrows.length < 2) return;
+            const leftArrow = arrows[0];
+            const rightArrow = arrows[1];
+            
+            if (container.scrollLeft <= 0) {
+                leftArrow.style.opacity = '0.3';
+                leftArrow.style.pointerEvents = 'none';
+            } else {
+                leftArrow.style.opacity = '1';
+                leftArrow.style.pointerEvents = 'auto';
+            }
+            
+            if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 5) {
+                rightArrow.style.opacity = '0.3';
+                rightArrow.style.pointerEvents = 'none';
+            } else {
+                rightArrow.style.opacity = '1';
+                rightArrow.style.pointerEvents = 'auto';
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('tabMenuScroll');
+            if (container) updateArrowVisibility(container);
+        });
+
+        // ---------- TAB SWITCH ----------
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('uc-grid-section').style.display = 'none';
-            document.getElementById('sandyk-grid-section').style.display = 'none';
-            document.getElementById('akkaunt-section').style.display = 'none';
-            document.getElementById('podpiska-grid-section').style.display = 'none';
-
-            if (tabName === 'uc') {
-                document.getElementById('btn-uc').classList.add('active');
-                document.getElementById('uc-grid-section').style.display = 'grid';
-                resetSelection('#uc-grid-section .uc-card');
-            } else if (tabName === 'sandyk') {
-                document.getElementById('btn-sandyk').classList.add('active');
-                document.getElementById('sandyk-grid-section').style.display = 'grid';
-                resetSelection('#sandyk-grid-section .uc-card');
-            } else if (tabName === 'podpiska') {
-                document.getElementById('btn-podpiska').classList.add('active');
-                document.getElementById('podpiska-grid-section').style.display='grid';
-                resetSelection('#podpiska-grid-section .uc-card');
-            } else if (tabName === 'akkaunt') {
-                document.getElementById('btn-akkaunt').classList.add('active');
-                document.getElementById('akkaunt-section').style.display = 'block';
-                document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            }
-        }
-
-        function selectCard(card) {
-            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            card.classList.add('selected');
-        }
-
-        function resetSelection(selector) {
-            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
-            const firstCard = document.querySelector(selector);
-            if (firstCard) firstCard.classList.add('selected');
-        }
-
-        // AKYLLY BÖLÜJI MEHANIZM (Bahany max 50-den bölýär)
-        function splitPrice(totalPrice) {
-            let parts = [];
-            let remaining = totalPrice;
-            while (remaining > 0) {
-                if (remaining >= 50) {
-                    parts.push(50);
-                    remaining -= 50;
-                } else {
-                    parts.push(remaining);
-                    remaining = 0;
-                }
-            }
-            return parts;
-        }
-
-        function sendOrder() {
-            const pubgId = document.getElementById('pubg-id').value.trim();
-            const pubgNick = document.getElementById('pubg-nick').value.trim();
-            const selectedCard = document.querySelector('.uc-card.selected');
-            
-            if (!selectedCard || !pubgId || !pubgNick) {
-                alert('Ýalňyşlyk: Ähli öýjükleri dolduryň we paket saýlaň!');
-                return;
-            }
-
-            const type = selectedCard.getAttribute('data-type');
-            const value = selectedCard.getAttribute('data-value');
-            const price = parseInt(selectedCard.getAttribute('data-price'));
-
-            // Bahany bölýäris (105 -> [50, 50, 5])
-            const priceParts = splitPrice(price);
-
-            // GÖNI 1 SANÝA NOMER SAÝLAÝARYS (Bütin tölegler diňe şu ýekeje nomere gider!)
-            const randomIdx = Math.floor(Math.random() * myNumbers.length);
-            const chosenNumber = myNumbers[randomIdx];
-
-            // Telegram bot hasabaty üçin tekst dretmek
-            let smsListText = "";
-            priceParts.forEach((part, index) => {
-                smsListText += `   - SMS ${index+1}: +993${chosenNumber} -> *${part} TMT*\n`;
-            });
-
-            const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
-                                    `📦 *Haryt:* ${value} ${type}\n` +
-                                    `💰 *Jemi Baha:* ${price} TMT\n` +
-                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
-                                    `📊 *Bölingan SMS-ler:*\n${smsListText}` +
-                                    `🆔 *PUBG ID:* \`${pubgId}\`\n` +
-                                    `👤 *Nickname:* ${pubgNick}`;
-
-            const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
-
-            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisi +993${chosenNumber} nomerine gider. SMS-leri üýtgetmän ugradyň!`);
-
-            // Telegram bota ugradylýar
-            fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgReportMessage, parse_mode: 'Markdown' })
-            }).then(() => {
-                executeSmsSending(priceParts, chosenNumber, backupSmsText, false);
-            }).catch(() => {
-                executeSmsSending(priceParts, chosenNumber, backupSmsText, true);
-            });
-        }
-
-        // SMS-leri şol bir nomere gezekli-gezek ugradýan akylly funksiýa
-        function executeSmsSending(parts, number, backupText, isFallback) {
-            let delay = 0;
-            
-            // Ähli bölünen pullary göni şol bir 'number' (nomere) ugradýar
-            parts.forEach((part, index) => {
-                setTimeout(() => {
-                    const pure0804Text = `${number} ${part}`;
-                    window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
-                }, delay);
-                delay += 2500; // Klent birini ugradyp ýetişip, yzyna dönende ikinjisi açylýar
-            });
-
-            // Telegramy ýoklar üçin saňa geljek adaty SMS
-            if (isFallback) {
-                setTimeout(() => {
-                    window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
-                }, delay);
-            }
-        }
-    </script>
-</body>
-</html>
+            document.querySelectorAll('.tab-btn').forEach(btn => b
