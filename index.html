@@ -255,210 +255,210 @@
                 transform: translateX(5px);
             }
         }
-      .tab-menu-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 25px;
-}
-.tab-menu-scroll {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding: 4px 0;
-    flex: 1;
-}
-.tab-menu-scroll::-webkit-scrollbar {
-    display: none;
-}
-.tab-btn {
-    flex: 0 0 auto;
-    min-width: 75px;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    user-select: none;
-}
-.tab-btn.active {
-    background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
-    color: #000;
-    box-shadow: 0 0 15px var(--primary-glow);
-    border: none;
-}
-.tab-btn:hover {
-    transform: scale(1.05);
-}
-.scroll-arrow {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-.scroll-arrow:hover {
-    background: var(--primary);
-    color: #000;
-}
-.form-group {
-    position: relative;
-    margin-bottom: 18px;
-    text-align: left;
-}
-.form-group label {
-    display: block;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.input-wrapper {
-    position: relative;
-}
-.input-wrapper i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--primary);
-    font-size: 1.1rem;
-}
-.form-control {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    padding: 14px 14px 14px 45px;
-    border-radius: 14px;
-    color: var(--text-main);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    outline: none;
-    transition: all 0.3s ease;
-}
-.form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
-}
-.uc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-.uc-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 16px;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    text-align: center;
-}
-.uc-card:hover {
-    border-color: var(--primary);
-    background: var(--card-hover);
-    transform: translateY(-2px);
-}
-.uc-card.selected {
-    border-color: var(--primary);
-    background: var(--card-hover);
-    box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
-    animation: cardSelect 0.4s ease;
-}
-@keyframes cardSelect {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(0.95);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-.uc-amount {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--text-main);
-}
-.uc-price {
-    color: var(--primary);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-top: 4px;
-}
-.uc-price i {
-    color: #ffcc00;
-}
-.btn-submit {
-    width: 100%;
-    background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
-    border: none;
-    color: #000;
-    padding: 16px;
-    border-radius: 16px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    position: relative;
-    overflow: hidden;
-}
-.btn-submit::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-    animation: btnGlow 3s ease-in-out infinite;
-}
-@keyframes btnGlow {
-    0%,
-    100% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    50% {
-        transform: translate(10%, 10%) rotate(180deg);
-    }
-}
-.btn-submit:hover {
-    transform: translateY(-2px) scale(1.02);
-}  
+        .tab-menu-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .tab-menu-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            padding: 4px 0;
+            flex: 1;
+        }
+        .tab-menu-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-btn {
+            flex: 0 0 auto;
+            min-width: 75px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: none;
+        }
+        .tab-btn:hover {
+            transform: scale(1.05);
+        }
+        .scroll-arrow {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .scroll-arrow:hover {
+            background: var(--primary);
+            color: #000;
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .form-control {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 14px 14px 45px;
+            border-radius: 14px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
+        }
+        .uc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .uc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+        .uc-card:hover {
+            border-color: var(--primary);
+            background: var(--card-hover);
+            transform: translateY(-2px);
+        }
+        .uc-card.selected {
+            border-color: var(--primary);
+            background: var(--card-hover);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+            animation: cardSelect 0.4s ease;
+        }
+        @keyframes cardSelect {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .uc-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .uc-price {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        .uc-price i {
+            color: #ffcc00;
+        }
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
+            border: none;
+            color: #000;
+            padding: 16px;
+            border-radius: 16px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            animation: btnGlow 3s ease-in-out infinite;
+        }
+        @keyframes btnGlow {
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(10%, 10%) rotate(180deg);
+            }
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
         .order-history {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -972,10 +972,9 @@
         }
     </style>
 </head>
-<body>        
+<body>
     <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h1>Toxic <span>Shop</span></h1>
         <div class="header-right">
@@ -992,20 +991,17 @@
     </div>
     <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
-    <!-- ORDER ID -->
     <div class="order-id-display" id="orderIdDisplay">
         <span class="label"><i class="fa-solid fa-hashtag"></i> Sargyt belgiňiz:</span>
         <span class="id-value" id="orderIdValue">------</span>
         <button class="copy-btn" onclick="copyOrderId()"><i class="fa-regular fa-copy"></i></button>
     </div>
 
-    <!-- SPAM WARNING -->
     <div class="spam-warning" id="spamWarning">
         <i class="fa-solid fa-triangle-exclamation"></i>
         <span>5 minutda iň köp 3 sargyt edip bilersiňiz!</span>
     </div>
 
-    <!-- ORDER HISTORY -->
     <div class="order-history" id="orderHistory">
         <div class="order-history-title">
             <span><i class="fa-solid fa-clock-rotate-left"></i> Sargyt taryhy</span>
@@ -1014,22 +1010,19 @@
         <div id="historyList"></div>
     </div>
 
-    <!-- TABS -->
     <div class="tab-menu-wrapper">
         <button class="scroll-arrow" onclick="scrollTabs(-1)"><i class="fa-solid fa-chevron-left"></i></button>
         <div class="tab-menu-scroll" id="tabMenuScroll">
             <button class="tab-btn active" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
             <button class="tab-btn" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
             <button class="tab-btn" onclick="switchTab('podpiska')"><i class="fa-solid fa-crown"></i> PODPISKA</button>
-            <button class="tab-btn" onclick="switchTab('accounts')"><i class="fa-solid fa-users"></i> AKKUNTLAR</button>
+            <button class="tab-btn" onclick="switchTab('accounts')"><i class="fa-solid fa-users"></i> ACCOUNTLAR</button>
             <button class="tab-btn" onclick="switchTab('lobby')"><i class="fa-solid fa-gamepad"></i> LOBBILER</button>
-            <button class="tab-btn" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
             <button class="tab-btn" onclick="switchTab('promo')"><i class="fa-solid fa-gift"></i> PROMO</button>
         </div>
         <button class="scroll-arrow" onclick="scrollTabs(1)"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <!-- FORM -->
     <div class="form-group">
         <label>PUBG Mobile ID</label>
         <div class="input-wrapper">
@@ -1044,100 +1037,89 @@
             <input type="text" id="pubg-nick" class="form-control" placeholder="Mysal: TOXIC_BOSS">
         </div>
     </div>
-    <!-- UC -->
-<div id="uc-grid-section" class="uc-grid">
-    <div class="uc-card selected" onclick="selectCard(this)" data-price="23" data-value="60 UC">
-        <div class="uc-amount">60 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 23 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="105" data-value="325 UC">
-        <div class="uc-amount">325 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 105 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="210" data-value="660 UC">
-        <div class="uc-amount">660 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 210 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="500" data-value="1800 UC">
-        <div class="uc-amount">1800 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 500 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="1000" data-value="3850 UC">
-        <div class="uc-amount">3850 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 1000 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="2000" data-value="8100 UC">
-        <div class="uc-amount">8100 UC</div>
-        <div class="uc-price"><i class="fa-solid fa-coins"></i> 2000 TMT</div>
-    </div>
-</div>
 
-<!-- SANDYK -->
-<div id="sandyk-grid-section" class="uc-grid" style="display:none;">
-    <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Ag sandyk">
-        <div class="uc-amount">Ag sandyk</div>
-        <div class="uc-price"><i class="fa-solid fa-box-open"></i> 30 TMT</div>
+    <div id="uc-grid-section" class="uc-grid">
+        <div class="uc-card selected" onclick="selectCard(this)" data-price="23" data-value="60 UC">
+            <div class="uc-amount">60 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 23 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="105" data-value="325 UC">
+            <div class="uc-amount">325 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 105 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="210" data-value="660 UC">
+            <div class="uc-amount">660 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 210 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="500" data-value="1800 UC">
+            <div class="uc-amount">1800 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 500 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="1000" data-value="3850 UC">
+            <div class="uc-amount">3850 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 1000 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="2000" data-value="8100 UC">
+            <div class="uc-amount">8100 UC</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 2000 TMT</div>
+        </div>
     </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="80" data-value="Material sandyk">
-        <div class="uc-amount">Material sandyk</div>
-        <div class="uc-price"><i class="fa-solid fa-box-open"></i> 80 TMT</div>
-    </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="125" data-value="Amblem sandyk">
-        <div class="uc-amount">Amblem sandyk</div>
-        <div class="uc-price"><i class="fa-solid fa-box-open"></i> 125 TMT</div>
-    </div>
-</div>
 
-<!-- PODPISKA -->
-<div id="podpiska-grid-section" class="uc-grid" style="display:none;">
-    <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Prime">
-        <div class="uc-amount">Prime</div>
-        <div class="uc-price"><i class="fa-solid fa-crown"></i> 30 TMT</div>
+    <div id="sandyk-grid-section" class="uc-grid" style="display:none;">
+        <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Ag sandyk">
+            <div class="uc-amount">Ag sandyk</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 30 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="80" data-value="Material sandyk">
+            <div class="uc-amount">Material sandyk</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 80 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="125" data-value="Amblem sandyk">
+            <div class="uc-amount">Amblem sandyk</div>
+            <div class="uc-price"><i class="fa-solid fa-box-open"></i> 125 TMT</div>
+        </div>
     </div>
-    <div class="uc-card" onclick="selectCard(this)" data-price="225" data-value="Prime Plus">
-        <div class="uc-amount">Prime Plus</div>
-        <div class="uc-price"><i class="fa-solid fa-crown"></i> 225 TMT</div>
-    </div>
-</div>
 
-<!-- AKKUNTLAR (MÜŞDERI ÜÇIN) -->
-<div id="accounts-section" class="accounts-section">
-    <div class="section-title">
-        <span>📦 Satylyk Akkauntlar</span>
+    <div id="podpiska-grid-section" class="uc-grid" style="display:none;">
+        <div class="uc-card" onclick="selectCard(this)" data-price="30" data-value="Prime">
+            <div class="uc-amount">Prime</div>
+            <div class="uc-price"><i class="fa-solid fa-crown"></i> 30 TMT</div>
+        </div>
+        <div class="uc-card" onclick="selectCard(this)" data-price="225" data-value="Prime Plus">
+            <div class="uc-amount">Prime Plus</div>
+            <div class="uc-price"><i class="fa-solid fa-crown"></i> 225 TMT</div>
+        </div>
     </div>
-    <div id="accountsList">
-        <div class="empty-state">Hiç akkaunt ýok</div>
+
+    <div id="accounts-section" class="accounts-section" style="display:none;">
+        <div class="section-title">
+            <span>📦 Satylyk Accountlar</span>
+            <button class="refresh-btn" onclick="loadAccountsForUser()"><i class="fa-solid fa-rotate"></i> Täzele</button>
+        </div>
+        <div id="accountsList">
+            <div class="empty-state">Hiç account ýok</div>
+        </div>
     </div>
-</div>
 
-<!-- LOBBILER (MÜŞDERI ÜÇIN) -->
-<div id="lobby-section" class="lobby-section">
-    <div class="section-title">
-        <span>🎮 Aktiw Lobbiler</span>
+    <div id="lobby-section" class="lobby-section" style="display:none;">
+        <div class="section-title">
+            <span>🎮 Aktiw Lobbiler</span>
+            <button class="refresh-btn" onclick="loadLobbiesForUser()"><i class="fa-solid fa-rotate"></i> Täzele</button>
+        </div>
+        <div id="lobbyList">
+            <div class="empty-state">Hiç lobbi ýok</div>
+        </div>
     </div>
-    <div id="lobbyList">
-        <div class="empty-state">Hiç lobbi ýok</div>
+
+    <div id="promo-section" class="empty-state" style="display:none;">
+        <i class="fa-solid fa-gift" style="color:var(--primary);"></i>
+        <p>Promo kodlar tiz wagtynda!</p>
     </div>
-</div>
 
-<!-- AKKAUNT (Köne) -->
-<div id="akkaunt-section" class="empty-state" style="display:none;">
-    <i class="fa-solid fa-fire" style="color:var(--accent);"></i>
-    <p>Akkauntlar tiz wagtda goşular!</p>
-</div>
-
-<!-- PROMO -->
-<div id="promo-section" class="empty-state" style="display:none;">
-    <i class="fa-solid fa-gift" style="color:var(--primary);"></i>
-    <p>Promo kodlar tiz wagtynda!</p>
-</div>
-
-<!-- SUBMIT -->
-<button class="btn-submit" onclick="sendOrder()">
-    <i class="fa-solid fa-paper-plane"></i> Töleg we Sargyt Et
-</button>
-    <!-- REVIEWS -->
-    <div class="reviews-section" id="reviewsSection">
+    <button class="btn-submit" onclick="sendOrder()">
+        <i class="fa-solid fa-paper-plane"></i> Töleg we Sargyt Et
+    </button>
+            <div class="reviews-section" id="reviewsSection">
         <div class="reviews-title">
             <span><i class="fa-solid fa-star" style="color:#ffcc00;"></i> Ulanyjy pikirleri</span>
             <span id="reviewCount">0 pikir</span>
@@ -1156,7 +1138,6 @@
         </div>
     </div>
 
-    <!-- CONTACTS -->
     <div class="contacts-footer">
         <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak</div>
         <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
@@ -1171,7 +1152,6 @@
 
 </div>
 
-<!-- ACCOUNT MODAL -->
 <div class="account-modal" id="accountModal">
     <div class="account-modal-content">
         <button class="modal-close" onclick="closeAccountModal()">✕</button>
@@ -1221,8 +1201,8 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
 <script>
-    // ---------- KONFIG ----------
     const TG_BOT_TOKEN = "8971098820:AAGVKyOy2-g57kCX4sBFPqPj5KoLtS15Lp0";
     const TG_CHAT_ID = "7819113909";
     const MY_NUMBERS = ["71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"];
@@ -1279,7 +1259,7 @@
         c.scrollBy({ left: dir * 180, behavior: 'smooth' });
     }
 
-    // ---------- TAB SWITCH (AKKUNTLAR WE LOBBILER GOŞULDY) ----------
+    // ---------- TAB SWITCH ----------
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -1288,36 +1268,38 @@
         document.getElementById('uc-grid-section').style.display = 'none';
         document.getElementById('sandyk-grid-section').style.display = 'none';
         document.getElementById('podpiska-grid-section').style.display = 'none';
-        document.getElementById('accounts-section').classList.remove('show');
         document.getElementById('accounts-section').style.display = 'none';
-        document.getElementById('lobby-section').classList.remove('show');
+        document.getElementById('accounts-section').classList.remove('show');
         document.getElementById('lobby-section').style.display = 'none';
-        document.getElementById('akkaunt-section').style.display = 'none';
+        document.getElementById('lobby-section').classList.remove('show');
         document.getElementById('promo-section').style.display = 'none';
 
         if (tab === 'uc') {
             document.getElementById('uc-grid-section').style.display = 'grid';
             resetSelection('#uc-grid-section .uc-card');
+            document.querySelector('.btn-submit').style.display = 'flex';
         } else if (tab === 'sandyk') {
             document.getElementById('sandyk-grid-section').style.display = 'grid';
             resetSelection('#sandyk-grid-section .uc-card');
+            document.querySelector('.btn-submit').style.display = 'flex';
         } else if (tab === 'podpiska') {
             document.getElementById('podpiska-grid-section').style.display = 'grid';
             resetSelection('#podpiska-grid-section .uc-card');
+            document.querySelector('.btn-submit').style.display = 'flex';
         } else if (tab === 'accounts') {
             document.getElementById('accounts-section').style.display = 'block';
             document.getElementById('accounts-section').classList.add('show');
+            document.querySelector('.btn-submit').style.display = 'none';
             loadAccountsForUser();
         } else if (tab === 'lobby') {
             document.getElementById('lobby-section').style.display = 'block';
             document.getElementById('lobby-section').classList.add('show');
+            document.querySelector('.btn-submit').style.display = 'none';
             loadLobbiesForUser();
-        } else if (tab === 'akkaunt') {
-            document.getElementById('akkaunt-section').style.display = 'block';
-            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
         } else if (tab === 'promo') {
             document.getElementById('promo-section').style.display = 'block';
             document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            document.querySelector('.btn-submit').style.display = 'none';
         }
     }
 
@@ -1334,7 +1316,7 @@
         selectedCard = card;
     }
 
-    // ---------- AKKUNTLAR (MÜŞDERI) ----------
+    // ---------- ACCOUNTLAR (MÜŞDERI) ----------
     function getAccounts() {
         const saved = localStorage.getItem('shop_accounts');
         return saved ? JSON.parse(saved) : [];
@@ -1344,14 +1326,17 @@
         const accounts = getAccounts();
         const container = document.getElementById('accountsList');
         if (accounts.length === 0) {
-            container.innerHTML = '<div class="empty-state">Hiç akkaunt ýok</div>';
+            container.innerHTML = '<div class="empty-state">Hiç account ýok</div>';
             return;
         }
         container.innerHTML = accounts.map(a => `
             <div class="account-card">
-                <div>
-                    <span class="acc-nick">${a.nick}</span>
-                    <span class="acc-badge">${a.badge || '⭐'}</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    ${a.image ? `<img src="${a.image}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--primary);">` : ''}
+                    <div>
+                        <span class="acc-nick">${a.nick}</span>
+                        <span class="acc-badge">${a.badge || '⭐'}</span>
+                    </div>
                 </div>
                 <span class="acc-id">🆔 ${a.id}</span>
             </div>
@@ -1580,7 +1565,7 @@
         const user = users.find(u => u.username === username && u.password === password);
         if (!user) {
             showToast('❌ Ýalňyş ulanyjy ady ýa-da parol!');
-            return;
+        return;
         }
         localStorage.setItem('current_user', JSON.stringify(user));
         showToast('✅ Hoş geldiňiz, ' + user.username + '!');
@@ -1714,8 +1699,6 @@
                 </div>
                 <div class="review-text">${item.text}</div>
                 <div class="review-time">${item.time}</div>
-            <
-            <div class="review-time">${item.time}</div>
             </div>`
         ).join('');
     }
@@ -1775,7 +1758,7 @@
         }).catch(() => {});
     }
 
-    // ---------- INIT ----------
+    // ---------- INIT (5 SEKUNTDA TÄZELENÝÄR) ----------
     document.addEventListener('DOMContentLoaded', function() {
         loadTheme();
         loadOrderTimestamps();
@@ -1789,7 +1772,7 @@
             if (e.key === 'Enter') sendOrder();
         });
 
-        // Her 5 sekuntda täzelenýär
+        // HER 5 SEKUNTDA TÄZELE
         setInterval(() => {
             loadAccountsForUser();
             loadLobbiesForUser();
@@ -1798,3 +1781,4 @@
 </script>
 </body>
 </html>
+  
