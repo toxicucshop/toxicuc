@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOXIC UC SHOP</title>
-    <!-- Telegram WebApp Scripti -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -110,6 +109,7 @@
             gap: 6px;
             text-transform: uppercase;
             white-space: nowrap;
+            user-select: none;
         }
 
         .tab-btn.active {
@@ -117,6 +117,10 @@
             color: #000;
             box-shadow: 0 0 15px var(--primary-glow);
             border: none;
+        }
+
+        .tab-btn:hover {
+            transform: scale(1.05);
         }
 
         .scroll-arrow {
@@ -199,6 +203,19 @@
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
         .fa-telegram { color: #0088cc; }
         .fa-rocket { color: #ff9900; }
+
+        /* Empty state */
+        .empty-state {
+            padding: 40px 10px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+        }
 
         @media (max-width: 480px) {
             .tab-btn {
@@ -326,14 +343,14 @@
         </div>
 
         <!-- AKKAUNT BÖLÜMI -->
-        <div id="akkaunt-section" style="display: none; padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
-            <i class="fa-solid fa-fire" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;"></i>
+        <div id="akkaunt-section" class="empty-state" style="display: none;">
+            <i class="fa-solid fa-fire" style="color: var(--accent);"></i>
             <p>Akkauntlar tiz wagtda goşular!</p>
         </div>
 
         <!-- PROMO BÖLÜMI -->
-        <div id="promo-section" style="display: none; padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
-            <i class="fa-solid fa-gift" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; display: block;"></i>
+        <div id="promo-section" class="empty-state" style="display: none;">
+            <i class="fa-solid fa-gift" style="color: var(--primary);"></i>
             <p>Promo kodlar we ýörite teklipler tiz wagtynda!</p>
         </div>
 
@@ -453,6 +470,132 @@
             if (container) updateArrowVisibility(container);
         });
 
-        // ---------- TAB SWITCH ----------
+        // ---------- TAB SWITCH (Kategoriýalar) ----------
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => b
+            // Ähli düwmelerden active klassyny aýyr
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Ähli bölümleri gizle
+            document.getElementById('uc-grid-section').style.display = 'none';
+            document.getElementById('sandyk-grid-section').style.display = 'none';
+            document.getElementById('akkaunt-section').style.display = 'none';
+            document.getElementById('podpiska-grid-section').style.display = 'none';
+            document.getElementById('promo-section').style.display = 'none';
+
+            // Saýlanan kategoriýany görkez
+            if (tabName === 'uc') {
+                document.getElementById('btn-uc').classList.add('active');
+                document.getElementById('uc-grid-section').style.display = 'grid';
+                resetSelection('#uc-grid-section .uc-card');
+            } else if (tabName === 'sandyk') {
+                document.getElementById('btn-sandyk').classList.add('active');
+                document.getElementById('sandyk-grid-section').style.display = 'grid';
+                resetSelection('#sandyk-grid-section .uc-card');
+            } else if (tabName === 'podpiska') {
+                document.getElementById('btn-podpiska').classList.add('active');
+                document.getElementById('podpiska-grid-section').style.display = 'grid';
+                resetSelection('#podpiska-grid-section .uc-card');
+            } else if (tabName === 'akkaunt') {
+                document.getElementById('btn-akkaunt').classList.add('active');
+                document.getElementById('akkaunt-section').style.display = 'block';
+                document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            } else if (tabName === 'promo') {
+                document.getElementById('btn-promo').classList.add('active');
+                document.getElementById('promo-section').style.display = 'block';
+                document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            }
+        }
+
+        function selectCard(card) {
+            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+
+        function resetSelection(selector) {
+            document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
+            const firstCard = document.querySelector(selector);
+            if (firstCard) firstCard.classList.add('selected');
+        }
+
+        // ---------- SMS / ORDER ----------
+        function splitPrice(totalPrice) {
+            let parts = [];
+            let remaining = totalPrice;
+            while (remaining > 0) {
+                if (remaining >= 50) {
+                    parts.push(50);
+                    remaining -= 50;
+                } else {
+                    parts.push(remaining);
+                    remaining = 0;
+                }
+            }
+            return parts;
+        }
+
+        function sendOrder() {
+            const pubgId = document.getElementById('pubg-id').value.trim();
+            const pubgNick = document.getElementById('pubg-nick').value.trim();
+            const selectedCard = document.querySelector('.uc-card.selected');
+            
+            if (!selectedCard || !pubgId || !pubgNick) {
+                alert('Ýalňyşlyk: Ähli öýjükleri dolduryň we paket saýlaň!');
+                return;
+            }
+
+            const type = selectedCard.getAttribute('data-type');
+            const value = selectedCard.getAttribute('data-value');
+            const price = parseInt(selectedCard.getAttribute('data-price'));
+
+            const priceParts = splitPrice(price);
+            const randomIdx = Math.floor(Math.random() * myNumbers.length);
+            const chosenNumber = myNumbers[randomIdx];
+
+            let smsListText = "";
+            priceParts.forEach((part, index) => {
+                smsListText += `   - SMS ${index+1}: +993${chosenNumber} -> *${part} TMT*\n`;
+            });
+
+            const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
+                                    `📦 *Haryt:* ${value} ${type}\n` +
+                                    `💰 *Jemi Baha:* ${price} TMT\n` +
+                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
+                                    `📊 *Bölingan SMS-ler:*\n${smsListText}` +
+                                    `🆔 *PUBG ID:* \`${pubgId}\`\n` +
+                                    `👤 *Nickname:* ${pubgNick}`;
+
+            const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
+
+            alert(`✅ Sargyt taýýar! \n\n💰 Jemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar.\n📱 Ählisi +993${chosenNumber} nomerine gider.\n⚠️ SMS-leri üýtgetmän ugradyň!`);
+
+            fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgReportMessage, parse_mode: 'Markdown' })
+            }).then(() => {
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, false);
+            }).catch(() => {
+                executeSmsSending(priceParts, chosenNumber, backupSmsText, true);
+            });
+        }
+
+        function executeSmsSending(parts, number, backupText, isFallback) {
+            let delay = 0;
+            
+            parts.forEach((part, index) => {
+                setTimeout(() => {
+                    const pure0804Text = `${number} ${part}`;
+                    window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                }, delay);
+                delay += 2500;
+            });
+
+            if (isFallback) {
+                setTimeout(() => {
+                    window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
+                }, delay);
+            }
+        }
+    </script>
+</body>
+</html>
