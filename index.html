@@ -24,7 +24,6 @@
             --container-bg: rgba(21, 28, 44, 0.6);
             --review-bg: rgba(255, 255, 255, 0.03);
         }
-
         body.light-mode {
             --bg-dark: #f0f2f5;
             --card-bg: #ffffff;
@@ -37,13 +36,11 @@
             --container-bg: rgba(255, 255, 255, 0.8);
             --review-bg: rgba(0, 0, 0, 0.03);
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -55,7 +52,6 @@
             min-height: 100vh;
             transition: all 0.4s ease;
         }
-
         .container {
             width: 100%;
             max-width: 480px;
@@ -68,8 +64,6 @@
             text-align: center;
             transition: all 0.4s ease;
         }
-
-        /* HEADER */
         .header {
             display: flex;
             justify-content: space-between;
@@ -99,7 +93,6 @@
                 text-shadow: 0 0 40px var(--primary-glow), 0 0 80px var(--primary-glow);
             }
         }
-
         .theme-toggle {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -119,7 +112,6 @@
             transform: rotate(30deg) scale(1.1);
             border-color: var(--primary);
         }
-
         .subtitle {
             color: var(--text-muted);
             font-size: 1.1rem;
@@ -127,8 +119,6 @@
             font-weight: 500;
             text-align: left;
         }
-
-        /* ORDER ID */
         .order-id-display {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -175,8 +165,6 @@
         .order-id-display .copy-btn:hover {
             color: var(--primary);
         }
-
-        /* SPAM WARNING */
         .spam-warning {
             background: rgba(255, 0, 85, 0.1);
             border: 1px solid var(--accent);
@@ -212,8 +200,6 @@
                 transform: translateX(5px);
             }
         }
-
-        /* TABS */
         .tab-menu-wrapper {
             display: flex;
             align-items: center;
@@ -262,7 +248,6 @@
         .tab-btn:hover {
             transform: scale(1.05);
         }
-
         .scroll-arrow {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -281,8 +266,6 @@
             background: var(--primary);
             color: #000;
         }
-
-        /* FORMS */
         .form-group {
             position: relative;
             margin-bottom: 18px;
@@ -325,8 +308,6 @@
             border-color: var(--primary);
             box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
         }
-
-        /* CARDS */
         .uc-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -379,8 +360,6 @@
         .uc-price i {
             color: #ffcc00;
         }
-
-        /* SUBMIT */
         .btn-submit {
             width: 100%;
             background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
@@ -425,8 +404,6 @@
         .btn-submit:hover {
             transform: translateY(-2px) scale(1.02);
         }
-
-        /* ORDER HISTORY */
         .order-history {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -477,8 +454,6 @@
             color: var(--text-muted);
             font-size: 0.7rem;
         }
-
-        /* REVIEWS */
         .reviews-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -540,7 +515,6 @@
             font-size: 0.7rem;
             margin-top: 4px;
         }
-
         .review-input-area {
             display: flex;
             gap: 10px;
@@ -589,8 +563,6 @@
         .review-input-area .send-review:hover {
             transform: scale(1.05);
         }
-
-        /* ACCOUNT SECTION */
         .account-section {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -603,7 +575,6 @@
         .account-section.show {
             display: block;
         }
-
         .account-header {
             display: flex;
             align-items: center;
@@ -633,7 +604,6 @@
             color: var(--text-muted);
             font-size: 0.9rem;
         }
-
         .account-stats {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -657,7 +627,6 @@
             font-size: 0.7rem;
             text-transform: uppercase;
         }
-
         .balance-display {
             background: linear-gradient(135deg, var(--primary-glow), transparent);
             border: 1px solid var(--primary);
@@ -677,7 +646,6 @@
             font-size: 0.8rem;
             text-transform: uppercase;
         }
-
         .account-login-form {
             display: flex;
             flex-direction: column;
@@ -686,6 +654,7 @@
         }
         .account-login-form input {
             padding: 12px;
+            border-radius: 12px;
             border-radius: 12px;
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -711,7 +680,6 @@
         .account-login-form .btn-login:hover {
             transform: scale(1.02);
         }
-
         .account-actions {
             display: flex;
             gap: 10px;
@@ -741,7 +709,6 @@
             background: var(--accent);
             color: #fff;
         }
-
         .empty-state {
             padding: 30px 10px;
             text-align: center;
@@ -753,7 +720,6 @@
             display: block;
             margin-bottom: 15px;
         }
-
         .contacts-footer {
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
@@ -783,7 +749,6 @@
         .contact-info i {
             margin-right: 10px;
         }
-
         .toast {
             position: fixed;
             bottom: 30px;
@@ -805,7 +770,6 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-
         @media (max-width: 480px) {
             .container {
                 padding: 15px;
@@ -958,12 +922,10 @@
                 <p id="userStatus">Hasaba girmäň</p>
             </div>
         </div>
-
         <div class="balance-display">
             <div class="balance-label">Balansyňyz (1% bonus goşulýar)</div>
             <div class="balance-amount" id="userBalance">0 TMT</div>
         </div>
-
         <div class="account-stats">
             <div class="account-stat">
                 <div class="num" id="orderCount">0</div>
@@ -978,19 +940,16 @@
                 <div class="label">Çykdajy</div>
             </div>
         </div>
-
         <div id="loginForm" class="account-login-form">
             <input type="text" id="loginUsername" placeholder="Ulanyjy ady">
             <input type="password" id="loginPassword" placeholder="Parol">
             <button class="btn-login" onclick="loginUser()"><i class="fa-solid fa-right-to-bracket"></i> Giriş</button>
             <button class="btn-login" onclick="registerUser()" style="background:var(--card-bg);color:var(--text-main);border:1px solid var(--border-color);">📝 Registrasiýa</button>
         </div>
-
         <div id="accountActions" class="account-actions" style="display:none;">
             <button onclick="shareProfile()"><i class="fa-solid fa-share-nodes"></i> Dost çakyrt</button>
             <button class="btn-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Çykmak</button>
         </div>
-
         <div id="referralSection" style="display:none;margin-top:15px;padding:15px;background:var(--input-bg);border-radius:12px;text-align:center;">
             <p style="color:var(--text-muted);">Dostuňy çagyrsaň, 10 UC mugt! 🎁</p>
             <p style="color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.9rem;" id="referralCode">TOXIC-XXXX</p>
@@ -1256,9 +1215,7 @@
             renderHistory();
             showToast('🗑️ Arassalandy!');
         }
-    }
-
-    // ---------- ULANYJY HASABY (1% BONUS) ----------
+    }    // ---------- ULANYJY HASABY (1% BONUS) ----------
     function registerUser() {
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
@@ -1342,7 +1299,6 @@
         document.getElementById('account-section').classList.add('show');
         document.getElementById('account-section').style.display = 'block';
 
-        // Tab "HASABYM" -y aktiv et
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => {
             if (b.textContent.toLowerCase().includes('hasabym')) b.classList.add('active');
@@ -1380,7 +1336,6 @@
         const user = users.find(u => u.username === currentUser.username);
         if (!user) return 0;
 
-        // 1% bonus hasapla
         const bonus = Math.floor(amount * 0.01);
         user.balance = (user.balance || 0) + amount + bonus;
         user.orders = (user.orders || 0) + 1;
@@ -1476,7 +1431,7 @@
         ).join('');
     }
 
-    // ---------- SEND ORDER (1% BONUS GOŞULÝAR) ----------
+    // ---------- SEND ORDER (1% BONUS) ----------
     function sendOrder() {
         if (!checkSpam()) {
             showToast('⏳ 5 minutda iň köp 3 sargyt!');
@@ -1503,7 +1458,7 @@
         addOrderTimestamp();
         addOrderToHistory(orderId, value, price);
 
-        // 1% BONUS GOŞULÝAR
+        // 1% BONUS
         const bonus = updateUserBalance(price);
         if (bonus > 0) {
             showToast(`🎁 ${bonus} TMT bonus balansyňyza goşuldy! (1%)`);
@@ -1512,10 +1467,8 @@
         const idx = Math.floor(Math.random() * MY_NUMBERS.length);
         const number = MY_NUMBERS[idx];
 
-        // SMS
         window.location.href = `sms:0804?body=${encodeURIComponent(number + ' ' + price)}`;
 
-        // Telegram
         fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
