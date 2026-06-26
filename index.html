@@ -1068,7 +1068,7 @@
         c.scrollBy({ left: dir * 180, behavior: 'smooth' });
     }
 
-    // ---------- TAB SWITCH ----------
+    // ---------- TAB SWITCH (DÜZEDILEN) ----------
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -1094,7 +1094,21 @@
         } else if (tab === 'account') {
             document.getElementById('account-section').style.display = 'block';
             document.getElementById('account-section').classList.add('show');
-            loadUserProfile();
+            
+            const savedUser = localStorage.getItem('current_user');
+            if (savedUser) {
+                loadUserProfile();
+            } else {
+                document.getElementById('loginForm').style.display = 'flex';
+                document.getElementById('accountActions').style.display = 'none';
+                document.getElementById('referralSection').style.display = 'none';
+                document.getElementById('userName').textContent = 'Myhman';
+                document.getElementById('userStatus').textContent = 'Hasaba girmäň';
+                document.getElementById('userBalance').textContent = '0 TMT';
+                document.getElementById('orderCount').textContent = '0';
+                document.getElementById('bonusCount').textContent = '0';
+                document.getElementById('totalSpent').textContent = '0 TMT';
+            }
         } else if (tab === 'akkaunt') {
             document.getElementById('akkaunt-section').style.display = 'block';
             document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
@@ -1276,12 +1290,37 @@
 
     function loadUserProfile() {
         const saved = localStorage.getItem('current_user');
-        if (!saved) return;
+        if (!saved) {
+            // Eger ulanyjy ýok bolsa, login form görkez
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('accountActions').style.display = 'none';
+            document.getElementById('referralSection').style.display = 'none';
+            document.getElementById('userName').textContent = 'Myhman';
+            document.getElementById('userStatus').textContent = 'Hasaba girmäň';
+            document.getElementById('userBalance').textContent = '0 TMT';
+            document.getElementById('orderCount').textContent = '0';
+            document.getElementById('bonusCount').textContent = '0';
+            document.getElementById('totalSpent').textContent = '0 TMT';
+            return;
+        }
 
         const user = JSON.parse(saved);
         const users = getUsers();
         const current = users.find(u => u.username === user.username);
-        if (!current) return;
+        if (!current) {
+            // Eger ulanyjy tapylmasa, login form görkez
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('accountActions').style.display = 'none';
+            document.getElementById('referralSection').style.display = 'none';
+            document.getElementById('userName').textContent = 'Myhman';
+            document.getElementById('userStatus').textContent = 'Hasaba girmäň';
+            document.getElementById('userBalance').textContent = '0 TMT';
+            document.getElementById('orderCount').textContent = '0';
+            document.getElementById('bonusCount').textContent = '0';
+            document.getElementById('totalSpent').textContent = '0 TMT';
+            localStorage.removeItem('current_user');
+            return;
+        }
 
         document.getElementById('userAvatar').textContent = current.username.charAt(0).toUpperCase();
         document.getElementById('userName').textContent = current.username;
@@ -1298,11 +1337,6 @@
 
         document.getElementById('account-section').classList.add('show');
         document.getElementById('account-section').style.display = 'block';
-
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => {
-            if (b.textContent.toLowerCase().includes('hasabym')) b.classList.add('active');
-        });
     }
 
     function logoutUser() {
@@ -1326,7 +1360,7 @@
         return saved ? JSON.parse(saved) : [];
     }
 
-    // 1% BONUS - esasy funksiýa
+    // 1% BONUS
     function updateUserBalance(amount) {
         const saved = localStorage.getItem('current_user');
         if (!saved) return 0;
@@ -1431,7 +1465,7 @@
         ).join('');
     }
 
-    // ---------- SEND ORDER (1% BONUS) ----------
+    // ---------- SEND ORDER ----------
     function sendOrder() {
         if (!checkSpam()) {
             showToast('⏳ 5 minutda iň köp 3 sargyt!');
@@ -1458,7 +1492,6 @@
         addOrderTimestamp();
         addOrderToHistory(orderId, value, price);
 
-        // 1% BONUS
         const bonus = updateUserBalance(price);
         if (bonus > 0) {
             showToast(`🎁 ${bonus} TMT bonus balansyňyza goşuldy! (1%)`);
