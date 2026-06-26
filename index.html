@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOXIC UC SHOP</title>
-    <!-- Telegram WebApp Scripti -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,115 +18,31 @@
             --text-main: #ffffff;
             --text-muted: #8fa0be;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(21, 28, 44, 0.6);
-            padding: 25px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.4rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 5px;
-        }
-
-        h1 span {
-            color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-
-        /* Tab Menu */
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Rajdhani', sans-serif; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 480px; background: rgba(21, 28, 44, 0.6); padding: 25px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); text-align: center; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); margin-bottom: 5px; }
+        h1 span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 25px; font-weight: 500; }
         .tab-menu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 25px; }
-
-        .tab-btn {
-            background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-main); padding: 12px 5px; border-radius: 12px;
-            font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
-            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
-            text-transform: uppercase;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%);
-            color: #000; box-shadow: 0 0 15px var(--primary-glow); border: none;
-        }
-
+        .tab-btn { background: #1e2638; border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-main); padding: 12px 5px; border-radius: 12px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; }
+        .tab-btn.active { background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); color: #000; box-shadow: 0 0 15px var(--primary-glow); border: none; }
         .form-group { position: relative; margin-bottom: 18px; text-align: left; }
         .form-group label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .input-wrapper { position: relative; }
         .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
-
-        .form-control {
-            width: 100%; background: #111622; border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 14px 14px 14px 45px; border-radius: 14px; color: #fff;
-            font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; outline: none; transition: all 0.3s ease;
-        }
-
+        .form-control { width: 100%; background: #111622; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 14px 14px 45px; border-radius: 14px; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; outline: none; transition: all 0.3s ease; }
         .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.15); background: #141b2a; }
-
         .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-
-        .uc-card {
-            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative;
-        }
-
-        .uc-card:hover, .uc-card.selected {
-            border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
+        .uc-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.04); padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease; text-align: center; position: relative; }
+        .uc-card:hover, .uc-card.selected { border-color: var(--primary); background: #192235; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
         .uc-card.selected { box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
-
-        .uc-amount {
-            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
-            color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
+        .uc-amount { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .uc-price { color: var(--primary); font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .uc-price i { color: #ffcc00; font-size: 1rem; }
-
-        .btn-submit {
-            width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none;
-            color: #000; padding: 16px; border-radius: 16px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 800;
-            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25);
-            display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
-            margin-bottom: 25px;
-        }
-
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #00ff66 0%, #00bc4b 100%); border: none; color: #000; padding: 16px; border-radius: 16px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 255, 102, 0.25); display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; margin-bottom: 25px; }
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4); }
-
-        /* Footer */
+        
+        /* FOOTER KANALLAR */
         .contacts-footer { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; text-align: left; }
         .contacts-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
         .contacts-title i { color: var(--primary); }
@@ -136,8 +51,17 @@
         .contact-item:hover { border-color: var(--primary); background: #141b2a; transform: translateX(3px); }
         .contact-info { display: flex; align-items: center; gap: 12px; }
         .contact-info i { font-size: 1.2rem; width: 20px; text-align: center; }
-        .fa-telegram { color: #0088cc; }
-        .fa-rocket { color: #ff9900; }
+
+        /* MODAL EKRAŇY (POP-UP) */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        .modal-box { width: 100%; max-width: 400px; background: #151c2c; border: 2px solid var(--primary); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 0 30px rgba(0, 255, 102, 0.2); position: relative; }
+        .modal-title { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
+        .modal-desc { color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; line-height: 1.4; }
+        .sms-btn-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+        .sms-link-btn { display: flex; align-items: center; justify-content: space-between; background: #1e2638; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; text-decoration: none; transition: all 0.2s ease; }
+        .sms-link-btn:not(.done):hover { border-color: var(--primary); background: #111622; }
+        .sms-link-btn.done { background: rgba(0, 255, 102, 0.1); border-color: var(--primary); color: var(--primary); }
+        .modal-close { background: #ff0055; border: none; color: #fff; width: 100%; padding: 12px; border-radius: 12px; font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 1rem; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -146,14 +70,12 @@
         <h1>Toxic <span>Shop</span></h1>
         <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
-        <!-- Kategoriýa Menýusy -->
         <div class="tab-menu">
             <button class="tab-btn active" id="btn-uc" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
             <button class="tab-btn" id="btn-sandyk" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
             <button class="tab-btn" id="btn-akkaunt" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
         </div>
 
-        <!-- Müşderi Maglumat Formasy -->
         <div class="form-group">
             <label>PUBG Mobile ID-ňiz</label>
             <div class="input-wrapper">
@@ -170,7 +92,7 @@
             </div>
         </div>
 
-        <!-- UC PAKETLERI (BÖLÜM 1) -->
+        <!-- UC PAKETLERI -->
         <div id="uc-grid-section" class="uc-grid">
             <div class="uc-card selected" data-type="UC" data-value="60" data-price="23" onclick="selectCard(this)">
                 <div class="uc-amount">60 UC <i class="fa-solid fa-gem" style="color: #00ffff; font-size: 0.9rem;"></i></div>
@@ -198,7 +120,7 @@
             </div>
         </div>
 
-        <!-- SANDYK PAKETLERI (BÖLÜM 2) -->
+        <!-- SANDYK PAKETLERI -->
         <div id="sandyk-grid-section" class="uc-grid" style="display: none;">
             <div class="uc-card" data-type="Sandyk" data-value="Ag sandyk" data-price="30" onclick="selectCard(this)">
                 <div class="uc-amount">Ag sandyk</div>
@@ -214,32 +136,36 @@
             </div>
         </div>
 
-        <!-- AKKAUNT BÖLÜMI (BÖLÜM 3) -->
-        <div id="akkaunt-section" style="display: none; padding: 30px 10px; text-align: center; color: var(--text-muted); font-size: 1.2rem;">
+        <div id="akkaunt-section" style="display: none; padding: 30px 10px; color: var(--text-muted); font-size: 1.2rem;">
             <i class="fa-solid fa-fire" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;"></i>
             <p>Akkauntlar tiz wagtda goşular!</p>
         </div>
 
-        <!-- Esasy Düwme -->
         <button class="btn-submit" onclick="sendOrder()">
             Töleg we Sargyt Et <i class="fa-solid fa-paper-plane"></i>
         </button>
 
-        <!-- Habarlaşmak we Kanallar -->
         <div class="contacts-footer">
             <div class="contacts-title"><i class="fa-solid fa-headset"></i> Habarlaşmak we Kanallarymyz</div>
             <div class="contact-links">
                 <a href="https://tmstart.me/toxic_pubg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-solid fa-rocket"></i><span>Start Kanalymyz</span></div>
-                    <div class="contact-action">Giriş</div>
                 </a>
                 <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
                     <div class="contact-info"><i class="fa-brands fa-telegram"></i><span>Telegram Kanalymyz</span></div>
-                    <div class="contact-action">Giriş</div>
                 </a>
             </div>
         </div>
+    </div>
 
+    <!-- TÖLEG POP-UP INTEGRASIÝASY -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fa-solid fa-wallet" style="color:var(--primary)"></i> Töleg Sahypasy</div>
+            <div id="modalDesc" class="modal-desc"></div>
+            <div id="smsBtnContainer" class="sms-btn-container"></div>
+            <button class="modal-close" onclick="closeModal()">Sargydy Ýap</button>
+        </div>
     </div>
 
     <script>
@@ -247,10 +173,7 @@
         const TG_CHAT_ID = "7819113909";     
         const MY_MAIN_NUMBER = "+99371523250"; 
 
-        // 7 sany elýeterli nomerleriň
-        const myNumbers = [
-            "71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"
-        ]; 
+        const myNumbers = ["71523250", "71362426", "64518360", "71056667", "71056669", "64352428", "62844914"]; 
 
         let tg = window.Telegram?.WebApp;
         if (tg) tg.expand(); 
@@ -260,7 +183,6 @@
             document.getElementById('uc-grid-section').style.display = 'none';
             document.getElementById('sandyk-grid-section').style.display = 'none';
             document.getElementById('akkaunt-section').style.display = 'none';
-
             if (tabName === 'uc') {
                 document.getElementById('btn-uc').classList.add('active');
                 document.getElementById('uc-grid-section').style.display = 'grid';
@@ -287,7 +209,6 @@
             if (firstCard) firstCard.classList.add('selected');
         }
 
-        // AKYLLY BÖLÜJI MEHANIZM (Bahany max 50-den bölýär)
         function splitPrice(totalPrice) {
             let parts = [];
             let remaining = totalPrice;
@@ -317,14 +238,13 @@
             const value = selectedCard.getAttribute('data-value');
             const price = parseInt(selectedCard.getAttribute('data-price'));
 
-            // Bahany bölýäris (105 -> [50, 50, 5])
+            // 1. Bahany 50-lik böleklere bölýäris
             const priceParts = splitPrice(price);
 
-            // GÖNI 1 SANÝA NOMER SAÝLAÝARYS (Bütin tölegler diňe şu ýekeje nomere gider!)
+            // 2. HEMME PAKET ÜÇIN DIŇE 1 SANÝA NOMER SAÝLAÝARYS
             const randomIdx = Math.floor(Math.random() * myNumbers.length);
             const chosenNumber = myNumbers[randomIdx];
 
-            // Telegram bot hasabaty üçin tekst dretmek
             let smsListText = "";
             priceParts.forEach((part, index) => {
                 smsListText += `   - SMS ${index+1}: +993${chosenNumber} -> *${part} TMT*\n`;
@@ -333,47 +253,48 @@
             const tgReportMessage = `🚨 *TOXIC SHOP - TÄZE SARGYT!*\n\n` +
                                     `📦 *Haryt:* ${value} ${type}\n` +
                                     `💰 *Jemi Baha:* ${price} TMT\n` +
-                                    `📱 *Saýlanan ýeke-täk nomer:* +993${chosenNumber}\n` +
+                                    `📱 *Töleg Nomeri:* +993${chosenNumber}\n` +
                                     `📊 *Bölingan SMS-ler:*\n${smsListText}` +
                                     `🆔 *PUBG ID:* \`${pubgId}\`\n` +
                                     `👤 *Nickname:* ${pubgNick}`;
 
             const backupSmsText = `Toxic Shop: ${value} ${type}, Jemi: ${price} TMT. ID: ${pubgId}, Nick: ${pubgNick}`;
 
-            alert(`Sargyt taýýar! \n\nJemi baha ${price} TMT bolany üçin, telefonyňyzda yzly-yzyna ${priceParts.length} sany 0804 SMS-i açylar. Ählisi +993${chosenNumber} nomerine gider. SMS-leri üýtgetmän ugradyň!`);
-
-            // Telegram bota ugradylýar
+            // TG Bot-a maglumat ugratmak
             fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: TG_CHAT_ID, text: tgReportMessage, parse_mode: 'Markdown' })
             }).then(() => {
-                executeSmsSending(priceParts, chosenNumber, backupSmsText, false);
+                openPaymentModal(priceParts, chosenNumber, backupSmsText, false, value, price);
             }).catch(() => {
-                executeSmsSending(priceParts, chosenNumber, backupSmsText, true);
+                openPaymentModal(priceParts, chosenNumber, backupSmsText, true, value, price);
             });
         }
 
-        // SMS-leri şol bir nomere gezekli-gezek ugradýan akylly funksiýa
-        function executeSmsSending(parts, number, backupText, isFallback) {
-            let delay = 0;
+        function openPaymentModal(parts, number, backupText, isFallback, value, totalCost) {
+            const modal = document.getElementById('paymentModal');
+            const desc = document.getElementById('modalDesc');
+            const btnContainer = document.getElementById('smsBtnContainer');
             
-            // Ähli bölünen pullary göni şol bir 'number' (nomere) ugradýar
-            parts.forEach((part, index) => {
-                setTimeout(() => {
-                    const pure0804Text = `${number} ${part}`;
-                    window.location.href = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
-                }, delay);
-                delay += 2500; // Klent birini ugradyp ýetişip, yzyna dönende ikinjisi açylýar
-            });
+            btnContainer.innerHTML = ""; 
 
-            // Telegramy ýoklar üçin saňa geljek adaty SMS
-            if (isFallback) {
-                setTimeout(() => {
-                    window.location.href = `sms:${MY_MAIN_NUMBER}?body=${encodeURIComponent(backupText)}`;
-                }, delay);
+            if(parts.length === 1) {
+                desc.innerHTML = `<b>${value}</b> sargadyňyz üçin aşakdaky düwmä basyp <b>0804</b> tölegini ugradyň. <br>Töleg nomeri: <b>+993${number}</b>`;
+            } else {
+                desc.innerHTML = `Jemi baha <b>${totalCost} TMT</b>. Hemme SMS-ler diňe <b>+993${number}</b> nomerine ugradylmalydyr. Aşakdaky düwmeleri <b>gezekli-gezek basyp</b> tölegi tamamlaň!`;
             }
-        }
-    </script>
-</body>
-</html>
+
+            // Ähli döredilýän düwmeler diňe 'number' üýtgeýjisine (şol bir saýlanan nomere) ugradýar
+            parts.forEach((part, index) => {
+                const pure0804Text = `${number} ${part}`;
+                const smsHref = `sms:0804?body=${encodeURIComponent(pure0804Text)}`;
+                
+                const btn = document.createElement('a');
+                btn.href = smsHref;
+                btn.className = "sms-link-btn";
+                btn.innerHTML = `<span><i class="fa-solid fa-comment-sms"></i> SMS ${index+1} (${part} TMT)</span> <i class="fa-solid fa-chevron-right"></i>`;
+                
+                btn.onclick = function() {
+                    btn.classList.add('done');
+                    btn.innerHTML = `<span><i class="fa-solid fa-circle-check"
