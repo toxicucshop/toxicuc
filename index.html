@@ -69,7 +69,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 5px;
-              }
+        }
         .header h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2rem;
@@ -93,6 +93,11 @@
                 text-shadow: 0 0 40px var(--primary-glow), 0 0 80px var(--primary-glow);
             }
         }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         .theme-toggle {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -111,6 +116,43 @@
         .theme-toggle:hover {
             transform: rotate(30deg) scale(1.1);
             border-color: var(--primary);
+        }
+        .user-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .user-btn:hover {
+            border-color: var(--primary);
+            background: var(--card-hover);
+            transform: scale(1.05);
+        }
+        .user-btn i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .user-btn .badge {
+            background: var(--primary);
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
         }
         .subtitle {
             color: var(--text-muted);
@@ -482,7 +524,7 @@
             text-align: left;
             animation: fadeInUp 0.4s ease;
         }
-         @keyframes fadeInUp {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -563,28 +605,59 @@
         .review-input-area .send-review:hover {
             transform: scale(1.05);
         }
-        /* ACCOUNT SECTION */
-        .account-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .account-modal {
             display: none;
-            text-align: left;
-        }
-        .account-section.show {
-            display: block;
-        }
-        .account-header {
-            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
         }
-        .account-avatar {
+        .account-modal.show {
+            display: flex;
+                }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .account-modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 24px;
+            padding: 25px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            text-align: left;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .account-modal-content .modal-close {
+            float: right;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .account-modal-content .modal-close:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+        .account-modal-content .account-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -595,38 +668,19 @@
             font-size: 2rem;
             font-weight: 800;
             color: #000;
-            flex-shrink: 0;
+            margin: 0 auto 15px auto;
         }
-        .account-info h3 {
+        .account-modal-content .account-info {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .account-modal-content .account-info h3 {
             font-size: 1.2rem;
             color: var(--text-main);
         }
-        .account-info p {
+        .account-modal-content .account-info p {
             color: var(--text-muted);
             font-size: 0.9rem;
-        }
-        .account-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .account-stat {
-            background: var(--input-bg);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .account-stat .num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .account-stat .label {
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            text-transform: uppercase;
         }
         .balance-display {
             background: linear-gradient(135deg, var(--primary-glow), transparent);
@@ -651,6 +705,29 @@
             color: #ffcc00;
             font-size: 0.8rem;
             margin-top: 4px;
+        }
+        .account-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .account-stat {
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .account-stat .num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .account-stat .label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
         }
         .account-login-form {
             display: flex;
@@ -795,6 +872,10 @@
             .uc-amount {
                 font-size: 1rem;
             }
+            .user-btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -803,9 +884,16 @@
 
     <div class="header">
         <h1>Toxic <span>Shop</span></h1>
-        <button class="theme-toggle" onclick="toggleTheme()" title="Gije/Gündiz režimi">
-            <i class="fa-solid fa-moon" id="themeIcon"></i>
-        </button>
+        <div class="header-right">
+            <button class="user-btn" onclick="toggleAccountModal()" id="userBtn">
+                <i class="fa-solid fa-user"></i>
+                <span id="userBtnText">Giriş</span>
+                <span class="badge" id="userBadge" style="display:none;">0</span>
+            </button>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Gije/Gündiz režimi">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
     </div>
     <p class="subtitle">Ynamly, Çalt we Amatly Hyzmat</p>
 
@@ -834,7 +922,6 @@
             <button class="tab-btn active" onclick="switchTab('uc')"><i class="fa-solid fa-bolt"></i> UC</button>
             <button class="tab-btn" onclick="switchTab('sandyk')"><i class="fa-solid fa-box-open"></i> SANDYK</button>
             <button class="tab-btn" onclick="switchTab('podpiska')"><i class="fa-solid fa-crown"></i> PODPISKA</button>
-            <button class="tab-btn" onclick="switchTab('account')"><i class="fa-solid fa-user"></i> HASABYM</button>
             <button class="tab-btn" onclick="switchTab('akkaunt')"><i class="fa-solid fa-fire"></i> AKKAUNT</button>
             <button class="tab-btn" onclick="switchTab('promo')"><i class="fa-solid fa-gift"></i> PROMO</button>
         </div>
@@ -869,9 +956,9 @@
             <div class="uc-amount">660 UC</div>
             <div class="uc-price"><i class="fa-solid fa-coins"></i> 210 TMT</div>
         </div>
-        <div class="uc-card" onclick="selectCard(this)" data-price="530" data-value="1800 UC">
+        <div class="uc-card" onclick="selectCard(this)" data-price="500" data-value="1800 UC">
             <div class="uc-amount">1800 UC</div>
-            <div class="uc-price"><i class="fa-solid fa-coins"></i> 530 TMT</div>
+            <div class="uc-price"><i class="fa-solid fa-coins"></i> 500 TMT</div>
         </div>
         <div class="uc-card" onclick="selectCard(this)" data-price="1000" data-value="3850 UC">
             <div class="uc-amount">3850 UC</div>
@@ -906,55 +993,6 @@
         <div class="uc-card" onclick="selectCard(this)" data-price="225" data-value="Prime Plus">
             <div class="uc-amount">Prime Plus</div>
             <div class="uc-price"><i class="fa-solid fa-crown"></i> 225 TMT</div>
-        </div>
-    </div>
-
-    <!-- ACCOUNT SECTION -->
-    <div id="account-section" class="account-section">
-        <div class="account-header">
-            <div class="account-avatar" id="userAvatar">T</div>
-            <div class="account-info">
-                <h3 id="userName">Myhman</h3>
-                <p id="userStatus">Hasaba girmäň</p>
-            </div>
-        </div>
-        <div class="balance-display">
-            <div class="balance-label">💰 Balansyňyz</div>
-            <div class="balance-amount" id="userBalance">0 TMT</div>
-            <div class="bonus-text">✨ Her sargytda 1% bonus goşulýar!</div>
-        </div>
-        <div class="account-stats">
-            <div class="account-stat">
-                <div class="num" id="orderCount">0</div>
-                <div class="label">Sargyt</div>
-            </div>
-            <div class="account-stat">
-                <div class="num" id="bonusCount">0</div>
-                <div class="label">Bonus</div>
-            </div>
-            <div class="account-stat">
-                <div class="num" id="totalSpent">0 TMT</div>
-                <div class="label">Çykdajy</div>
-            </div>
-        </div>
-
-        <!-- GIRIŞ FORM -->
-        <div id="loginForm" class="account-login-form">
-            <input type="text" id="loginUsername" placeholder="Ulanyjy ady">
-            <input type="password" id="loginPassword" placeholder="Parol">
-            <button class="btn-login" onclick="loginUser()"><i class="fa-solid fa-right-to-bracket"></i> Giriş</button>
-            <button class="btn-login" onclick="registerUser()" style="background:var(--card-bg);color:var(--text-main);border:1px solid var(--border-color);">📝 Registrasiýa</button>
-        </div>
-
-        <div id="accountActions" class="account-actions" style="display:none;">
-            <button onclick="shareProfile()"><i class="fa-solid fa-share-nodes"></i> Dost çakyrt</button>
-            <button class="btn-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Çykmak</button>
-        </div>
-
-        <div id="referralSection" style="display:none;margin-top:15px;padding:15px;background:var(--input-bg);border-radius:12px;text-align:center;">
-            <p style="color:var(--text-muted);">Dostuňy çagyrsaň, 10 UC mugt! 🎁</p>
-            <p style="color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.9rem;" id="referralCode">TOXIC-XXXX</p>
-            <button onclick="copyReferral()" style="background:var(--primary);border:none;color:#000;padding:8px 16px;border-radius:10px;cursor:pointer;font-weight:700;margin-top:8px;"><i class="fa-regular fa-copy"></i> Kopyala</button>
         </div>
     </div>
 
@@ -997,12 +1035,61 @@
             <span class="contact-info"><i class="fa-solid fa-rocket" style="color:#ff9900;"></i> Start Kanalymyz</span>
             <span>Giriş</span>
         </a>
-        <a href="https://t.me/toxic_pubg_tg" target="_blank" class="contact-item">
+        <a href="https://t.me/toxic_pubg_tk" target="_blank" class="contact-item">
             <span class="contact-info"><i class="fa-brands fa-telegram" style="color:#0088cc;"></i> Telegram Kanal</span>
             <span>Giriş</span>
         </a>
     </div>
 
+</div>
+
+<!-- ACCOUNT MODAL -->
+<div class="account-modal" id="accountModal">
+    <div class="account-modal-content">
+        <button class="modal-close" onclick="closeAccountModal()">✕</button>
+        <div class="account-avatar" id="modalAvatar">T</div>
+        <div class="account-info">
+            <h3 id="modalUserName">Myhman</h3>
+            <p id="modalUserStatus">Hasaba girmäň</p>
+        </div>
+        <div class="balance-display">
+            <div class="balance-label">💰 Balansyňyz</div>
+            <div class="balance-amount" id="modalUserBalance">0 TMT</div>
+            <div class="bonus-text">✨ Sargyt tassyklanandan soň 1% bonus goşulýar!</div>
+        </div>
+        <div class="account-stats">
+            <div class="account-stat">
+                <div class="num" id="modalOrderCount">0</div>
+                <div class="label">Sargyt</div>
+            </div>
+            <div class="account-stat">
+                <div class="num" id="modalBonusCount">0</div>
+                <div class="label">Bonus</div>
+            </div>
+            <div class="account-stat">
+                <div class="num" id="modalTotalSpent">0 TMT</div>
+                <div class="label">Çykdajy</div>
+            </div>
+        </div>
+
+        <div id="modalLoginForm" class="account-login-form">
+            <input type="text" id="loginUsername" placeholder="Ulanyjy ady">
+            <input type="password" id="loginPassword" placeholder="Parol">
+            <button class="btn-login" onclick="loginUser()"><i class="fa-solid fa-right-to-bracket"></i> Giriş</button>
+            <button class="btn-login" onclick="registerUser()" style="background:var(--card-bg);color:var(--text-main);border:1px solid var(--border-color);">📝 Registrasiýa</button>
+        </div>
+
+        <div id="modalAccountActions" class="account-actions" style="display:none;">
+            <button onclick="shareProfile()"><i class="fa-solid fa-share-nodes"></i> Dost çakyrt</button>
+            <button class="btn-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Çykmak</button>
+        </div>
+
+        <div id="modalReferralSection" style="display:none;margin-top:15px;padding:15px;background:var(--input-bg);border-radius:12px;text-align:center;">
+            <p style="color:var(--text-muted);">Dostuňy çagyrsaň, 10 UC mugt! 🎁</p>
+            <p style="color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.9rem;" id="modalReferralCode">TOXIC-XXXX</p>
+            <button onclick="copyReferral()" style="background:var(--primary);border:none;color:#000;padding:8px 16px;border-radius:10px;cursor:pointer;font-weight:700;margin-top:8px;"><i class="fa-regular fa-copy"></i> Kopyala</button>
+        </div>
+    </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1019,6 +1106,7 @@
     let selectedStars = 0;
     let orderTimestamps = [];
 
+    // ---------- TOAST ----------
     function showToast(msg) {
         const t = document.getElementById('toast');
         t.textContent = msg;
@@ -1027,6 +1115,7 @@
         t._timeout = setTimeout(() => t.classList.remove('show'), 3000);
     }
 
+    // ---------- THEME ----------
     function toggleTheme() {
         const body = document.body;
         const icon = document.getElementById('themeIcon');
@@ -1054,12 +1143,14 @@
         }
     }
 
+    // ---------- SCROLL TABS ----------
     function scrollTabs(dir) {
         const c = document.getElementById('tabMenuScroll');
         if (!c) return;
         c.scrollBy({ left: dir * 180, behavior: 'smooth' });
     }
 
+    // ---------- TAB SWITCH ----------
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -1068,8 +1159,6 @@
         document.getElementById('uc-grid-section').style.display = 'none';
         document.getElementById('sandyk-grid-section').style.display = 'none';
         document.getElementById('podpiska-grid-section').style.display = 'none';
-        document.getElementById('account-section').style.display = 'none';
-        document.getElementById('account-section').classList.remove('show');
         document.getElementById('akkaunt-section').style.display = 'none';
         document.getElementById('promo-section').style.display = 'none';
 
@@ -1082,23 +1171,6 @@
         } else if (tab === 'podpiska') {
             document.getElementById('podpiska-grid-section').style.display = 'grid';
             resetSelection('#podpiska-grid-section .uc-card');
-        } else if (tab === 'account') {
-            document.getElementById('account-section').style.display = 'block';
-            document.getElementById('account-section').classList.add('show');
-            const savedUser = localStorage.getItem('current_user');
-            if (savedUser) {
-                loadUserProfile();
-            } else {
-                document.getElementById('loginForm').style.display = 'flex';
-                document.getElementById('accountActions').style.display = 'none';
-                document.getElementById('referralSection').style.display = 'none';
-                document.getElementById('userName').textContent = 'Myhman';
-                document.getElementById('userStatus').textContent = 'Hasaba girmäň';
-                document.getElementById('userBalance').textContent = '0 TMT';
-                document.getElementById('orderCount').textContent = '0';
-                document.getElementById('bonusCount').textContent = '0';
-                document.getElementById('totalSpent').textContent = '0 TMT';
-            }
         } else if (tab === 'akkaunt') {
             document.getElementById('akkaunt-section').style.display = 'block';
             document.querySelectorAll('.uc-card').forEach(c => c.classList.remove('selected'));
@@ -1121,6 +1193,7 @@
         selectedCard = card;
     }
 
+    // ---------- ANTI-SPAM ----------
     function checkSpam() {
         const now = Date.now();
         orderTimestamps = orderTimestamps.filter(t => now - t < 300000);
@@ -1147,6 +1220,7 @@
         }
     }
 
+    // ---------- ORDER ID ----------
     function generateOrderId() {
         const ts = Date.now().toString(36).toUpperCase();
         const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -1179,6 +1253,7 @@
         });
     }
 
+    // ---------- ORDER HISTORY ----------
     function addOrderToHistory(id, item, price) {
         const h = getHistory();
         const now = new Date();
@@ -1215,7 +1290,72 @@
             renderHistory();
             showToast('🗑️ Arassalandy!');
         }
-    }    function registerUser() {
+    }
+
+    // ---------- SMS BÖLÜŞ DIRIŞI (TÄZE) ----------
+    function splitPrice(totalPrice) {
+        let parts = [];
+        let remaining = totalPrice;
+        while (remaining > 0) {
+            if (remaining >= 50) {
+                parts.push(50);
+                remaining -= 50;
+            } else {
+                parts.push(remaining);
+                remaining = 0;
+            }
+        }
+        return parts;
+    }    // ---------- ACCOUNT MODAL ----------
+    function toggleAccountModal() {
+        const modal = document.getElementById('accountModal');
+        modal.classList.toggle('show');
+        updateModalContent();
+    }
+
+    function closeAccountModal() {
+        document.getElementById('accountModal').classList.remove('show');
+    }
+
+    function updateModalContent() {
+        const saved = localStorage.getItem('current_user');
+        if (saved) {
+            const user = JSON.parse(saved);
+            const users = getUsers();
+            const current = users.find(u => u.username === user.username);
+            if (current) {
+                document.getElementById('modalAvatar').textContent = current.username.charAt(0).toUpperCase();
+                document.getElementById('modalUserName').textContent = current.username;
+                document.getElementById('modalUserStatus').textContent = '✅ Hasaba girildi';
+                document.getElementById('modalUserBalance').textContent = current.balance + ' TMT';
+                document.getElementById('modalOrderCount').textContent = current.orders || 0;
+                document.getElementById('modalBonusCount').textContent = current.bonus || 0;
+                document.getElementById('modalTotalSpent').textContent = (current.spent || 0) + ' TMT';
+                document.getElementById('modalLoginForm').style.display = 'none';
+                document.getElementById('modalAccountActions').style.display = 'flex';
+                document.getElementById('modalReferralSection').style.display = 'block';
+                document.getElementById('modalReferralCode').textContent = current.referral || 'TOXIC-XXXX';
+                document.getElementById('userBtnText').textContent = current.username;
+                document.getElementById('userBadge').style.display = 'flex';
+                document.getElementById('userBadge').textContent = current.orders || 0;
+                return;
+            }
+        }
+        document.getElementById('modalAvatar').textContent = 'T';
+        document.getElementById('modalUserName').textContent = 'Myhman';
+        document.getElementById('modalUserStatus').textContent = 'Hasaba girmäň';
+        document.getElementById('modalUserBalance').textContent = '0 TMT';
+        document.getElementById('modalOrderCount').textContent = '0';
+        document.getElementById('modalBonusCount').textContent = '0';
+        document.getElementById('modalTotalSpent').textContent = '0 TMT';
+        document.getElementById('modalLoginForm').style.display = 'flex';
+        document.getElementById('modalAccountActions').style.display = 'none';
+        document.getElementById('modalReferralSection').style.display = 'none';
+        document.getElementById('userBtnText').textContent = 'Giriş';
+        document.getElementById('userBadge').style.display = 'none';
+    }
+
+    function registerUser() {
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
         if (!username || !password) {
@@ -1262,68 +1402,17 @@
         }
         localStorage.setItem('current_user', JSON.stringify(user));
         showToast('✅ Hoş geldiňiz, ' + user.username + '!');
-        loadUserProfile();
-    }
-
-    function loadUserProfile() {
-        const saved = localStorage.getItem('current_user');
-        if (!saved) {
-            document.getElementById('loginForm').style.display = 'flex';
-            document.getElementById('accountActions').style.display = 'none';
-            document.getElementById('referralSection').style.display = 'none';
-            document.getElementById('userName').textContent = 'Myhman';
-            document.getElementById('userStatus').textContent = 'Hasaba girmäň';
-            document.getElementById('userBalance').textContent = '0 TMT';
-            document.getElementById('orderCount').textContent = '0';
-            document.getElementById('bonusCount').textContent = '0';
-            document.getElementById('totalSpent').textContent = '0 TMT';
-            return;
-        }
-        const user = JSON.parse(saved);
-        const users = getUsers();
-        const current = users.find(u => u.username === user.username);
-        if (!current) {
-            document.getElementById('loginForm').style.display = 'flex';
-            document.getElementById('accountActions').style.display = 'none';
-            document.getElementById('referralSection').style.display = 'none';
-            document.getElementById('userName').textContent = 'Myhman';
-            document.getElementById('userStatus').textContent = 'Hasaba girmäň';
-            document.getElementById('userBalance').textContent = '0 TMT';
-            document.getElementById('orderCount').textContent = '0';
-            document.getElementById('bonusCount').textContent = '0';
-            document.getElementById('totalSpent').textContent = '0 TMT';
-            localStorage.removeItem('current_user');
-            return;
-        }
-        document.getElementById('userAvatar').textContent = current.username.charAt(0).toUpperCase();
-        document.getElementById('userName').textContent = current.username;
-        document.getElementById('userStatus').textContent = '✅ Hasaba girildi';
-        document.getElementById('userBalance').textContent = current.balance + ' TMT';
-        document.getElementById('orderCount').textContent = current.orders || 0;
-        document.getElementById('bonusCount').textContent = current.bonus || 0;
-        document.getElementById('totalSpent').textContent = (current.spent || 0) + ' TMT';
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('accountActions').style.display = 'flex';
-        document.getElementById('referralSection').style.display = 'block';
-        document.getElementById('referralCode').textContent = current.referral || 'TOXIC-XXXX';
-        document.getElementById('account-section').classList.add('show');
-        document.getElementById('account-section').style.display = 'block';
+        updateModalContent();
+        closeAccountModal();
     }
 
     function logoutUser() {
         localStorage.removeItem('current_user');
-        document.getElementById('loginForm').style.display = 'flex';
-        document.getElementById('accountActions').style.display = 'none';
-        document.getElementById('referralSection').style.display = 'none';
-        document.getElementById('userName').textContent = 'Myhman';
-        document.getElementById('userStatus').textContent = 'Hasaba girmäň';
-        document.getElementById('userBalance').textContent = '0 TMT';
-        document.getElementById('orderCount').textContent = '0';
-        document.getElementById('bonusCount').textContent = '0';
-        document.getElementById('totalSpent').textContent = '0 TMT';
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
+        updateModalContent();
         showToast('👋 Hoşlaşdyk!');
+        closeAccountModal();
     }
 
     function getUsers() {
@@ -1331,21 +1420,24 @@
         return saved ? JSON.parse(saved) : [];
     }
 
-    function updateUserBalance(amount) {
+    // ---------- BONUS (DIŇE SMS UGRADYLANSOHŇ) ----------
+    function addBonusAfterSms(price) {
         const saved = localStorage.getItem('current_user');
         if (!saved) return 0;
         const users = getUsers();
         const currentUser = JSON.parse(saved);
         const user = users.find(u => u.username === currentUser.username);
         if (!user) return 0;
-        const bonus = Math.floor(amount * 0.01);
-        user.balance = (user.balance || 0) + amount + bonus;
+        
+        const bonus = Math.floor(price * 0.01);
+        user.balance = (user.balance || 0) + price + bonus;
         user.orders = (user.orders || 0) + 1;
-        user.spent = (user.spent || 0) + amount;
+        user.spent = (user.spent || 0) + price;
         user.bonus = (user.bonus || 0) + bonus;
+        
         localStorage.setItem('shop_users', JSON.stringify(users));
         localStorage.setItem('current_user', JSON.stringify(user));
-        loadUserProfile();
+        updateModalContent();
         return bonus;
     }
 
@@ -1372,12 +1464,13 @@
     }
 
     function copyReferral() {
-        const code = document.getElementById('referralCode').textContent;
+        const code = document.getElementById('modalReferralCode').textContent;
         navigator.clipboard.writeText(code).then(() => {
             showToast('✅ Referral kod kopyalandy!');
         });
     }
 
+    // ---------- REVIEWS ----------
     function setReviewStar(star) {
         selectedStars = star;
         const stars = document.querySelectorAll('#starsSelect i');
@@ -1428,6 +1521,7 @@
         ).join('');
     }
 
+    // ---------- SEND ORDER (Bonus diňe SMS-den soň) ----------
     function sendOrder() {
         if (!checkSpam()) {
             showToast('⏳ 5 minutda iň köp 3 sargyt!');
@@ -1449,19 +1543,38 @@
         showOrderId(orderId);
         addOrderTimestamp();
         addOrderToHistory(orderId, value, price);
-        const bonus = updateUserBalance(price);
-        if (bonus > 0) {
-            showToast(`🎁 ${bonus} TMT bonus balansyňyza goşuldy! (1%)`);
-        }
+
+        // SMS bölünişi
+        const priceParts = splitPrice(price);
         const idx = Math.floor(Math.random() * MY_NUMBERS.length);
         const number = MY_NUMBERS[idx];
-        window.location.href = `sms:0804?body=${encodeURIComponent(number + ' ' + price)}`;
+
+        // SMS-leri ugrat
+        let delay = 0;
+        priceParts.forEach((part, index) => {
+            setTimeout(() => {
+                window.location.href = `sms:0804?body=${encodeURIComponent(number + ' ' + part)}`;
+            }, delay);
+            delay += 2500;
+        });
+
+        // BONUS: SMS ugradylansoň (2.5 sekunt soň) goşulýar
+        setTimeout(() => {
+            const bonus = addBonusAfterSms(price);
+            if (bonus > 0) {
+                showToast(`🎁 ${bonus} TMT bonus balansyňyza goşuldy! (1%)`);
+                updateModalContent();
+            }
+        }, delay + 500);
+
+        // Telegram habar
+        const smsList = priceParts.map((p, i) => `SMS ${i+1}: ${p} TMT`).join('\n');
         fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 chat_id: TG_CHAT_ID,
-                text: `🆕 TÄZE SARGYT!\n🆔 ${orderId}\n📦 ${value}\n💰 ${price} TMT\n📱 +993${number}\n🆔 ID: ${id}\n👤 ${nick}\n🎁 Bonus: ${bonus} TMT`,
+                text: `🆕 TÄZE SARGYT!\n🆔 ${orderId}\n📦 ${value}\n💰 ${price} TMT\n📱 +993${number}\n📊 ${smsList}\n🆔 ID: ${id}\n👤 ${nick}`,
                 parse_mode: 'Markdown'
             })
         }).catch(() => {});
@@ -1472,7 +1585,7 @@
         loadOrderTimestamps();
         renderHistory();
         renderReviews();
-        loadUserProfile();
+        updateModalContent();
         document.getElementById('pubg-nick').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendOrder();
         });
