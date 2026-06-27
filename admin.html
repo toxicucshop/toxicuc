@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOXIC SHOP - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff66;
+            --primary-glow: rgba(0, 255, 102, 0.3);
+            --accent: #ff0055;
+            --bg-dark: #0b0f19;
+            --card-bg: #151c2c;
+            --text-main: #ffffff;
+            --text-muted: #8fa0be;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --input-bg: #111622;
+            --sidebar-bg: #0d111a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Rajdhani', sans-serif; display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 100; }
+        .logo { text-align: center; font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); margin-bottom: 30px; letter-spacing: 2px; padding: 0 10px; }
+        .nav-item { padding: 15px 25px; cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; color: var(--text-muted); font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: rgba(0, 255, 102, 0.05); border-left: 3px solid var(--primary); color: var(--primary); }
+        
+        /* Main Content */
+        .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .header h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--text-main); }
+        .admin-badge { background: var(--primary); color: #000; padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; }
+        .back-link { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; }
+        .back-link:hover { color: var(--primary); }
+        
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .stat-card h3 { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
+        .stat-card .value { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        
+        /* Panels */
+        .panel { display: none; animation: fadeIn 0.3s ease; }
+        .panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card { background: var(--card-bg); padding: 25px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .card h2 { margin-bottom: 20px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        
+        /* Tables */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
+        th { color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        
+        /* Buttons & Forms */
+        .btn { padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.2s; font-family: 'Rajdhani', sans-serif; font-size: 1rem; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover { box-shadow: 0 0 15px var(--primary-glow); transform: translateY(-2px); }
+        .btn-danger { background: var(--accent); color: #fff; }
+        .btn-danger:hover { box-shadow: 0 0 15px rgba(255, 0, 85, 0.3); }
+        .btn-warning { background: #ffaa00; color: #000; }
+        .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-family: 'Rajdhani', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 102, 0.1); }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        
+        .status { padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .status-pending { background: #ffaa00; color: #000; }
+        .status-completed { background: var(--primary); color: #000; }
+        
+        .preview-img { max-width: 100px; max-height: 100px; border-radius: 8px; margin-top: 10px; border: 2px solid var(--primary); display: none; }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; height: auto; position: relative; display: flex; overflow-x: auto; padding: 10px; gap: 10px; }
+            .logo { display: none; }
+            .nav-item { padding: 10px 15px; white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; font-size: 0.9rem; }
+            .nav-item.active { border-left: none; border-bottom: 3px solid var(--primary); }
+            .main-content { margin-left: 0; width: 100%; padding: 15px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">TOXIC ADMIN</div>
+        <div class="nav-item active" onclick="showPanel('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Baş sahypa</div>
+        <div class="nav-item" onclick="showPanel('items', this)"><i class="fa-solid fa-bolt"></i> Harytlar</div>
+        <div class="nav-item" onclick="showPanel('accounts', this)"><i class="fa-solid fa-users"></i> Accountlar</div>
+        <div class="nav-item" onclick="showPanel('lobbies', this)"><i class="fa-solid fa-gamepad"></i> Lobbiler</div>
+        <div class="nav-item" onclick="showPanel('orders', this)"><i class="fa-solid fa-receipt"></i> Sargytlar</div>
+        <div class="nav-item" onclick="showPanel('promo', this)"><i class="fa-solid fa-gift"></i> Promo Kodlar</div>
+        <div class="nav-item" onclick="showPanel('users', this)"><i class="fa-solid fa-user-group"></i> Ulanyjylar</div>
+        <div class="nav-item" onclick="window.location.href='https://toxicucshop.github.io/toxicuc/'"><i class="fa-solid fa-arrow-left"></i> Dükana gaýt</div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header">
+            <h1 id="pageTitle">📊 Dolandyryş Paneli</h1>
+            <div class="header-right">
+                <a href="https://toxicucshop.github.io/toxicuc/" target="_blank" class="back-link"><i class="fa-solid fa-shop"></i> Dükana geç</a>
+                <div class="admin-badge">ADMIN</div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="panel active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-money-bill-wave"></i> Umumy girdeji</h3>
+                    <div class="value" id="statRevenue">0 TMT</div>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-clock"></i> Garaşýan sargytlar</h3>
+                    <div class="value" id="statPending">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-box"></i> Harytlar sany</h3>
+                    <div class="value" id="statItems">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fa-solid fa-users"></i> Ulanyjylar</h3>
+                    <div class="value" id="statUsers">0</div>
+                </div>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-bell"></i> Soňky sargytlar</h2>
+                <div class="table-responsive">
+                    <table id="dashOrdersTable">
+                        <thead><tr><th>ID</th><th>Müşderi</th><th>Haryt</th><th>Baha</th><th>Ýagdaý</th><th>Sene</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- HARYTLAR -->
+        <div id="items" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-plus-circle"></i> Täze haryt goşmak</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Harydyň ady</label>
+                        <input type="text" id="itemName" placeholder="Mysal: 60 UC">
+                    </div>
+                    <div class="form-group">
+                        <label>Bahasy (TMT)</label>
+                        <input type="number" id="itemPrice" placeholder="23">
+                    </div>
+                    <div class="form-group">
+                        <label>Kategoriýa</label>
+                        <select id="itemCategory">
+                            <option value="UC">💎 UC</option>
+                            <option value="Sandyk"> Sandyk</option>
+                            <option value="Podpiska">⭐ Podpiska</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addItem()"><i class="fa-solid fa-plus"></i> Goşmak</button>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-list"></i> Bar bolan harytlar</h2>
+                <div class="table-responsive">
+                    <table id="itemsTable">
+                        <thead><tr><th>ID</th><th>Ady</th><th>Kategoriýa</th><th>Baha</th><th>Hereket</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- ACCOUNTLAR -->
+        <div id="accounts" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-user-plus"></i> Täze account goşmak (Surat bilen)</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Login / Email</label>
+                        <input type="text" id="accLogin" placeholder="account@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Parol</label>
+                        <input type="text" id="accPass" placeholder="parol123">
+                    </div>
+                    <div class="form-group">
+                        <label>Bahasy (TMT)</label>
+                        <input type="number" id="accPrice" placeholder="500">
+                    </div>
+                    <div class="form-group">
+                        <label>Surat saýla (Galereýadan)</label>
+                        <input type="file" id="accImage" accept="image/*" onchange="previewImage(this)">
+                        <img id="imagePreview" class="preview-img">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addAccount()"><i class="fa-solid fa-plus"></i> Stoge goşmak</button>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-users"></i> Satylyk Accountlar</h2>
+                <div class="table-responsive">
+                    <table id="accountsTable">
+                        <thead><tr><th>Surat</th><th>Login</th><th>Parol</th><th>Baha</th><th>Hereket</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOBBILER -->
+        <div id="lobbies" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-gamepad"></i> Täze lobbi goşmak</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Lobbi 🆔 ID</label>
+                        <input type="text" id="lobbyId" placeholder="Lobby #1">
+                    </div>
+                    <div class="form-group">
+                        <label>Parol</label>
+                        <input type="text" id="lobbyPass" placeholder="parol">
+                    </div>
+                    <div class="form-group">
+                        <label> Baýrak</label>
+                        <input type="text" id="lobbyPrize" placeholder="1000 UC">
+                    </div>
+                    <div class="form-group">
+                        <label>Bahasy (TMT)</label>
+                        <input type="number" id="lobbyPrice" placeholder="100">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addLobby()"><i class="fa-solid fa-plus"></i> Goşmak</button>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-gamepad"></i> Aktiw Lobbiler</h2>
+                <div class="table-responsive">
+                    <table id="lobbiesTable">
+                        <thead><tr><th>ID</th><th>Parol</th><th>Baýrak</th><th>Baha</th><th>Hereket</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SARGYTLAR -->
+        <div id="orders" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-receipt"></i> Garaşylýan sargytlar</h2>
+                <div class="table-responsive">
+                    <table id="ordersTable">
+                        <thead><tr><th>Sargyt ID</th><th>Müşderi</th><th>PUBG ID/Nick</th><th>Haryt</th><th>Baha</th><th>Sene</th><th>Hereket</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-history"></i> Taryh (Tassyklanan/Ýatyrylan)</h2>
+                <div class="table-responsive">
+                    <table id="ordersHistoryTable">
+                        <thead><tr><th>Sargyt ID</th><th>Müşderi</th><th>Haryt</th><th>Baha</th><th>Ýagdaý</th><th>Sene</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROMO -->
+        <div id="promo" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-gift"></i> Täze promo kod döretmek</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Promo kod</label>
+                        <input type="text" id="promoCode" placeholder="TOXIC2026" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label>Skidka (%)</label>
+                        <input type="number" id="promoDiscount" placeholder="10" min="1" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Ulanylyş sany</label>
+                        <input type="number" id="promoUses" placeholder="100" min="1">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addPromo()"><i class="fa-solid fa-plus"></i> Döretmek</button>
+            </div>
+            <div class="card">
+                <h2><i class="fa-solid fa-tags"></i> Aktiw promo kodlar</h2>
+                <div class="table-responsive">
+                    <table id="promoTable">
+                        <thead><tr><th>Kod</th><th>Skidka</th><th>Ulanylyş</th><th>Hereket</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ULANYJYLAR -->
+        <div id="users" class="panel">
+            <div class="card">
+                <h2><i class="fa-solid fa-user-group"></i> Hasaba alnan ulanyjylar</h2>
+                <div class="table-responsive">
+                    <table id="usersTable">
+                        <thead><tr><th>Ulanyjy</th><th>Balans</th><th>Sargyt</th><th>Bonus</th><th>Çykdajy</th><th>Referral</th><th>Sene</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCTltUYiGEencr-zZPcQZU4dMHlUJ9rVs4",
+            authDomain: "toxicshop-d83c3.firebaseapp.com",
+            databaseURL: "https://toxicshop-d83c3-default-rtdb.firebaseio.com",
+            projectId: "toxicshop-d83c3",
+            storageBucket: "toxicshop-d83c3.firebasestorage.app",
+            messagingSenderId: "977924718724",
+            appId: "1:977924718724:web:639ea6595b29a9620282d1",
+            measurementId: "G-MLJS0D65V7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        // ========== PANEL GEÇIŞ ==========
+        window.showPanel = function(id, el) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if(el) el.classList.add('active');
+            const titles = {
+                'dashboard': '📊 Dolandyryş Paneli', 'items': ' Harytlar',
+                'accounts': '👤 Accountlar', 'lobbies': '🎮 Lobbiler',
+                'orders': '📦 Sargytlar', 'promo': '🎁 Promo Kodlar', 'users': '👥 Ulanyjylar'
+            };
+            document.getElementById('pageTitle').textContent = titles[id];
+        }
+
+        // ========== SURAT ÖŇÜNDEN GÖRMEK ==========
+        window.previewImage = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagePreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // ========== GOŞMAK FUNCSIÝALARY ==========
+        window.addItem = function() {
+            const name = document.getElementById('itemName').value.trim();
+            const price = parseInt(document.getElementById('itemPrice').value);
+            const category = document.getElementById('itemCategory').value;
+            if (!name || !price) return alert('⚠️ Adyny we bahasyny dolduryň!');
+            
+            push(ref(db, 'items'), { name, price, category });
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemPrice').value = '';
+            alert('✅ Haryt goşuldy!');
+        }
+
+        window.addAccount = async function() {
+            const login = document.getElementById('accLogin').value.trim();
+            const pass = document.getElementById('accPass').value.trim();
+            const price = parseInt(document.getElementById('accPrice').value);
+            const fileInput = document.getElementById('accImage');
+            
+            if (!login || !pass || !price) return alert('⚠️ Ähli meýdançany dolduryň!');
+
+            let imageUrl = '';
+            if (fileInput.files && fileInput.files[0]) {
+                try {
+                    const file = fileInput.files[0];
+                    const imgRef = storageRef(storage, 'accounts/' + Date.now() + '_' + file.name);
+                    await uploadBytes(imgRef, file);
+                    imageUrl = await getDownloadURL(imgRef);
+                } catch (error) {
+                    alert('❌ Surat ýüklenmedi: ' + error.message);
+                    return;
+                }
+            }
+
+            push(ref(db, 'accounts'), { type: 'Account', login, pass, price, image: imageUrl });
+            document.getElementById('accLogin').value = '';
+            document.getElementById('accPass').value = '';
+            document.getElementById('accPrice').value = '';
+            fileInput.value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            alert('✅ Account goşuldy!');
+        }
+
+        window.addLobby = function() {
+            const id = document.getElementById('lobbyId').value.trim();
+            const pass = document.getElementById('lobbyPass').value.trim();
+            const prize = document.getElementById('lobbyPrize').value.trim();
+            const price = parseInt(document.getElementById('lobbyPrice').value);
+            if (!id || !pass || !prize || !price) return alert('⚠️ Ähli meýdançany dolduryň!');
+            
+            push(ref(db, 'lobbies'), { id, pass, prize, price });
+            document.getElementById('lobbyId').value = '';
+            document.getElementById('lobbyPass').value = '';
+            document.getElementById('lobbyPrize').value = '';
+            document.getElementById('lobbyPrice').value = '';
+            alert('✅ Lobbi goşuldy!');
+        }
+
+        window.addPromo = function() {
+            const code = document.getElementById('promoCode').value.trim().toUpperCase();
+            const discount = parseInt(document.getElementById('promoDiscount').value);
+            const uses = parseInt(document.getElementById('promoUses').value);
+            if (!code || !discount || !uses) return alert('⚠️ Ähli meýdançany dolduryň!');
+            
+            push(ref(db, 'promos'), { code, discount, uses });
+            document.getElementById('promoCode').value = '';
+            document.getElementById('promoDiscount').value = '';
+            document.getElementById('promoUses').value = '';
+            alert('✅ Promo kod döredildi!');
+        }
+
+        // ========== POZMAK WE TASSYKLAMAK ==========
+        window.deleteItem = function(id) { if(confirm('Pozmaly my?')) remove(ref(db, 'items/' + id)); }
+        window.deleteAccount = function(id) { if(confirm('Pozmaly my?')) remove(ref(db, 'accounts/' + id)); }
+        window.deleteLobby = function(id) { if(confirm('Pozmaly my?')) remove(ref(db, 'lobbies/' + id)); }
+        window.deletePromo = function(id) { if(confirm('Pozmaly my?')) remove(ref(db, 'promos/' + id)); }
+        window.deleteOrder = function(id) { if(confirm('Pozmaly my?')) remove(ref(db, 'orders/' + id)); }
+        
+        window.completeOrder = function(id) {
+            update(ref(db, 'orders/' + id), { status: 'completed' });
+            alert('✅ Sargyt tassyklandy!');
+        }
+
+        // ========== MAGLUMATLARY ÝÜKLEMEK (REAL-TIME) ==========
+        onValue(ref(db, 'items'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector('#itemsTable tbody');
+            if (!data) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Haryt ýok</td></tr>'; return; }
+            tbody.innerHTML = Object.entries(data).map(([key, i]) => `
+                <tr><td style="color:var(--text-muted);font-size:12px;">${key}</td><td style="font-weight:700;">${i.name}</td><td>${i.category}</td><td style="color:var(--primary);font-weight:700;">${i.price} TMT</td><td><button class="btn btn-danger btn-sm" onclick="deleteItem('${key}')"><i class="fa-solid fa-trash"></i></button></td></tr>
+            `).join('');
+            document.getElementById('statItems').textContent = Object.keys(data).length;
+        });
+
+        onValue(ref(db, 'accounts'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector('#accountsTable tbody');
+            if (!data) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Account ýok</td></tr>'; return; }
+            tbody.innerHTML = Object.entries(data).filter(([k,v]) => v.type === 'Account').map(([key, a]) => `
+                <tr><td>${a.image ? `<img src="${a.image}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">` : '-'}</td><td style="font-weight:700;">${a.login}</td><td style="color:var(--accent);">${a.pass}</td><td style="color:var(--primary);font-weight:700;">${a.price} TMT</td><td><button class="btn btn-danger btn-sm" onclick="deleteAccount('${key}')"><i class="fa-solid fa-trash"></i></button></td></tr>
+            `).join('');
+        });
+
+        onValue(ref(db, 'lobbies'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector('#lobbiesTable tbody');
+            if (!data) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">Lobbi ýok</td></tr>'; return; }
+            tbody.innerHTML = Object.entries(data).map(([key, l]) => `
+                <tr><td style="font-weight:700;">${l.id}</td><td style="color:var(--accent);">${l.pass}</td><td style="color:#ffcc00;">${l.prize}</td><td style="color:var(--primary);font-weight:700;">${l.price} TMT</td><td><button class="btn btn-danger btn-sm" onclick="deleteLobby('${key}')"><i class="fa-solid fa-trash"></i></button></td></tr>
+            `).join('');
+        });
+
+        onValue(ref(db, 'orders'), (snapshot) => {
+            const data = snapshot.val();
+            const dashTbody = document.querySelector('#dashOrdersTable tbody');
+            const ordTbody = document.querySelector('#ordersTable tbody');
+            
+            if (!data) {
+                dashTbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Sargyt ýok</td></tr>';
+                ordTbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Sargyt ýok</td></tr>';
+                document.getElementById('statPending').textContent = '0';
+                document.getElementById('statRevenue').textContent = '0 TMT';
+                return;
+            }
+
+            const orders = Object.entries(data);
+            const pending = orders.filter(([k,v]) => v.status !== 'completed');
+            const completed = orders.filter(([k,v]) => v.status === 'completed');
+            const revenue = completed.reduce((sum, [k,v]) => sum + (parseInt(v.price) || 0), 0);
+
+            document.getElementById('statRevenue').textContent = revenue + ' TMT';
+            document.getElementById('statPending').textContent = pending.length;
+
+            dashTbody.innerHTML = orders.slice(-5).reverse().map(([key, o]) => `
+                <tr><td style="color:var(--primary);font-family:'Orbitron';font-size:12px;">${o.orderId || key}</td><td>${o.user || 'Myhman'}</td><td>${o.item}</td><td style="font-weight:700;">${o.price} TMT</td><td><span class="status ${o.status === 'completed' ? 'status-completed' : 'status-pending'}">${o.status === 'completed' ? 'Tassyklandy' : 'Garaşylýar'}</span></td><td style="font-size:12px;color:var(--text-muted);">${o.date || '-'}</td></tr>
+            `).join('');
+
+            ordTbody.innerHTML = orders.slice().reverse().map(([key, o]) => `
+                <tr><td style="color:var(--primary);font-family:'Orbitron';font-size:11px;">${o.orderId || key}</td><td>${o.user || 'Myhman'}</td><td style="font-size:0.85rem;"><div>ID: ${o.gameId || '-'}</div><div>Nick: ${o.gameNick || '-'}</div></td><td>${o.item}</td><td style="font-weight:700;">${o.price} TMT</td><td style="font-size:12px;color:var(--text-muted);">${o.date || '-'}</td><td>${o.status !== 'completed' ? `<button class="btn btn-primary btn-sm" onclick="completeOrder('${key}')"><i class="fa-solid fa-check"></i></button><button class="btn btn-danger btn-sm" onclick="deleteOrder('${key}')"><i class="fa-solid fa-xmark"></i></button>` : '<span class="status status-completed">Tamamlandy</span>'}</td></tr>
+            `).join('');
+        });
+
+        onValue(ref(db, 'promos'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector('#promoTable tbody');
+            if (!data) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">Promo kod ýok</td></tr>'; return; }
+            tbody.innerHTML = Object.entries(data).map(([key, p]) => `
+                <tr><td style="color:var(--primary);font-family:'Orbitron';font-weight:800;">${p.code}</td><td style="color:#ffcc00;font-weight:700;">${p.discount}%</td><td>${p.uses}</td><td><button class="btn btn-danger btn-sm" onclick="deletePromo('${key}')"><i class="fa-solid fa-trash"></i></button></td></tr>
+            `).join('');
+        });
+
+        onValue(ref(db, 'users'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector('#usersTable tbody');
+            if (!data) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Ulanyjy ýok</td></tr>'; document.getElementById('statUsers').textContent = '0'; return; }
+            document.getElementById('statUsers').textContent = Object.keys(data).length;
+            tbody.innerHTML = Object.entries(data).map(([key, u]) => `
+                <tr><td style="font-weight:700;">${u.username}</td><td style="color:var(--primary);">${u.balance || 0} TMT</td><td>${u.orders || 0}</td><td>${u.bonus || 0}</td><td>${u.spent || 0} TMT</td><td style="font-family:'Orbitron';font-size:11px;color:var(--primary);">${u.referral || '-'}</td><td style="font-size:11px;color:var(--text-muted);">${u.created ? new Date(u.created).toLocaleDateString() : '-'}</td></tr>
+            `).join('');
+        });
+    </script>
+</body>
+</html>
