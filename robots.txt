@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://toxicucshop.github.io/toxicuc/sitemap.xml
